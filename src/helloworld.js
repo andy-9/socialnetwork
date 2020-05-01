@@ -20,7 +20,7 @@ export default class HelloWorld extends React.Component {
         axios.get("/some-route").then((resp) => {
             // this is how to update state (always with setState):
             this.setState({
-                // first: resp.data.first, // data is what we get from the server
+                // first: res.data.first, // data is what we get from the server
             });
         });
 
@@ -43,11 +43,12 @@ export default class HelloWorld extends React.Component {
         return (
             <div>
                 Hello, {this.state.first} {this.state.last}!
-                <Child last={this.state.last} />
+                <Child first={this.state.first} />
                 {/* prop: "last", passed down to child
                 "last" on left side could be anything, is the name of the prop */}
                 <p onClick={() => this.handleClick()}>click me!</p>
                 {/* arrow-functions remember "this" --> we can use it in our event handlers (here: handleClick) */}
+                {/* pass "first" as a prop to the Child component */}
             </div>
         );
     }

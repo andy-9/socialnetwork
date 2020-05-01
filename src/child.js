@@ -7,7 +7,12 @@ export default class Child extends React.Component {
 
     render() {
         console.log("this.props:", this.props);
-        return <h1>Child component</h1>;
+        return (
+            <div>
+                <h1>Child component</h1>;<h2>{this.props.first} is the best</h2>
+                ;
+            </div>
+        );
     }
 }
 
