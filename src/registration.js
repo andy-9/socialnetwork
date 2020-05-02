@@ -56,7 +56,8 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="register-container">
-                <h3>Registration</h3>
+                {/* <img src="/logo.png" alt="logo" /> */}
+                <h2>Registration</h2>
                 {this.state.error && (
                     <h4>Something went wrong. Please fill out all 4 fields.</h4>
                 )}
@@ -65,7 +66,7 @@ export default class Registration extends React.Component {
                     <div>
                         <ion-icon
                             className="icon"
-                            name="information-circle-outline"
+                            name="person-circle-sharp"
                         ></ion-icon>
                         <input
                             name="first"
@@ -80,7 +81,7 @@ export default class Registration extends React.Component {
                     <div>
                         <ion-icon
                             className="icon"
-                            name="create-outline"
+                            name="pencil-sharp"
                         ></ion-icon>
                         <input
                             name="last"
@@ -94,7 +95,7 @@ export default class Registration extends React.Component {
                     <div>
                         <ion-icon
                             className="icon"
-                            name="mail-outline"
+                            name="at-circle-sharp"
                         ></ion-icon>
                         <input
                             name="email"
@@ -108,12 +109,16 @@ export default class Registration extends React.Component {
                     </div>
 
                     <div>
+                        <ion-icon
+                            className="icon"
+                            name="lock-closed-sharp"
+                        ></ion-icon>
                         <input
                             name="password"
                             type="password"
                             minLength="8"
-                            maxLength="100"
                             required
+                            maxLength="100"
                             placeholder="Password"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
@@ -121,6 +126,10 @@ export default class Registration extends React.Component {
                     </div>
                     <button onClick={() => this.submit()}>Register</button>
                 </div>
+                <div className="placeholder"></div>
+                <p className="center">
+                    Already registered? Just <a href="/login">Login</a>
+                </p>
             </div>
         );
     }

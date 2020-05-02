@@ -1,7 +1,179 @@
-body {
-    background-color: cornflowerblue;
+@font-face {
+    font-family: "Milkshake";
+    src: url("/Milkshake.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: "KaushanScript-Regular";
+    src: url("/KaushanScript-Regular.otf") format("opentype");
+}
+
+/* ////////////////////// GENERAL ////////////////////// */
+
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: KaushanScript-Regular;
+}
+
+main {
+    min-height: calc(100vh - 70px);
+    /* min-height: 100%; */
+}
+
+.placeholder {
+    height: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+body {
+    background-color: turquoise;
+}
+
+a {
+    color: rgb(85, 85, 85);
+    text-decoration: none;
+}
+
+a:hover {
+    color: blue;
+}
+
+/* ////////////////////// HEADLINES ////////////////////// */
+
+h1 {
+    font-family: Milkshake;
+    font-size: 100px;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h4 {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ////////////////////// LOGO ////////////////////// */
+
+.logo-big {
+    height: 500px;
+    width: 500px;
+    display: block;
+    margin: auto;
+}
+
+.logo-small {
+    height: 100px;
+    margin-right: 100px;
+}
+
+/* ////////////////////// REGISTER ////////////////////// */
 .register-container {
+    height: 550px;
     background-color: white;
+    padding: 20px;
+    margin: 5% 25% 0 25%;
+    border-radius: 3%;
+    opacity: 0.9;
+}
+
+.flexbox {
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: space-around;
+}
+
+ion-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    transform: translateY(5px);
+}
+
+input {
+    height: 30px;
+    font-size: 20px;
+    background-color: rgb(240, 239, 239);
+    padding: 0 5px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    /* box-shadow: 8px 6px 30px 0px grey; */
+}
+
+input:hover {
+    background-color: rgb(214, 212, 212);
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    color: white;
+    background-color: burlywood;
+    width: 150px;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    /* border-radius: 25px; */
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(185, 150, 104);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* ////////////////////// WELCOME ////////////////////// */
+
+.logo-heading {
+    display: flex;
+}
+
+/* ////////////////////// FOOTER ////////////////////// */
+
+footer {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    height: 50px;
+    background-color: grey;
+    margin-top: 50px;
+    /* bottom: 0; */
+}
+
+#copyright {
+    color: white;
+    font-size: 16px;
+    padding: 20px 0 10px 10px;
+}
+
+.contact {
+    padding: 10px;
+}
+
+.white {
+    color: white;
 }

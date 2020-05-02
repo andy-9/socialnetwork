@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom"; // only in start.js
 import Welcome from "./welcome";
+import Logo from "./logo";
 
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
@@ -9,8 +10,10 @@ const userIsLoggedIn = location.pathname != "/welcome";
 if (userIsLoggedIn) {
     elem = (
         <div>
-            <h1>I will be the logo...</h1>
-            {/* <Logo />; */}
+            <div className="logo-heading">
+                <Logo />
+                <h1>Kiters Against Sexism</h1>
+            </div>
         </div>
     );
 } else {
