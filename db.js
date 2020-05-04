@@ -46,7 +46,7 @@ module.exports.addSecretCode = (email, code) => {
             `
     INSERT INTO reset_codes (email, code)
     VALUES ($1, $2)
-    RETURNING *;`,
+    RETURNING email;`,
             [email, code]
         )
         .then((result) => {
@@ -62,20 +62,37 @@ module.exports.addSecretCode = (email, code) => {
 module.exports.getSecretCode = (email) => {
     return db
         .query(
-            `SELECT  * FROM reset_codes
+            `SELECT * FROM reset_codes
             WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
+            AND email = $1
             ORDER BY id DESC
-            LIMIT 1;`
+            LIMIT 1;`,
+            [email]
         )
         .then((result) => {
-            console.log("db.js, getSecretCode, result:", result);
+            console.log("db.js, getSecretCode, result:", result.rows[0].code);
+            return result.rows[0].code;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getSecretCode:", err);
         });
+};
+
+module.exports.updatePassword = (email, password) => {
+    return db.query(
+        `UPDATE users
+            SET password = $2
+            WHERE email = $1;`,
+        [email, password]
+    );
 };
 
 // RETURN FIRST NAME OF CURRENT ID
 // module.exports.getCurrentFirstNameById = (id) => {
 //     return db
-//         .query(`SELECT first FROM users WHERE id = $1`, [id])
+//         .query(`SELECT first
+//              FROM users
+//              WHERE id = $1`, [id])
 //         .then((result) => {
 //             return result.rows[0];
 //         });

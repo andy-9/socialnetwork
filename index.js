@@ -149,13 +149,13 @@ app.post("/password/reset/start", (req, res) => {
     console.log("index.js, post /password/reset/start");
     let secretCode; // const possible?
     let { email } = req.body;
-    console.log("index.js post /password/reset/start, inserted data:", email);
+    console.log("index.js post /reset/start, inserted data:", email);
 
     if (email) {
         db.getHashByEmail(email)
             .then((result) => {
                 console.log(
-                    "result getHashByEmail in index.js post password/reset/start:",
+                    "result getHashByEmail in index.js post reset/start:",
                     result
                 );
 
@@ -173,8 +173,7 @@ app.post("/password/reset/start", (req, res) => {
                             ses.sendEmail(
                                 email, // maybe result.email
                                 "Your reset code",
-                                `Your reset code is ${secretCode}.
-                                It is valid for 10 minutes.`
+                                `Your reset code is ${secretCode}. It is valid for 10 minutes.`
                             );
                         })
                         .then(() => {
@@ -208,8 +207,77 @@ app.post("/password/reset/start", (req, res) => {
             });
     } else {
         res.json({ success: false, error: true });
+        console.log("index.js /reset/start, no email-address in input-field.");
+    }
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    console.log("index.js, post /reset/verify");
+    let { email, code, password } = req.body;
+    console.log(
+        "index.js post /reset/verify, inserted data:",
+        email,
+        code,
+        password
+    );
+
+    if (code && password) {
+        db.getSecretCode(email)
+            .then((databaseCode) => {
+                console.log(
+                    "result getSecretCode in index.js post reset/verify:",
+                    databaseCode
+                );
+
+                if (code == databaseCode) {
+                    hash(password)
+                        .then((hashedPw) => {
+                            console.log(
+                                "password hashed in index.js post reset/verify getSecretCode:",
+                                hashedPw
+                            );
+                            db.updatePassword(email, hashedPw)
+                                .then(() => {
+                                    // req.session.userId = resultId;
+                                    res.json({ success: true });
+                                    console.log(
+                                        "index.js /reset/verify updatePassword, comparing codes successful, new password in db, now step 3"
+                                    );
+                                })
+                                .catch((err) => {
+                                    console.log(
+                                        "CATCH in index.js /reset/verify updatePassword, comparing codes successful, but update didn't work"
+                                    );
+                                    res.json({ success: false, error: true });
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "CATCH in index.js /reset/verify hash(password)",
+                                err
+                            );
+                        });
+                } else {
+                    console.log(
+                        "index.js /reset/verify, else in comparing codes NOT successful"
+                    );
+                    res.json({
+                        success: false,
+                        falseCode: true,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "CATCH in index.js /reset/verify getSecretCode:",
+                    err
+                );
+                res.json({ success: false, error: true });
+            });
+    } else {
+        res.json({ success: false, error: true });
         console.log(
-            "index.js /password/reset/start, no email-address in input-field."
+            "index.js /reset/verify, input-fields not filled out properly."
         );
     }
 });
