@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-//////////////////////// WELCOME ROUTE ////////////////////////
+//////////////////////// WELCOME ////////////////////////
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -53,7 +53,7 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-//////////////////////// REGISTER ROUTE ////////////////////////
+//////////////////////// REGISTER ////////////////////////
 
 app.post("/register", (req, res) => {
     let { first, last, email, password } = req.body;
@@ -90,7 +90,7 @@ app.post("/register", (req, res) => {
     }
 });
 
-//////////////////////// LOGIN ROUTE ////////////////////////
+//////////////////////// LOGIN ////////////////////////
 
 app.post("/login", (req, res) => {
     let { email, password } = req.body;
@@ -124,7 +124,7 @@ app.post("/login", (req, res) => {
             })
             .catch((err) => {
                 console.log("CATCH in index.js in POST /login:", err);
-                res.json({ success: false, falsePassword: true });
+                res.json({ success: false, error: true });
             });
     } else {
         res.json({ success: false, error: true });
@@ -134,7 +134,14 @@ app.post("/login", (req, res) => {
     }
 });
 
-//////////////////////// WELCOME ROUTE ////////////////////////
+//////////////////////// LOGOUT ////////////////////////
+app.get("/logout", (req, res) => {
+    req.session = null;
+    console.log("index.js logout, redirect to /login");
+    res.redirect("/welcome#/login");
+});
+
+//////////////////////// WELCOME ////////////////////////
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {

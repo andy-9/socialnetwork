@@ -14,16 +14,16 @@ export default class Login extends React.Component {
         this.setState(
             {
                 [e.target.name]: e.target.value,
-            },
-            () =>
-                console.log(
-                    "login.js 'this.state' in handleChange:",
-                    this.state
-                )
+            }
+            // () =>
+            // console.log(
+            //     "login.js 'this.state' in handleChange:",
+            //     this.state
+            // )
         );
     }
 
-    submit(e) {
+    submit() {
         console.log("login.js, this.state in 'submit()':", this.state);
         axios.post("/login", this.state).then(({ data }) => {
             console.log("login.js, data in axios post:", data);
@@ -34,10 +34,15 @@ export default class Login extends React.Component {
                 });
                 location.replace("/");
             } else {
-                console.log("login.js, no success in /login");
-                this.setState({
-                    error: true,
-                });
+                if (data.falsePassword) {
+                    this.setState({
+                        falsePassword: true,
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                    });
+                }
             }
         });
     }
@@ -52,13 +57,6 @@ export default class Login extends React.Component {
                         registered with and the correct password.
                     </h4>
                 )}
-                {this.state.falsePassword && (
-                    <h4>
-                        Your password does not match your email-address. Please
-                        enter the correct password.
-                    </h4>
-                )}
-
                 <div className="flexbox-login">
                     <div>
                         <ion-icon
@@ -92,8 +90,19 @@ export default class Login extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
+                    {this.state.falsePassword && (
+                        <h4>
+                            Your password does not match your email-address.
+                            Please enter the correct password.
+                        </h4>
+                    )}
                     <button onClick={() => this.submit()}>Login</button>
                 </div>
+                <div className="placeholder"></div>
+                <p className="center">
+                    Forgot your password?{" "}
+                    <Link to="/reset">Reset password</Link>
+                </p>
                 <div className="placeholder"></div>
                 <p className="center">
                     Not yet registered? Just <Link to="/">register</Link>

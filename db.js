@@ -47,3 +47,12 @@ module.exports.getHashByEmail = (email) => {
 //             return result.rows[0];
 //         });
 // };
+
+// module.exports.
+// getHashByEmail = (email) => {
+// return db
+// .query(
+//             `SELECT  * FROM reset_codes
+// WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
+// ORDER BY id DESC
+// LIMIT 1;`

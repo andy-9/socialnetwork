@@ -59,7 +59,6 @@ h2 {
 h4 {
     color: red;
     text-align: center;
-    margin-top: 20px;
 }
 
 /* ////////////////////// LOGO ////////////////////// */
@@ -149,7 +148,7 @@ button:focus {
 
 /* ////////////////////// LOGIN ////////////////////// */
 .login-container {
-    height: 350px;
+    height: 400px;
     width: 500px;
     background-color: white;
     padding: 20px;
@@ -192,7 +191,7 @@ footer {
 }
 
 .contact {
-    padding: 10px;
+    padding: 9px;
 }
 
 .white {

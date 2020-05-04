@@ -34,7 +34,7 @@ export default class Registration extends React.Component {
         );
     }
 
-    submit(e) {
+    submit() {
         console.log("registration.js, this.state in 'submit()':", this.state);
         axios.post("/register", this.state).then(({ data }) => {
             console.log("registration.js, data in axios post:", data);
@@ -101,7 +101,6 @@ export default class Registration extends React.Component {
                             name="email"
                             type="email"
                             required
-                            maxLength="100"
                             placeholder="Email"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
@@ -116,9 +115,6 @@ export default class Registration extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            minLength="8"
-                            required
-                            maxLength="100"
                             placeholder="Password"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
