@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 const { addEntry } = require("./db.js"); // necessary?
 const db = require("./db");
 const { hash, compare } = require("./bc");
@@ -12,13 +13,6 @@ app.use(compression());
 // app.use(helmet());
 app.use(express.json());
 app.use(express.static("./public"));
-
-app.use(
-    cookieSession({
-        secret: `Mein Kite ist wichtiger als D.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -31,10 +25,18 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-// does this make sense?:
-app.use(function (err, req, res, next) {
-    console.error("ERROR in middleware, index.js:", err.stack);
-    res.status(500).send("Something broke, status code 500!");
+app.use(
+    cookieSession({
+        secret: `Mein Kite ist wichtiger als D.`,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+    })
+);
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
 });
 
 //////////////////////// WELCOME ROUTE ////////////////////////
@@ -63,11 +65,7 @@ app.post("/register", (req, res) => {
         password
     );
 
-    if (first === "" || last === "" || email === "" || password < 8) {
-        res.json({ success: false });
-        console.log("4 input fields on /register not complete");
-    } else {
-        // if (first != "" && last != "" && email != "" && password != "") {
+    if (first && last && email && password) {
         hash(password)
             .then((hashedPw) => {
                 console.log("password hashed in /register:", hashedPw);
@@ -86,14 +84,57 @@ app.post("/register", (req, res) => {
                 console.log("CATCH in index.js in POST /register:", err);
                 res.json({ success: false, error: true });
             });
+    } else {
+        res.json({ success: false, error: true });
+        console.log("4 input fields on /register not complete");
     }
-    // else {
-    //     res.json({ success: false });
-    //     console.log("4 input fields on /register not complete");
-    // }
 });
 
-//////////////////////// START/LOGIN ROUTE ////////////////////////
+//////////////////////// LOGIN ROUTE ////////////////////////
+
+app.post("/login", (req, res) => {
+    let { email, password } = req.body;
+    console.log("index.js POST /register, all inserted data:", email, password);
+
+    if (email && password) {
+        db.getHashByEmail(email)
+            .then((result) => {
+                console.log("result getHashByEmail in index.js:", result); // logs password & id in object
+                id = result.id;
+                return result.password;
+            })
+            .then((hashedPw) => {
+                return compare(password, hashedPw);
+            })
+            .then((matchValue) => {
+                console.log("match value of compare:", matchValue); // true or false
+                if (matchValue) {
+                    req.session.userId = id;
+                    res.json({ success: true });
+                    console.log(
+                        "login successful, redirect to /, cookie 'userId' set",
+                        req.session
+                    );
+                } else {
+                    res.json({ success: false, falsePassword: true });
+                    console.log(
+                        "index.js, 2 input fields on /login do not match"
+                    );
+                }
+            })
+            .catch((err) => {
+                console.log("CATCH in index.js in POST /login:", err);
+                res.json({ success: false, falsePassword: true });
+            });
+    } else {
+        res.json({ success: false, error: true });
+        console.log(
+            "2 input fields on /login not complete or falsy, rerender /login with error message"
+        );
+    }
+});
+
+//////////////////////// WELCOME ROUTE ////////////////////////
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
@@ -103,11 +144,6 @@ app.get("*", function (req, res) {
         res.sendFile(__dirname + "/index.html");
         console.log("index.js GET *, has cookie, sendFile to /index.html");
     }
-});
-
-// does this make sense?:
-app.use(function (req, res, next) {
-    res.status(404).send("sorry, can't find that, 404");
 });
 
 app.listen(8080, function () {

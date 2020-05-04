@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
+import { Link } from "react-router-dom";
 // import { IonIcon } from "@ionic/react";
 // import Icon from "react-native-ionicons";
 
@@ -35,7 +36,6 @@ export default class Registration extends React.Component {
 
     submit(e) {
         console.log("registration.js, this.state in 'submit()':", this.state);
-        // e.preventDefault();
         axios.post("/register", this.state).then(({ data }) => {
             console.log("registration.js, data in axios post:", data);
             if (data.success) {
@@ -53,16 +53,16 @@ export default class Registration extends React.Component {
         });
     }
 
+    // {/* <img src="/logo.png" alt="logo" /> */}
     render() {
         return (
             <div className="register-container">
-                {/* <img src="/logo.png" alt="logo" /> */}
                 <h2>Registration</h2>
                 {this.state.error && (
                     <h4>Something went wrong. Please fill out all 4 fields.</h4>
                 )}
 
-                <div className="flexbox">
+                <div className="flexbox-register">
                     <div>
                         <ion-icon
                             className="icon"
@@ -128,9 +128,11 @@ export default class Registration extends React.Component {
                 </div>
                 <div className="placeholder"></div>
                 <p className="center">
-                    Already registered? Just <a href="/login">Login</a>
+                    Already registered? Just <Link to="/login">Login</Link>
                 </p>
             </div>
         );
     }
 }
+
+// { <Link to="/login">Click here to Log in!</Link> }

@@ -86,7 +86,7 @@ h4 {
     opacity: 0.9;
 }
 
-.flexbox {
+.flexbox-register {
     height: 350px;
     display: flex;
     flex-direction: column;
@@ -147,6 +147,27 @@ button:focus {
     outline: none;
 }
 
+/* ////////////////////// LOGIN ////////////////////// */
+.login-container {
+    height: 350px;
+    width: 500px;
+    background-color: white;
+    padding: 20px;
+    margin: 5% 25% 0 25%;
+    border-radius: 3%;
+    opacity: 0.9;
+}
+
+.flexbox-login {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: space-around;
+}
+
 /* ////////////////////// WELCOME ////////////////////// */
 
 .logo-heading {
@@ -167,7 +188,7 @@ footer {
 #copyright {
     color: white;
     font-size: 16px;
-    padding: 20px 0 10px 10px;
+    padding: 15px 0 10px 10px;
 }
 
 .contact {

@@ -26,18 +26,18 @@ module.exports.registerUser = (first, last, email, password) => {
 
 ////////////////////////// LOGIN //////////////////////////
 // RETURN HASH OF USERS FOR COMPARISON
-// module.exports.getHashByEmail = (email) => {
-//     return db
-//         .query(
-//             `SELECT password, id
-//             FROM users
-//             WHERE email = $1`,
-//             [email]
-//         )
-//         .then((result) => {
-//             return result.rows[0];
-//         });
-// };
+module.exports.getHashByEmail = (email) => {
+    return db
+        .query(
+            `SELECT password, id
+            FROM users
+            WHERE email = $1`,
+            [email]
+        )
+        .then((result) => {
+            return result.rows[0];
+        });
+};
 
 // RETURN FIRST NAME OF CURRENT ID
 // module.exports.getCurrentFirstNameById = (id) => {
