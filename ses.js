@@ -21,13 +21,13 @@ exports.sendEmail = (to, subject, text) => {
                 ToAddresses: [to],
             },
             Message: {
+                Subject: {
+                    Data: subject,
+                },
                 Body: {
                     Text: {
                         Data: text,
                     },
-                },
-                Subject: {
-                    Data: subject,
                 },
             },
         })

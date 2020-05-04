@@ -3,9 +3,12 @@ const app = express();
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const { addEntry } = require("./db.js"); // necessary?
 const db = require("./db");
+const { addEntry } = require("./db.js"); // necessary?
 const { hash, compare } = require("./bc");
+const cryptoRandomString = require("crypto-random-string");
+const ses = require("./ses");
+
 // const helmet = require("helmet");
 
 //////////////////////// MIDDLEWARE ////////////////////////
@@ -42,13 +45,14 @@ app.use(function (req, res, next) {
 //////////////////////// WELCOME ////////////////////////
 
 app.get("/welcome", (req, res) => {
+    console.log("index.js, get /welcome");
     if (req.session.userId) {
         res.redirect("/");
-        console.log("index.js GET /welcome, has cookie, redirect to /");
+        console.log("index.js get /welcome, has cookie, redirect to /");
     } else {
         res.sendFile(__dirname + "/index.html");
         console.log(
-            "index.js GET /welcome, no cookie, sendFile to /index.html"
+            "index.js get /welcome, no cookie, sendFile to /index.html"
         );
     }
 });
@@ -56,9 +60,10 @@ app.get("/welcome", (req, res) => {
 //////////////////////// REGISTER ////////////////////////
 
 app.post("/register", (req, res) => {
+    console.log("index.js, post /register");
     let { first, last, email, password } = req.body;
     console.log(
-        "index.js POST /register, all inserted data:",
+        "index.js post /register, all inserted data:",
         first,
         last,
         email,
@@ -81,7 +86,7 @@ app.post("/register", (req, res) => {
                 );
             })
             .catch((err) => {
-                console.log("CATCH in index.js in POST /register:", err);
+                console.log("CATCH in index.js in post /register:", err);
                 res.json({ success: false, error: true });
             });
     } else {
@@ -93,13 +98,17 @@ app.post("/register", (req, res) => {
 //////////////////////// LOGIN ////////////////////////
 
 app.post("/login", (req, res) => {
+    console.log("index.js, post /login");
     let { email, password } = req.body;
-    console.log("index.js POST /register, all inserted data:", email, password);
+    console.log("index.js post /register, all inserted data:", email, password);
 
     if (email && password) {
         db.getHashByEmail(email)
             .then((result) => {
-                console.log("result getHashByEmail in index.js:", result); // logs password & id in object
+                console.log(
+                    "result getHashByEmail in index.js in post /login:",
+                    result
+                ); // logs password & id in object
                 id = result.id;
                 return result.password;
             })
@@ -123,13 +132,84 @@ app.post("/login", (req, res) => {
                 }
             })
             .catch((err) => {
-                console.log("CATCH in index.js in POST /login:", err);
+                console.log("CATCH in index.js in post /login:", err);
                 res.json({ success: false, error: true });
             });
     } else {
         res.json({ success: false, error: true });
         console.log(
             "2 input fields on /login not complete or falsy, rerender /login with error message"
+        );
+    }
+});
+
+//////////////////////// RESET ////////////////////////
+
+app.post("/password/reset/start", (req, res) => {
+    console.log("index.js, post /password/reset/start");
+    let secretCode; // const possible?
+    let { email } = req.body;
+    console.log("index.js post /password/reset/start, inserted data:", email);
+
+    if (email) {
+        db.getHashByEmail(email)
+            .then((result) => {
+                console.log(
+                    "result getHashByEmail in index.js post password/reset/start:",
+                    result
+                );
+
+                if (result) {
+                    secretCode = cryptoRandomString({
+                        length: 6,
+                    });
+                    console.log(
+                        "index.js getHashByEmail /reset/start, secretCode:",
+                        secretCode
+                    );
+
+                    db.addSecretCode(email, secretCode)
+                        .then(() => {
+                            ses.sendEmail(
+                                email, // maybe result.email
+                                "Your reset code",
+                                `Your reset code is ${secretCode}.
+                                It is valid for 10 minutes.`
+                            );
+                        })
+                        .then(() => {
+                            res.json({ success: true });
+                            console.log(
+                                "index.js /reset/start addSecretCode, email-address exists in database, now step 2"
+                            );
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "CATCH in index.js /reset/start addSecretCode:",
+                                err
+                            );
+                            res.json({ success: false, error: true });
+                        });
+                } else {
+                    console.log(
+                        "index.js /reset/start, else in getHashByEmail, mail-address not in database"
+                    );
+                    res.json({
+                        success: false,
+                        falseEmail: true,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "CATCH in index.js /reset/start getHashByEmail, mail-address not in database"
+                );
+                res.json({ success: false, falseEmail: true });
+            });
+    } else {
+        res.json({ success: false, error: true });
+        console.log(
+            "index.js /password/reset/start, no email-address in input-field."
         );
     }
 });
@@ -144,12 +224,13 @@ app.get("/logout", (req, res) => {
 //////////////////////// WELCOME ////////////////////////
 
 app.get("*", function (req, res) {
+    console.log("index.js, get *");
     if (!req.session.userId) {
         res.redirect("/welcome");
-        console.log("index.js GET *, no cookie, redirect to /welcome");
+        console.log("index.js get *, no cookie, redirect to /welcome");
     } else {
         res.sendFile(__dirname + "/index.html");
-        console.log("index.js GET *, has cookie, sendFile to /index.html");
+        console.log("index.js get *, has cookie, sendFile to /index.html");
     }
 });
 

@@ -1,6 +1,7 @@
 import React from "React";
 import Registration from "./registration";
 import Login from "./login";
+import ResetPassword from "./reset";
 import Navbar from "./navbar";
 // import Shortinfo from "./shortinfo";
 import { LogoNoText } from "./logo";
@@ -16,6 +17,7 @@ export default function Welcome() {
                 <div>
                     <Route exact path="/" component={Registration} />
                     <Route path="/login" component={Login} />
+                    <Route path="/reset" component={ResetPassword} />
                 </div>
             </HashRouter>
         </div>

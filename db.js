@@ -39,6 +39,39 @@ module.exports.getHashByEmail = (email) => {
         });
 };
 
+////////////////////////// RESET //////////////////////////
+module.exports.addSecretCode = (email, code) => {
+    return db
+        .query(
+            `
+    INSERT INTO reset_codes (email, code)
+    VALUES ($1, $2)
+    RETURNING *;`,
+            [email, code]
+        )
+        .then((result) => {
+            console.log("db.js, result of addSecretCode", result.rows[0]);
+            return result.rows[0];
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in addSecretCode:", err);
+        });
+};
+
+// GET SECRET CODE IN DB AND COMPARE WITH SECRET CODE FROM EMAIL
+module.exports.getSecretCode = (email) => {
+    return db
+        .query(
+            `SELECT  * FROM reset_codes
+            WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
+            ORDER BY id DESC
+            LIMIT 1;`
+        )
+        .then((result) => {
+            console.log("db.js, getSecretCode, result:", result);
+        });
+};
+
 // RETURN FIRST NAME OF CURRENT ID
 // module.exports.getCurrentFirstNameById = (id) => {
 //     return db
@@ -47,12 +80,3 @@ module.exports.getHashByEmail = (email) => {
 //             return result.rows[0];
 //         });
 // };
-
-// module.exports.
-// getHashByEmail = (email) => {
-// return db
-// .query(
-//             `SELECT  * FROM reset_codes
-// WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
-// ORDER BY id DESC
-// LIMIT 1;`

@@ -25,26 +25,34 @@ export default class Login extends React.Component {
 
     submit() {
         console.log("login.js, this.state in 'submit()':", this.state);
-        axios.post("/login", this.state).then(({ data }) => {
-            console.log("login.js, data in axios post:", data);
-            if (data.success) {
-                console.log("login.js, success in /login");
-                this.setState({
-                    error: false,
-                });
-                location.replace("/");
-            } else {
-                if (data.falsePassword) {
+        axios
+            .post("/login", this.state)
+            .then(({ data }) => {
+                console.log("login.js, data in axios post:", data);
+                if (data.success) {
+                    console.log("login.js, success in /login");
                     this.setState({
-                        falsePassword: true,
+                        error: false,
                     });
+                    location.replace("/");
                 } else {
-                    this.setState({
-                        error: true,
-                    });
+                    if (data.falsePassword) {
+                        this.setState({
+                            falsePassword: true,
+                        });
+                    } else {
+                        this.setState({
+                            error: true,
+                        });
+                    }
                 }
-            }
-        });
+            })
+            .catch((err) => {
+                console.log("CATCH in post /login in submit():", err);
+                this.setState({
+                    error: true,
+                });
+            });
     }
 
     // {/* <img src="/logo.png" alt="logo" /> */}
@@ -82,9 +90,6 @@ export default class Login extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            minLength="8"
-                            required
-                            maxLength="100"
                             placeholder="Password"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
@@ -100,8 +105,8 @@ export default class Login extends React.Component {
                 </div>
                 <div className="placeholder"></div>
                 <p className="center">
-                    Forgot your password?{" "}
-                    <Link to="/reset">Reset password</Link>
+                    Forgot your password?
+                    <Link to="/reset"> Reset password</Link>
                 </p>
                 <div className="placeholder"></div>
                 <p className="center">
