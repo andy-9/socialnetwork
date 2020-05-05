@@ -46,7 +46,7 @@ module.exports.getHashByEmail = (email) => {
 module.exports.getUserInfo = (id) => {
     return db
         .query(
-            `SELECT first, last, imgUrl
+            `SELECT first, last, img_url
                 FROM users
                 WHERE id = $1`,
             [id]
@@ -59,13 +59,13 @@ module.exports.getUserInfo = (id) => {
         });
 };
 
-module.exports.addUserPic = (id, imgUrl) => {
+module.exports.addUserPic = (id, img_url) => {
     return db.query(
         `UPDATE users 
-        SET imgUrl = $2 
+        SET img_url = $2 
         WHERE id = $1
-        RETURNING imgUrl;`,
-        [id, imgUrl]
+        RETURNING img_url;`,
+        [id, img_url]
     );
 };
 

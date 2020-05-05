@@ -1,17 +1,16 @@
 import React from "react";
 
-// pass props as an argument to get access to the info being passed down from the parent (App)
-export default function ProfilePic({ first, last, imgUrl }) {
-    console.log("profilepic.js, props in ProfilePic():", first, last, imgUrl);
+export default function ProfilePic({ first, last, img_url }) {
+    console.log("profilePic.js, props in ProfilePic():", first, last, img_url);
 
-    imgUrl = imgUrl || "default.svg";
+    img_url = img_url || "default.svg";
 
     return (
         <div>
             <div className="profile-pic-frame">
                 <img
                     className="profile-pic"
-                    src={imgUrl}
+                    src={img_url}
                     alt={`${first} ${last}`}
                 />
             </div>

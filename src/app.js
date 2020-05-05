@@ -9,9 +9,8 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.toggleModal = this.toggleModal.bind(this);
-        this.profileImgUrl = this.profileImgUrl.bind(this); // ggf. streichen
+        this.profileImgUrl = this.profileImgUrl.bind(this);
         this.state = {
-            userInfo: {},
             uploaderIsVisible: false,
         };
     }
@@ -22,10 +21,9 @@ export default class App extends React.Component {
             .then(({ data }) => {
                 console.log("app.js, response from axios get /user:", data);
                 this.setState({
-                    userInfo: data,
                     first: data.first,
                     last: data.last,
-                    imgUrl: data.imgUrl,
+                    img_url: data.img_url,
                 });
             })
             .catch((err) => {
@@ -41,25 +39,14 @@ export default class App extends React.Component {
     }
 
     profileImgUrl(arg) {
-        console.log(
-            "I'm running in App and my argument is from uploader.js methodInUploader:",
-            arg
-        );
+        console.log("app.js profileImgUrl, argument from uploader.js:", arg);
         this.setState({
-            urlForImg: arg,
-            uploaderIsVisible: false,
+            img_url: arg,
         });
     }
 
-    closeModal() {
-        console.log("app.js, closeModal is running");
-        // this.selectedImage = null;
-        location.hash = "";
-    }
-
     render() {
-        console.log("this.state in render() app.js:", this.state);
-        let { first, last, imgUrl } = this.state.userInfo;
+        console.log("app.js, this.state in render() :", this.state);
         return (
             <div>
                 <div className="logo-heading">
@@ -71,7 +58,11 @@ export default class App extends React.Component {
                         <Navbar />
                     </div>
                     <div onClick={() => this.toggleModal()}>
-                        <ProfilePic first={first} last={last} imgUrl={imgUrl} />
+                        <ProfilePic
+                            first={this.state.first}
+                            last={this.state.last}
+                            img_url={this.state.img_url}
+                        />
                     </div>
                     {this.state.uploaderIsVisible && (
                         <Uploader

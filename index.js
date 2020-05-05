@@ -173,10 +173,10 @@ app.get("/user", (req, res) => {
 
     db.getUserInfo(req.session.userId)
         .then((result) => {
-            console.log(
-                "result getUserInfo in index.js in post /user:",
-                result
-            );
+            // console.log(
+            //     "result getUserInfo in index.js in post /user:",
+            //     result
+            // );
             res.json(result);
         })
         .catch((err) => {
@@ -186,26 +186,22 @@ app.get("/user", (req, res) => {
 
 //////////////////////// UPLOADER ////////////////////////
 app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("index.js post /imgupload, uploaded (req.)file:", req.file);
+    // console.log("index.js post /imgupload, uploaded (req.)file:", req.file);
     filename = req.file.filename;
-    console.log("index.js post /imgupload, config.s3Url", config.s3Url);
-    let imgUrl = config.s3Url + filename;
-    console.log("index.js post /imgupload, complete new url:", url);
+    // console.log("index.js post /imgupload, config.s3Url", config.s3Url);
+    let img_url = config.s3Url + filename;
+    // console.log("index.js post /imgupload, complete new url:", img_url);
 
     if (req.file) {
-        return db // return necessary?
-            .addUserPic(req.session.userId, imgUrl)
-            .then((response) => {
+        db.addUserPic(req.session.userId, img_url)
+            .then(({ rows }) => {
                 console.log(
                     "index.js post /imgupload, addUserPic response from db:",
-                    response
+                    rows[0]
                 );
-                // userInsert = response.rows[0];
-                // console.log(
-
+                const userImg = rows[0];
                 res.json({
-                    // userInsert,
-                    response,
+                    userImg,
                 });
             })
             .catch((err) => {
