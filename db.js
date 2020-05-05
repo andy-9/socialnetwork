@@ -36,7 +36,36 @@ module.exports.getHashByEmail = (email) => {
         )
         .then((result) => {
             return result.rows[0];
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getHashByEmail:", err);
         });
+};
+
+////////////////////////// APP //////////////////////////
+module.exports.getUserInfo = (id) => {
+    return db
+        .query(
+            `SELECT first, last, imgUrl
+                FROM users
+                WHERE id = $1`,
+            [id]
+        )
+        .then((result) => {
+            return result.rows[0];
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getUserInfo:", err);
+        });
+};
+
+module.exports.addUserPic = (id, imgUrl) => {
+    return db.query(
+        `UPDATE imgUrl 
+        SET imgUrl = $2 
+        WHERE id = $1;`,
+        [id, imgUrl]
+    );
 };
 
 ////////////////////////// RESET //////////////////////////
@@ -81,19 +110,8 @@ module.exports.getSecretCode = (email) => {
 module.exports.updatePassword = (email, password) => {
     return db.query(
         `UPDATE users
-            SET password = $2
-            WHERE email = $1;`,
+        SET password = $2
+        WHERE email = $1;`,
         [email, password]
     );
 };
-
-// RETURN FIRST NAME OF CURRENT ID
-// module.exports.getCurrentFirstNameById = (id) => {
-//     return db
-//         .query(`SELECT first
-//              FROM users
-//              WHERE id = $1`, [id])
-//         .then((result) => {
-//             return result.rows[0];
-//         });
-// };

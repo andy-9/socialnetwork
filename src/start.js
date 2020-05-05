@@ -2,22 +2,13 @@
 import React from "react";
 import ReactDOM from "react-dom"; // only in start.js
 import Welcome from "./welcome";
-import Logo from "./logo";
-import Navbar from "./navbar";
+import App from "./app";
 
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 
 if (userIsLoggedIn) {
-    elem = (
-        <div>
-            <div className="logo-heading">
-                <Logo />
-                <Navbar />
-                <h1>Kiters Against Sexism</h1>
-            </div>
-        </div>
-    );
+    elem = <App />;
 } else {
     elem = <Welcome />;
 }

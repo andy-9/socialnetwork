@@ -143,6 +143,23 @@ app.post("/login", (req, res) => {
     }
 });
 
+//////////////////////// APP ////////////////////////
+app.get("/user", (req, res) => {
+    console.log("index.js, post /user, req.session", req.session);
+
+    db.getUserInfo(req.session.userId)
+        .then((result) => {
+            console.log(
+                "result getUserInfo in index.js in post /user:",
+                result
+            );
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js in post /user:", err);
+        });
+});
+
 //////////////////////// RESET ////////////////////////
 
 app.post("/password/reset/start", (req, res) => {

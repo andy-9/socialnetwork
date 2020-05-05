@@ -167,6 +167,22 @@ button:focus {
     align-content: space-around;
 }
 
+/* ////////////////////// PROFILE-PIC ////////////////////// */
+
+.profile-pic-frame {
+    width: 110px;
+    height: 110px;
+    border: 1px solid grey;
+    border-radius: 3%;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    overflow: hidden;
+}
+
 /* ////////////////////// WELCOME ////////////////////// */
 
 .logo-heading {
