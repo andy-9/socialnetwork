@@ -4,12 +4,36 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const db = require("./db");
-const { addEntry } = require("./db.js"); // necessary?
 const { hash, compare } = require("./bc");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
-
+const s3 = require("./s3");
+const config = require("./config");
 // const helmet = require("helmet");
+
+////////////////// IMAGE UPLOAD BOILERPLATE //////////////////
+
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 //////////////////////// MIDDLEWARE ////////////////////////
 app.use(compression());
@@ -143,7 +167,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-//////////////////////// APP ////////////////////////
+//////////////////////// APP /USER ////////////////////////
 app.get("/user", (req, res) => {
     console.log("index.js, post /user, req.session", req.session);
 
@@ -156,8 +180,43 @@ app.get("/user", (req, res) => {
             res.json(result);
         })
         .catch((err) => {
-            console.log("CATCH in index.js in post /user:", err);
+            console.log("CATCH in index.js in get /user:", err);
         });
+});
+
+//////////////////////// UPLOADER ////////////////////////
+app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("index.js post /imgupload, uploaded (req.)file:", req.file);
+    filename = req.file.filename;
+    console.log("index.js post /imgupload, config.s3Url", config.s3Url);
+    let imgUrl = config.s3Url + filename;
+    console.log("index.js post /imgupload, complete new url:", url);
+
+    if (req.file) {
+        return db // return necessary?
+            .addUserPic(req.session.userId, imgUrl)
+            .then((response) => {
+                console.log(
+                    "index.js post /imgupload, addUserPic response from db:",
+                    response
+                );
+                // userInsert = response.rows[0];
+                // console.log(
+
+                res.json({
+                    // userInsert,
+                    response,
+                });
+            })
+            .catch((err) => {
+                console.log("CATCH in post /imgupload to database", err);
+                res.json({ success: false });
+            });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
 });
 
 //////////////////////// RESET ////////////////////////

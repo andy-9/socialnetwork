@@ -61,9 +61,10 @@ module.exports.getUserInfo = (id) => {
 
 module.exports.addUserPic = (id, imgUrl) => {
     return db.query(
-        `UPDATE imgUrl 
+        `UPDATE users 
         SET imgUrl = $2 
-        WHERE id = $1;`,
+        WHERE id = $1
+        RETURNING imgUrl;`,
         [id, imgUrl]
     );
 };
