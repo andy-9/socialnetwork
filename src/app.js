@@ -40,6 +40,13 @@ export default class App extends React.Component {
         });
     }
 
+    clickHandler() {
+        console.log("clickHandler function is running");
+        this.setState({
+            uploaderIsVisible: true,
+        });
+    }
+
     profileImgUrl(arg) {
         console.log("app.js profileImgUrl, argument from uploader.js:", arg);
         this.setState({
@@ -64,9 +71,7 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            clickHandler={() =>
-                                this.setState({ uploaderIsVisible: true })
-                            }
+                            clickHandler={this.clickHandler}
                         />
                     </div>
                     <div>
@@ -74,11 +79,7 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            clickHandler={() =>
-                                this.setState({
-                                    uploaderIsVisible: true,
-                                })
-                            }
+                            clickHandler={this.clickHandler}
                             bio={this.state.bio}
                         />
                     </div>
