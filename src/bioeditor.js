@@ -6,18 +6,26 @@ import ProfilePic from "./profilepic";
 export default class BioEditor extends React.Component {
     constructor() {
         super();
+
         this.state = {
             textareaIsVisible: false,
-            writeBio: "",
+            draftBio: null,
         };
+
         console.log("bioeditor.js, this.state in BioEditor:", this.state);
+    }
+
+    componentDidMount() {
+        this.setState({
+            dbBio: this.props.bio,
+        });
     }
 
     handleChange(e) {
         console.log("bioeditor.js handleChange, e.target:", e.target);
         this.setState(
             {
-                [e.target.name]: e.target.value,
+                draftBio: e.target.value,
             },
             () =>
                 console.log(
@@ -37,11 +45,21 @@ export default class BioEditor extends React.Component {
     uploadBio() {
         console.log("bioeditor.js, uploadBio running");
         var each = this;
+        let updateBioInfo = { id: this.props.id, bio: this.state.draftBio };
+        this.props.updateBio(this.state.draftBio);
+
+        this.setState = {
+            textareaIsVisible: false,
+        };
 
         axios
-            .post("/bio", formData)
+            .post("/bio", updateBioInfo)
             .then(({ data }) => {
-                console.log("bioeditor.js, data in post /bio:", data);
+                console.log(
+                    "bioeditor.js in post /bio after upload, data:",
+                    data
+                );
+                each.props.updateBio(data.userBio.bio);
             })
             .catch((err) => {
                 console.log("CATCH in bioeditor.js in axios.post /bio:", err);
@@ -52,15 +70,45 @@ export default class BioEditor extends React.Component {
         return (
             <div>
                 <h2>heading in bioeditor.js</h2>
-                <div onClick={() => this.toggleTextarea()}>toggle</div>
-                <ProfilePic
-                    first={this.state.first}
-                    last={this.state.last}
-                    img_url={this.state.img_url}
-                    toggleModal={() =>
-                        this.setState({ textareaIsVisible: true })
-                    }
-                />
+
+                {this.state.textareaIsVisible && (
+                    <div>
+                        <textarea
+                            defaultValue={this.props.bio}
+                            onChange={(e) => this.handleChange(e)}
+                            name="textarea"
+                            cols="30"
+                            rows="10"
+                        ></textarea>
+                        <button
+                            onClick={this.uploadBio()}
+                            // onClick={this.toggleTextarea()}
+                        >
+                            submit
+                        </button>
+                    </div>
+                )}
+
+                {this.props.bio && (
+                    <div>
+                        <p>{this.props.bio}</p>
+                        <p onClick={() => this.toggleTextarea()}>
+                            Edit your info
+                        </p>
+                    </div>
+                )}
+
+                {!this.props.bio && (
+                    <div>
+                        <p
+                            onClick={() =>
+                                this.setState({ textareaIsVisible: true })
+                            }
+                        >
+                            Tell us a little bit about yourself
+                        </p>
+                    </div>
+                )}
             </div>
         );
     }

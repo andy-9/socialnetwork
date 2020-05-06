@@ -173,10 +173,10 @@ app.get("/user", (req, res) => {
 
     db.getUserInfo(req.session.userId)
         .then((result) => {
-            console.log(
-                "result getUserInfo in index.js in post /user:",
-                result
-            );
+            // console.log(
+            //     "result getUserInfo in index.js in post /user:",
+            //     result
+            // );
             res.json(result);
         })
         .catch((err) => {
@@ -213,6 +213,28 @@ app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
             success: false,
         });
     }
+});
+
+//////////////////////// RESET ////////////////////////
+app.post("/bio", (req, res) => {
+    console.log("index.js, post /bio");
+    console.log("req.body:", req.body);
+
+    db.addUserBio(req.session.userId, req.body.bio)
+        .then(({ rows }) => {
+            console.log(
+                "index.js post /bio, addUserBio response from db:",
+                rows[0]
+            );
+            const userBio = rows[0];
+            res.json({
+                userBio,
+            });
+        })
+        .catch((err) => {
+            console.log("CATCH in post /bio to database", err);
+            res.json({ success: false });
+        });
 });
 
 //////////////////////// RESET ////////////////////////

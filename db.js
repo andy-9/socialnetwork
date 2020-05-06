@@ -42,7 +42,7 @@ module.exports.getHashByEmail = (email) => {
         });
 };
 
-////////////////////////// APP //////////////////////////
+////////////////////////// APP / GET USER-INFO //////////////////////////
 module.exports.getUserInfo = (id) => {
     return db
         .query(
@@ -59,6 +59,7 @@ module.exports.getUserInfo = (id) => {
         });
 };
 
+////////////////////////// PROFILE-PIC //////////////////////////
 module.exports.addUserPic = (id, img_url) => {
     return db.query(
         `UPDATE users 
@@ -66,6 +67,17 @@ module.exports.addUserPic = (id, img_url) => {
         WHERE id = $1
         RETURNING img_url;`,
         [id, img_url]
+    );
+};
+
+////////////////////////// BIO //////////////////////////
+module.exports.addUserBio = (id, bio) => {
+    return db.query(
+        `UPDATE users 
+        SET bio = $2 
+        WHERE id = $1
+        RETURNING bio;`,
+        [id, bio]
     );
 };
 

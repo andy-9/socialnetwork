@@ -2,18 +2,25 @@ import React from "react";
 import ProfilePic from "./profilepic";
 import BioEditor from "./bioeditor";
 
-export default function Profile({ first, last, img_url, bio, toggleModal }) {
+export default function Profile({
+    id,
+    first,
+    last,
+    img_url,
+    bio,
+    updateBio,
+    toggleModal,
+}) {
     console.log(
         "profile.js, props in Profile():",
+        id,
         first,
         last,
         img_url,
         bio,
+        updateBio,
         toggleModal
     );
-    // console.log("profile.js, this.props.first:", this.props.first);
-    // console.log("profile.js, props in Profile():", first);
-    // console.log("profile.js, props in Profile():", first);
 
     return (
         <div className="profile">
@@ -26,7 +33,7 @@ export default function Profile({ first, last, img_url, bio, toggleModal }) {
             />
             {first} {last}
             <p>Edit your bio</p>
-            <BioEditor bio={bio} />
+            <BioEditor id={id} bio={bio} updateBio={updateBio} />
         </div>
     );
 }

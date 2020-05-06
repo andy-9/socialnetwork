@@ -9,8 +9,11 @@ import Profile from "./profile";
 export default class App extends React.Component {
     constructor() {
         super();
+
         this.toggleModal = this.toggleModal.bind(this);
         this.profileImgUrl = this.profileImgUrl.bind(this);
+        this.updateBio = this.updateBio.bind(this);
+
         this.state = {
             uploaderIsVisible: false,
         };
@@ -22,6 +25,7 @@ export default class App extends React.Component {
             .then(({ data }) => {
                 console.log("app.js, response from axios get /user:", data);
                 this.setState({
+                    id: data.id,
                     first: data.first,
                     last: data.last,
                     img_url: data.img_url,
@@ -34,7 +38,7 @@ export default class App extends React.Component {
     }
 
     toggleModal() {
-        console.log("toggleModal function is running");
+        console.log("app.js toggleModal function is running");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
@@ -47,6 +51,13 @@ export default class App extends React.Component {
         });
     }
 
+    updateBio(upbio) {
+        console.log("app.js updateBio running, argument upbio:", upbio);
+        this.setState({
+            bio: upbio,
+        });
+    }
+
     render() {
         console.log("app.js, this.state in render() :", this.state);
         return (
@@ -55,10 +66,13 @@ export default class App extends React.Component {
                     <div>
                         <Logo />
                     </div>
+
                     <h1>Kite Inc.</h1>
+
                     <div>
                         <Navbar />
                     </div>
+
                     <div onClick={() => this.toggleModal()}>
                         <ProfilePic
                             first={this.state.first}
@@ -67,21 +81,26 @@ export default class App extends React.Component {
                             toggleModal={this.toggleModal}
                         />
                     </div>
-                    <div>
-                        <Profile
-                            first={this.state.first}
-                            last={this.state.last}
-                            img_url={this.state.img_url}
-                            toggleModal={this.toggleModal}
-                            bio={this.state.bio}
-                        />
-                    </div>
+
                     {this.state.uploaderIsVisible && (
                         <Uploader
+                            id={this.state.id}
                             profileImgUrl={this.profileImgUrl}
                             toggleModal={this.toggleModal}
                         />
                     )}
+
+                    <div>
+                        <Profile
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            img_url={this.state.img_url}
+                            bio={this.state.bio}
+                            updateBio={this.updateBio}
+                            toggleModal={this.toggleModal}
+                        />
+                    </div>
                 </div>
             </div>
         );

@@ -9,14 +9,14 @@ export default function ProfilePic({ first, last, img_url, toggleModal }) {
         toggleModal
     );
 
-    img_url = img_url || "default.svg";
+    let url = img_url || "default.svg";
 
     return (
         <div>
             <div className="profile-pic-frame" onClick={toggleModal}>
                 <img
                     className="profile-pic"
-                    src={img_url}
+                    src={url}
                     alt={`${first} ${last}`}
                 />
             </div>
