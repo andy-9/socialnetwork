@@ -173,10 +173,10 @@ app.get("/user", (req, res) => {
 
     db.getUserInfo(req.session.userId)
         .then((result) => {
-            // console.log(
-            //     "result getUserInfo in index.js in post /user:",
-            //     result
-            // );
+            console.log(
+                "result getUserInfo in index.js in post /user:",
+                result
+            );
             res.json(result);
         })
         .catch((err) => {

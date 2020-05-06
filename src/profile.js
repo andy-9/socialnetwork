@@ -19,12 +19,13 @@ export default function Profile({ first, last, img_url, bio, toggleModal }) {
         <div className="profile">
             <h3>Heading in profile.js</h3>
             <ProfilePic
-                first={this.props.first}
-                last={this.props.last}
-                img_url={this.props.img_url}
-                toggleModal={this.props.toggleModal}
+                first={first}
+                last={last}
+                img_url={img_url}
+                toggleModal={toggleModal}
             />
             {first} {last}
+            <p>Edit your bio</p>
             <BioEditor bio={bio} />
         </div>
     );
