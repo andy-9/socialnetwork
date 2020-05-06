@@ -57,7 +57,7 @@ export default class BioEditor extends React.Component {
                     first={this.state.first}
                     last={this.state.last}
                     img_url={this.state.img_url}
-                    clickHandler={() =>
+                    toggleModal={() =>
                         this.setState({ textareaIsVisible: true })
                     }
                 />
