@@ -167,6 +167,16 @@ button:focus {
     align-content: space-around;
 }
 
+/* ////////////////////// PROFILE ////////////////////// */
+.profile {
+    background-color: white;
+    position: fixed;
+    width: 90%;
+    height: 70%;
+    top: 10%;
+    left: 5%;
+}
+
 /* ////////////////////// PROFILE-PIC ////////////////////// */
 
 .profile-pic-frame {

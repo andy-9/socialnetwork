@@ -46,7 +46,7 @@ module.exports.getHashByEmail = (email) => {
 module.exports.getUserInfo = (id) => {
     return db
         .query(
-            `SELECT first, last, img_url
+            `SELECT first, last, img_url, bio
                 FROM users
                 WHERE id = $1`,
             [id]

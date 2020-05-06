@@ -4,6 +4,7 @@ import Logo from "./logo";
 import Navbar from "./navbar";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 export default class App extends React.Component {
     constructor() {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
                     first: data.first,
                     last: data.last,
                     img_url: data.img_url,
+                    bio: data.bio,
                 });
             })
             .catch((err) => {
@@ -62,6 +64,23 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
+                            clickHandler={() =>
+                                this.setState({ uploaderIsVisible: true })
+                            }
+                        />
+                    </div>
+                    <div>
+                        <Profile
+                            first={this.state.first}
+                            last={this.state.last}
+                            img_url={this.state.img_url}
+                            {"ProfilePic"}
+                            clickHandler={() =>
+                                this.setState({
+                                    uploaderIsVisible: true,
+                                })
+                            }
+                            bio={this.state.bio}
                         />
                     </div>
                     {this.state.uploaderIsVisible && (
@@ -74,4 +93,22 @@ export default class App extends React.Component {
             </div>
         );
     }
+}
+
+{
+    /* <Profile
+    profilePic={
+        <ProfilePic
+            first={this.state.first}
+            last={this.state.last}
+            img_url={this.state.img_url}
+            clickHandler={() =>
+                this.setState({
+                    uploaderIsVisible: true,
+                })
+            }
+        />
+    }
+    bio={this.state.bio}
+/>; */
 }
