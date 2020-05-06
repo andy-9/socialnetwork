@@ -169,7 +169,7 @@ app.post("/login", (req, res) => {
 
 //////////////////////// APP /USER ////////////////////////
 app.get("/user", (req, res) => {
-    console.log("index.js, post /user, req.session", req.session);
+    // console.log("index.js, get /user, req.session", req.session);
 
     db.getUserInfo(req.session.userId)
         .then((result) => {
@@ -215,10 +215,10 @@ app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
-//////////////////////// RESET ////////////////////////
+//////////////////////// BIO ////////////////////////
 app.post("/bio", (req, res) => {
-    console.log("index.js, post /bio");
-    console.log("req.body:", req.body);
+    // console.log("index.js, post /bio");
+    // console.log("req.body:", req.body);
 
     db.addUserBio(req.session.userId, req.body.bio)
         .then(({ rows }) => {
@@ -237,7 +237,7 @@ app.post("/bio", (req, res) => {
         });
 });
 
-//////////////////////// RESET ////////////////////////
+//////////////////////// RESET START ////////////////////////
 
 app.post("/password/reset/start", (req, res) => {
     console.log("index.js, post /password/reset/start");
@@ -304,6 +304,8 @@ app.post("/password/reset/start", (req, res) => {
         console.log("index.js /reset/start, no email-address in input-field.");
     }
 });
+
+//////////////////////// RESET VERIFY ////////////////////////
 
 app.post("/password/reset/verify", (req, res) => {
     console.log("index.js, post /reset/verify");
@@ -386,13 +388,13 @@ app.get("/logout", (req, res) => {
 //////////////////////// WELCOME ////////////////////////
 
 app.get("*", function (req, res) {
-    console.log("index.js, get *");
+    // console.log("index.js, get *");
     if (!req.session.userId) {
         res.redirect("/welcome");
         console.log("index.js get *, no cookie, redirect to /welcome");
     } else {
         res.sendFile(__dirname + "/index.html");
-        console.log("index.js get *, has cookie, sendFile to /index.html");
+        // console.log("index.js get *, has cookie, sendFile to /index.html");
     }
 });
 

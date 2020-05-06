@@ -169,7 +169,7 @@ button:focus {
 
 /* ////////////////////// PROFILE ////////////////////// */
 .profile {
-    background-color: white;
+    /* background-color: white; */
     position: fixed;
     width: 90%;
     height: 70%;
@@ -180,8 +180,9 @@ button:focus {
 /* ////////////////////// PROFILE-PIC ////////////////////// */
 
 .profile-pic-frame {
-    width: 110px;
-    height: 110px;
+    width: 55px;
+    height: 55px;
+    padding: 2.5px;
     border: 1px solid grey;
     border-radius: 3%;
     /* position: fixed; */
@@ -191,13 +192,28 @@ button:focus {
 }
 
 .profile-pic {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
     overflow: hidden;
 }
 
+/* ////////////////////// PROFILE ////////////////////// */
+
+#pic-in-profile {
+    width: 200px;
+    height: 200px;
+}
+
 /* ////////////////////// BIO-EDITOR ////////////////////// */
+
+.bioeditor-container {
+    background-color: aquamarine;
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    transform: translate(50%, 0%);
+}
 
 textarea {
     background-color: rgb(245, 245, 104);

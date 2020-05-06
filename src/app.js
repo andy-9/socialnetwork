@@ -23,7 +23,7 @@ export default class App extends React.Component {
         axios
             .get("/user")
             .then(({ data }) => {
-                console.log("app.js, response from axios get /user:", data);
+                // console.log("app.js, response from axios get /user:", data);
                 this.setState({
                     id: data.id,
                     first: data.first,
@@ -38,14 +38,14 @@ export default class App extends React.Component {
     }
 
     toggleModal() {
-        console.log("app.js toggleModal function is running");
+        // console.log("app.js toggleModal function is running");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     profileImgUrl(arg) {
-        console.log("app.js profileImgUrl, argument from uploader.js:", arg);
+        // console.log("app.js profileImgUrl, argument from uploader.js:", arg);
         this.setState({
             img_url: arg,
         });
@@ -59,7 +59,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        console.log("app.js, this.state in render() :", this.state);
+        // console.log("app.js, this.state in render() :", this.state);
         return (
             <div>
                 <div className="logo-heading">
@@ -72,14 +72,18 @@ export default class App extends React.Component {
                     <div>
                         <Navbar />
                     </div>
-
-                    <div onClick={() => this.toggleModal()}>
-                        <ProfilePic
-                            first={this.state.first}
-                            last={this.state.last}
-                            img_url={this.state.img_url}
-                            toggleModal={this.toggleModal}
-                        />
+                    <div className="profile-pic-frame">
+                        <div
+                            onClick={() => this.toggleModal()}
+                            className="profile-pic"
+                        >
+                            <ProfilePic
+                                first={this.state.first}
+                                last={this.state.last}
+                                img_url={this.state.img_url}
+                                toggleModal={this.toggleModal}
+                            />
+                        </div>
                     </div>
 
                     {this.state.uploaderIsVisible && (

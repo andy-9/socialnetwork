@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import ProfilePic from "./profilepic";
 
 export default class BioEditor extends React.Component {
     constructor() {
@@ -11,8 +10,7 @@ export default class BioEditor extends React.Component {
             textareaIsVisible: false,
             draftBio: null,
         };
-
-        console.log("bioeditor.js, this.state in BioEditor:", this.state);
+        // console.log("bioeditor.js, this.state in BioEditor:", this.state);
     }
 
     componentDidMount() {
@@ -22,7 +20,7 @@ export default class BioEditor extends React.Component {
     }
 
     handleChange(e) {
-        console.log("bioeditor.js handleChange, e.target:", e.target);
+        // console.log("bioeditor.js handleChange, e.target:", e.target);
         this.setState(
             {
                 draftBio: e.target.value,
@@ -67,49 +65,59 @@ export default class BioEditor extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <h2>heading in bioeditor.js</h2>
-
-                {this.state.textareaIsVisible && (
-                    <div>
-                        <textarea
-                            defaultValue={this.props.bio}
-                            onChange={(e) => this.handleChange(e)}
-                            name="textarea"
-                            cols="30"
-                            rows="10"
-                        ></textarea>
-                        <button
-                            onClick={this.uploadBio()}
-                            // onClick={this.toggleTextarea()}
-                        >
-                            submit
-                        </button>
-                    </div>
-                )}
-
-                {this.props.bio && (
-                    <div>
-                        <p>{this.props.bio}</p>
-                        <p onClick={() => this.toggleTextarea()}>
-                            Edit your info
-                        </p>
-                    </div>
-                )}
-
-                {!this.props.bio && (
-                    <div>
-                        <p
-                            onClick={() =>
-                                this.setState({ textareaIsVisible: true })
-                            }
-                        >
-                            Tell us a little bit about yourself
-                        </p>
-                    </div>
-                )}
-            </div>
-        );
+        if (this.state.textareaIsVisible) {
+            return (
+                <div className="bioeditor-container">
+                    <textarea
+                        defaultValue={this.props.bio}
+                        onChange={(e) => this.handleChange(e)}
+                        name="textarea"
+                        cols="50"
+                        rows="10"
+                    ></textarea>
+                    <button
+                        onClick={(e) => {
+                            this.uploadBio(e);
+                            this.toggleTextarea();
+                            // this.setState({ textareaIsVisible: false });
+                        }}
+                    >
+                        save
+                    </button>
+                    <button
+                        onClick={() => {
+                            this.toggleTextarea();
+                        }}
+                    >
+                        Cancel
+                    </button>
+                </div>
+            );
+        } else if (this.props.bio) {
+            return (
+                <div className="bioeditor-container">
+                    <p className="bio-text">{this.props.bio}</p>
+                    <a
+                        onClick={() => {
+                            this.toggleTextarea();
+                        }}
+                    >
+                        Edit your info
+                    </a>
+                </div>
+            );
+        } else {
+            return (
+                <div className="bioeditor-container">
+                    <a
+                        onClick={() => {
+                            this.toggleTextarea();
+                        }}
+                    >
+                        Tell us a little bit about yourself
+                    </a>
+                </div>
+            );
+        }
     }
 }
