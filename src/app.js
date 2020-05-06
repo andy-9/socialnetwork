@@ -64,7 +64,7 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            clickHandler={this.clickHandler}
+                            toggleModal={this.toggleModal}
                         />
                     </div>
                     <div>
@@ -72,7 +72,7 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            clickHandler={this.clickHandler}
+                            toggleModal={this.toggleModal}
                             bio={this.state.bio}
                         />
                     </div>
