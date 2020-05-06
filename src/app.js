@@ -74,7 +74,6 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            {"ProfilePic"}
                             clickHandler={() =>
                                 this.setState({
                                     uploaderIsVisible: true,
