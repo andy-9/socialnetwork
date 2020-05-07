@@ -5,18 +5,20 @@ import Navbar from "./navbar";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "./other-profile";
 
 export default class App extends React.Component {
     constructor() {
         super();
 
-        this.toggleModal = this.toggleModal.bind(this);
-        this.profileImgUrl = this.profileImgUrl.bind(this);
-        this.updateBio = this.updateBio.bind(this);
-
         this.state = {
             uploaderIsVisible: false,
         };
+
+        this.toggleModal = this.toggleModal.bind(this);
+        this.profileImgUrl = this.profileImgUrl.bind(this);
+        this.updateBio = this.updateBio.bind(this);
     }
 
     componentDidMount() {
@@ -62,50 +64,64 @@ export default class App extends React.Component {
         // console.log("app.js, this.state in render() :", this.state);
         return (
             <div>
-                <div className="logo-heading">
+                <BrowserRouter>
                     <div>
-                        <Logo />
-                    </div>
+                        <div className="logo-heading">
+                            <div>
+                                <Logo />
+                            </div>
 
-                    <h1>Kite Inc.</h1>
+                            <h1>Kite Inc.</h1>
 
-                    <div>
-                        <Navbar />
-                    </div>
-                    <div className="profile-pic-frame">
-                        <div
-                            onClick={() => this.toggleModal()}
-                            className="profile-pic"
-                        >
-                            <ProfilePic
-                                first={this.state.first}
-                                last={this.state.last}
-                                img_url={this.state.img_url}
-                                toggleModal={this.toggleModal}
+                            <div>
+                                <Navbar />
+                            </div>
+                            <div className="profile-pic-frame">
+                                <div
+                                    onClick={() => this.toggleModal()}
+                                    className="profile-pic"
+                                >
+                                    <ProfilePic
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        img_url={this.state.img_url}
+                                        toggleModal={this.toggleModal}
+                                    />
+                                </div>
+                            </div>
+
+                            {this.state.uploaderIsVisible && (
+                                <Uploader
+                                    id={this.state.id}
+                                    profileImgUrl={this.profileImgUrl}
+                                    toggleModal={this.toggleModal}
+                                />
+                            )}
+
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        id={this.state.id}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        img_url={this.state.img_url}
+                                        bio={this.state.bio}
+                                        updateBio={this.updateBio}
+                                        toggleModal={this.toggleModal}
+                                    />
+                                )}
+                            />
+
+                            <Route
+                                exact
+                                path="/user/:id"
+                                component={OtherProfile}
                             />
                         </div>
                     </div>
-
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            id={this.state.id}
-                            profileImgUrl={this.profileImgUrl}
-                            toggleModal={this.toggleModal}
-                        />
-                    )}
-
-                    <div>
-                        <Profile
-                            id={this.state.id}
-                            first={this.state.first}
-                            last={this.state.last}
-                            img_url={this.state.img_url}
-                            bio={this.state.bio}
-                            updateBio={this.updateBio}
-                            toggleModal={this.toggleModal}
-                        />
-                    </div>
-                </div>
+                </BrowserRouter>
             </div>
         );
     }

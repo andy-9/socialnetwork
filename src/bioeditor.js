@@ -10,6 +10,7 @@ export default class BioEditor extends React.Component {
             textareaIsVisible: false,
             draftBio: null,
         };
+        this.toggleTextarea = this.toggleTextarea.bind(this);
         // console.log("bioeditor.js, this.state in BioEditor:", this.state);
     }
 
@@ -46,9 +47,9 @@ export default class BioEditor extends React.Component {
         let updateBioInfo = { id: this.props.id, bio: this.state.draftBio };
         this.props.updateBio(this.state.draftBio);
 
-        this.setState = {
-            textareaIsVisible: false,
-        };
+        // this.setState = {
+        //     textareaIsVisible: false,
+        // };
 
         axios
             .post("/bio", updateBioInfo)
@@ -57,6 +58,7 @@ export default class BioEditor extends React.Component {
                     "bioeditor.js in post /bio after upload, data:",
                     data
                 );
+                this.toggleTextarea();
                 each.props.updateBio(data.userBio.bio);
             })
             .catch((err) => {
@@ -78,8 +80,6 @@ export default class BioEditor extends React.Component {
                     <button
                         onClick={(e) => {
                             this.uploadBio(e);
-                            this.toggleTextarea();
-                            // this.setState({ textareaIsVisible: false });
                         }}
                     >
                         save
@@ -89,7 +89,7 @@ export default class BioEditor extends React.Component {
                             this.toggleTextarea();
                         }}
                     >
-                        Cancel
+                        cancel
                     </button>
                 </div>
             );
