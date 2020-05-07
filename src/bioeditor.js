@@ -42,7 +42,7 @@ export default class BioEditor extends React.Component {
     }
 
     uploadBio() {
-        console.log("bioeditor.js, uploadBio running");
+        // console.log("bioeditor.js, uploadBio running");
         var each = this;
         let updateBioInfo = { id: this.props.id, bio: this.state.draftBio };
         this.props.updateBio(this.state.draftBio);

@@ -382,7 +382,24 @@ app.post("/password/reset/verify", (req, res) => {
 
 // needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {
-    res.json({ first: "Pete", last: "Anderson" });
+    console.log("index.js, get /api/user/:id");
+    console.log("req.params.id:", req.params.id);
+    const id = req.params.id;
+    console.log("id:", id);
+    console.log("req.session.userId", req.session.userId);
+
+    if (id == req.session.userId) {
+        console.log("push to /");
+        this.props.history.push("/");
+    } else {
+        db.getUserInfo(id).then((otherUserInfo) => {
+            console.log(
+                "result getUserInfo in index.js get /api/user/:id:",
+                otherUserInfo
+            );
+            res.json({ otherUserInfo });
+        });
+    }
 });
 
 //////////////////////// LOGOUT ////////////////////////

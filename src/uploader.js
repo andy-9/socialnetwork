@@ -10,10 +10,10 @@ export default class Uploader extends React.Component {
     }
 
     handleChange(e) {
-        console.log(
-            "uploader.js handleChange, e.target.files[0]:",
-            e.target.files[0]
-        );
+        // console.log(
+        //     "uploader.js handleChange, e.target.files[0]:",
+        //     e.target.files[0]
+        // );
         this.setState(
             {
                 file: e.target.files[0],
@@ -34,10 +34,10 @@ export default class Uploader extends React.Component {
         axios
             .post("/imgupload", formData)
             .then(({ data }) => {
-                console.log(
-                    "uploader.js, data.userImg.user_img in post /imgupload:",
-                    data.userImg.img_url
-                );
+                // console.log(
+                //     "uploader.js, data.userImg.user_img in post /imgupload:",
+                //     data.userImg.img_url
+                // );
                 // if (response.data[0] === null || response.data === "noNumber") {
                 each.props.profileImgUrl(data.userImg.img_url);
                 this.closeModal();
@@ -51,7 +51,7 @@ export default class Uploader extends React.Component {
     }
 
     closeModal() {
-        console.log("uploader.js, closeModal");
+        // console.log("uploader.js, closeModal");
         this.props.toggleModal();
     }
 

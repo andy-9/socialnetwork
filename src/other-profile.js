@@ -8,8 +8,24 @@ class OtherProfile extends Component {
     }
 
     componentDidMount() {
+        console.log("other-profile.js is running");
         console.log("this.props.match.params.id:", this.props.match.params.id);
         const otherUserId = this.props.match.params.id;
+
+        axios
+            .get("/api/user/" + otherUserId)
+            .then(({ data }) => {
+                console.log(
+                    "other-profile.js in get /otherprofile, data:",
+                    data
+                );
+            })
+            .catch((err) => {
+                console.log(
+                    "CATCH in other-profile.js in axios.get /otherprofile:",
+                    err
+                );
+            });
 
         // and now make request to server asking for info about this user
         // axios.get("/api/users/" + id);

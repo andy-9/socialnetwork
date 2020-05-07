@@ -54,7 +54,7 @@ export default class App extends React.Component {
     }
 
     updateBio(upbio) {
-        console.log("app.js updateBio running, argument upbio:", upbio);
+        // console.log("app.js updateBio running, argument upbio:", upbio);
         this.setState({
             bio: upbio,
         });
@@ -125,22 +125,4 @@ export default class App extends React.Component {
             </div>
         );
     }
-}
-
-{
-    /* <Profile
-    profilePic={
-        <ProfilePic
-            first={this.state.first}
-            last={this.state.last}
-            img_url={this.state.img_url}
-            clickHandler={() =>
-                this.setState({
-                    uploaderIsVisible: true,
-                })
-            }
-        />
-    }
-    bio={this.state.bio}
-/>; */
 }
