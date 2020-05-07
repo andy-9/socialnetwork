@@ -8,17 +8,27 @@ class OtherProfile extends Component {
     }
 
     componentDidMount() {
-        console.log("other-profile.js is running");
-        console.log("this.props.match.params.id:", this.props.match.params.id);
+        // console.log("other-profile.js is running");
+        // console.log("this.props.match.params.id:", this.props.match.params.id);
         const otherUserId = this.props.match.params.id;
 
         axios
             .get("/api/user/" + otherUserId)
             .then(({ data }) => {
-                console.log(
-                    "other-profile.js in get /otherprofile, data:",
-                    data
-                );
+                // console.log(
+                // "other-profile.js in get /otherprofile, data:",
+                // data
+                // );
+                if (data.isLoggedInUser) {
+                    this.props.history.push("/");
+                } else {
+                    this.setState({
+                        first: data.otherUserInfo.first,
+                        last: data.otherUserInfo.last,
+                        img_url: data.otherUserInfo.img_url,
+                        bio: data.otherUserInfo.bio,
+                    });
+                }
             })
             .catch((err) => {
                 console.log(
@@ -26,20 +36,21 @@ class OtherProfile extends Component {
                     err
                 );
             });
-
-        // and now make request to server asking for info about this user
-        // axios.get("/api/users/" + id);
-
-        // user should not be able to view their own profile
-        // server: checks if cookie-id is the same as the /user/id, send back res.json for the than to use this.props.history.push()
-
-        // handle if the user tries to go to a profile that does not exist, i.e. /user/234348 --> send user back to "/"
     }
 
     render() {
         return (
             <Fragment>
-                <h1>I am OtherProfile</h1>
+                <div>
+                    <div>
+                        {this.state.first} {this.state.last}{" "}
+                    </div>
+                    <img
+                        src={this.state.img_url}
+                        alt={`${this.state.first} ${this.state.last}`}
+                    />
+                    <div>{this.state.bio}</div>
+                </div>
             </Fragment>
         );
     }

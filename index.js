@@ -382,24 +382,28 @@ app.post("/password/reset/verify", (req, res) => {
 
 // needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {
-    console.log("index.js, get /api/user/:id");
-    console.log("req.params.id:", req.params.id);
+    // console.log("index.js, get /api/user/:id running");
+    // console.log("req.params.id:", req.params.id);
     const id = req.params.id;
-    console.log("id:", id);
-    console.log("req.session.userId", req.session.userId);
+    // console.log("req.session.userId", req.session.userId);
 
-    if (id == req.session.userId) {
-        console.log("push to /");
-        this.props.history.push("/");
-    } else {
-        db.getUserInfo(id).then((otherUserInfo) => {
-            console.log(
-                "result getUserInfo in index.js get /api/user/:id:",
-                otherUserInfo
-            );
-            res.json({ otherUserInfo });
+    db.getUserInfo(id)
+        .then((otherUserInfo) => {
+            // console.log(
+            //     "result getUserInfo in index.js get /api/user/:id:",
+            //     otherUserInfo
+            // );
+            if (otherUserInfo.id == req.session.userId) {
+                // console.log("same id as in db");
+                res.json({ isLoggedInUser: true });
+            } else {
+                res.json({ otherUserInfo, isLoggedInUser: false });
+            }
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js /api/user/:id getUserInfo", err);
+            res.json({ isLoggedInUser: true });
         });
-    }
 });
 
 //////////////////////// LOGOUT ////////////////////////

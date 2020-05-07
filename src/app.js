@@ -62,6 +62,10 @@ export default class App extends React.Component {
 
     render() {
         // console.log("app.js, this.state in render() :", this.state);
+        if (!this.state.id) {
+            return null;
+        }
+
         return (
             <div>
                 <BrowserRouter>
@@ -117,7 +121,13 @@ export default class App extends React.Component {
                             <Route
                                 exact
                                 path="/user/:id"
-                                component={OtherProfile}
+                                render={(props) => (
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
                             />
                         </div>
                     </div>
