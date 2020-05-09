@@ -41,15 +41,19 @@ class OtherProfile extends Component {
     render() {
         return (
             <Fragment>
-                <div>
-                    <div>
-                        {this.state.first} {this.state.last}{" "}
+                <div className="profile">
+                    <div className="pic-in-profile">
+                        <img
+                            src={this.state.img_url}
+                            alt={`${this.state.first} ${this.state.last}`}
+                        />
                     </div>
-                    <img
-                        src={this.state.img_url}
-                        alt={`${this.state.first} ${this.state.last}`}
-                    />
-                    <div>{this.state.bio}</div>
+                    <div>
+                        <h3 className="profile-fullname">
+                            {this.state.first} {this.state.last}
+                        </h3>
+                        <p className="bio-text">{this.state.bio}</p>
+                    </div>
                 </div>
             </Fragment>
         );

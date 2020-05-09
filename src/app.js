@@ -81,11 +81,9 @@ export default class App extends React.Component {
                                 <Navbar />
                             </div>
                             <div className="profile-pic-frame">
-                                <div
-                                    onClick={() => this.toggleModal()}
-                                    className="profile-pic"
-                                >
+                                <div onClick={() => this.toggleModal()}>
                                     <ProfilePic
+                                        className="profile-pic"
                                         first={this.state.first}
                                         last={this.state.last}
                                         img_url={this.state.img_url}
@@ -95,11 +93,13 @@ export default class App extends React.Component {
                             </div>
 
                             {this.state.uploaderIsVisible && (
-                                <Uploader
-                                    id={this.state.id}
-                                    profileImgUrl={this.profileImgUrl}
-                                    toggleModal={this.toggleModal}
-                                />
+                                <div className="uploader">
+                                    <Uploader
+                                        id={this.state.id}
+                                        profileImgUrl={this.profileImgUrl}
+                                        toggleModal={this.toggleModal}
+                                    />
+                                </div>
                             )}
 
                             <Route

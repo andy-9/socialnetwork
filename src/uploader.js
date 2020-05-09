@@ -5,7 +5,7 @@ export default class Uploader extends React.Component {
     constructor() {
         super();
         this.state = {
-            // file: null,
+            error: false,
         };
     }
 
@@ -17,12 +17,12 @@ export default class Uploader extends React.Component {
         this.setState(
             {
                 file: e.target.files[0],
-            },
-            () =>
-                console.log(
-                    "uploader.js 'this.state.file' in handleChange:",
-                    this.state.file
-                )
+            }
+            // () =>
+            //     console.log(
+            //         "uploader.js 'this.state.file' in handleChange:",
+            //         this.state.file
+            //     )
         );
     }
 
@@ -47,11 +47,14 @@ export default class Uploader extends React.Component {
                     "CATCH in uploader.js in axios.post /uploader:",
                     err
                 );
+                this.setState({
+                    error: true,
+                });
             });
     }
 
     closeModal() {
-        // console.log("uploader.js, closeModal");
+        // console.log("uploader.js, closeModal fired");
         this.props.toggleModal();
     }
 
@@ -61,20 +64,35 @@ export default class Uploader extends React.Component {
                 <div className="x" onClick={() => this.closeModal()}>
                     X
                 </div>
-                <h3 className="uploader-text">Upload your image here</h3>
-                <div>
+                <h3 className="center">Upload your image here</h3>
+                <div
+                    className="choose-file center"
+                    onChange={(e) => this.handleChange(e)}
+                >
                     <ion-icon
                         class="icon"
                         name="cloud-upload-outline"
                     ></ion-icon>
+                    <label htmlFor="file" className="label-uploader pointer">
+                        Choose an image
+                    </label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        id="file"
+                        className="input-for-file"
                         type="file"
                         name="file"
                         accept="image/*"
                     />
                 </div>
-                <button onClick={() => this.uploadImage()}>upload</button>
+                {this.state.error && (
+                    <h5>Something went wrong. Please try again.</h5>
+                )}
+                <button
+                    className="button-uploader"
+                    onClick={() => this.uploadImage()}
+                >
+                    upload
+                </button>
             </div>
         );
     }

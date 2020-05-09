@@ -378,7 +378,7 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
-//////////////////////// USER-ID ////////////////////////
+//////////////////////// USER-ID / OTHER USER ////////////////////////
 
 // needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {

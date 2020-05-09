@@ -74,24 +74,26 @@ export default class BioEditor extends React.Component {
                         onChange={(e) => this.handleChange(e)}
                         name="textarea"
                         cols="50"
-                        rows="10"
+                        rows="3"
                     ></textarea>
-                    <button
-                        className="save-button"
-                        onClick={(e) => {
-                            this.uploadBio(e);
-                        }}
-                    >
-                        save
-                    </button>
-                    <button
-                        className="toggle-textarea"
-                        onClick={() => {
-                            this.toggleTextarea();
-                        }}
-                    >
-                        cancel
-                    </button>
+                    <div className="flexbox-buttons-bioeditor">
+                        <button
+                            className="save-button"
+                            onClick={(e) => {
+                                this.uploadBio(e);
+                            }}
+                        >
+                            save
+                        </button>
+                        <button
+                            className="toggle-textarea"
+                            onClick={() => {
+                                this.toggleTextarea();
+                            }}
+                        >
+                            cancel
+                        </button>
+                    </div>
                 </div>
             );
         } else if (this.props.bio) {
@@ -112,6 +114,7 @@ export default class BioEditor extends React.Component {
             return (
                 <div className="bioeditor-container">
                     <button
+                        className="bigger-button"
                         onClick={() => {
                             this.toggleTextarea();
                         }}

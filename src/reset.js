@@ -108,17 +108,17 @@ export default class ResetPassword extends React.Component {
                             />
                         </div>
                         {this.state.falseEmail && (
-                            <h4>
+                            <h5>
                                 Your email address is not registered. Please
                                 enter the email with which you registered or
                                 register
                                 <Link to="/"> here</Link>.
-                            </h4>
+                            </h5>
                         )}
                         {this.state.error && (
-                            <h4>
+                            <h5>
                                 Sorry, something went wrong. Please try again.
-                            </h4>
+                            </h5>
                         )}
                         <button onClick={() => this.submitEmail()}>
                             Submit
@@ -130,19 +130,25 @@ export default class ResetPassword extends React.Component {
                     <div>
                         <h3>Reset Password</h3>
                         <p>Please enter the code you received by email.</p>
-                        <input
-                            name="code"
-                            type="text"
-                            placeholder="Code"
-                            autoComplete="off"
-                            onChange={(e) => this.handleChange(e)}
-                        />
+                        <div>
+                            <ion-icon
+                                className="icon"
+                                name="finger-print-sharp"
+                            ></ion-icon>
+                            <input
+                                name="code"
+                                type="text"
+                                placeholder="Code"
+                                autoComplete="off"
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                        </div>
                         {this.state.falseCode && (
-                            <h4>
+                            <h5>
                                 The code you entered does not match the one sent
                                 to you by email. Please enter this code or go to
                                 <Link to="/"> register</Link>.
-                            </h4>
+                            </h5>
                         )}
                         <p>Please enter a new password</p>
                         <div>
@@ -159,9 +165,9 @@ export default class ResetPassword extends React.Component {
                             />
                         </div>
                         {this.state.error && (
-                            <h4>
+                            <h5>
                                 Sorry, something went wrong. Please try again.
-                            </h4>
+                            </h5>
                         )}
                         <button onClick={() => this.submitCodeAndPassword()}>
                             Submit

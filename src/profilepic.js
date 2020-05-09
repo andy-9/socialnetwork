@@ -17,10 +17,8 @@ export default function ProfilePic({
     // let url = img_url || "default.svg";
 
     return (
-        <div>
-            <div onClick={toggleModal}>
-                <img src={img_url} alt={`${first} ${last}`} />
-            </div>
+        <div className="profilepic" onClick={toggleModal}>
+            <img src={img_url} alt={`${first} ${last}`} />
         </div>
     );
 }

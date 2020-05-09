@@ -60,10 +60,10 @@ export default class Login extends React.Component {
         return (
             <div className="login-container">
                 {this.state.error && (
-                    <h4>
+                    <h5>
                         Something went wrong. Please use the email-address you
                         registered with and the correct password.
-                    </h4>
+                    </h5>
                 )}
                 <div className="flexbox-login">
                     <div>
@@ -96,10 +96,10 @@ export default class Login extends React.Component {
                         />
                     </div>
                     {this.state.falsePassword && (
-                        <h4>
+                        <h5>
                             Your password does not match your email-address.
                             Please enter the correct password.
-                        </h4>
+                        </h5>
                     )}
                     <button onClick={() => this.submit()}>Login</button>
                 </div>

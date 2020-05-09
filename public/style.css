@@ -23,16 +23,8 @@ main {
     /* min-height: 100%; */
 }
 
-.placeholder {
-    height: 20px;
-}
-
-.center {
-    text-align: center;
-}
-
 body {
-    background-color: turquoise;
+    /* background-color: rgb(178, 248, 241); */
 }
 
 a {
@@ -42,6 +34,27 @@ a {
 
 a:hover {
     color: blue;
+}
+
+img {
+    max-height: 100%;
+    width: auto;
+}
+
+.placeholder {
+    height: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.white {
+    color: white;
 }
 
 /* ////////////////////// HEADLINES ////////////////////// */
@@ -56,7 +69,7 @@ h2 {
     text-align: center;
 }
 
-h4 {
+h5 {
     color: red;
     text-align: center;
 }
@@ -147,6 +160,7 @@ button:focus {
 }
 
 /* ////////////////////// LOGIN ////////////////////// */
+
 .login-container {
     height: 400px;
     width: 500px;
@@ -167,68 +181,117 @@ button:focus {
     align-content: space-around;
 }
 
-/* ////////////////////// PROFILE ////////////////////// */
-.profile {
-    /* background-color: white; */
-    position: fixed;
-    width: 90%;
-    height: 70%;
-    top: 10%;
-    left: 5%;
+/* ////////////////////// WELCOME ////////////////////// */
+
+.logo-heading {
+    display: flex;
 }
 
 /* ////////////////////// PROFILE-PIC ////////////////////// */
 
 .profile-pic-frame {
+    background: white;
     width: 55px;
-    height: 55px;
     padding: 2.5px;
-    border: 1px solid grey;
+    box-shadow: 0 0 2px 0px black;
     border-radius: 3%;
-    /* position: fixed; */
     position: absolute;
     right: 5px;
     top: 5px;
-}
-
-.profile-pic {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
     overflow: hidden;
 }
 
-/* ////////////////////// PROFILE ////////////////////// */
+.profile-pic-frame:hover {
+    opacity: 0.8;
+}
 
-#pic-in-profile {
+.profile-pic {
+    /* width: 50px; */
+    /* height: 50px; */
+}
+
+/* ////////////////////// PROFILE ////////////////////// */
+.profile {
+    position: absolute;
+    margin: 15% 5% 0 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.pic-in-profile {
+    left: 5%;
     width: 200px;
-    height: 200px;
+    /* height: 100%; */
+    margin-right: 5%;
+    overflow: hidden;
+}
+
+.pic-in-profile:hover {
+    opacity: 0.8;
+}
+
+.profilepic {
+    overflow: hidden;
+}
+
+.profile-fullname {
+    margin-bottom: 5%;
+    width: 100%;
 }
 
 /* ////////////////////// BIO-EDITOR ////////////////////// */
 
 .bioeditor-container {
-    background-color: aquamarine;
-    width: 50%;
-    height: 50%;
-    position: fixed;
-    transform: translate(50%, 0%);
+}
+
+.bio-text {
+    font-family: "Indie Flower", cursive;
+    font-size: 20px;
+}
+
+.edit-bio-button {
+    margin-top: 5%;
 }
 
 textarea {
-    background-color: rgb(245, 245, 104);
+    background-color: whitesmoke;
+    margin-bottom: 3%;
 }
 
-/* ////////////////////// IMG-MODAL ////////////////////// */
+.flexbox-buttons-bioeditor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.bigger-button {
+    width: 300px;
+}
+
+/* ////////////////////// UPLOADER-MODAL ////////////////////// */
+
+.uploader {
+    z-index: 10;
+}
 
 .img-modal {
-    background-color: white;
+    background-image: url(/memphis-colorful.png);
+    height: 35%;
+    top: 15%;
+    padding: 2%;
+    width: 30%;
+    left: 70%;
+    border-radius: 10% 0 0 10%;
+    box-shadow: 0 0 6px 0px black;
     position: fixed;
-    width: 100%;
-    height: 100%;
-    /* top: 50%; */
-    /* left: 50%; */
-    /* transform: translate(-50%, -50%); */
+    /* overflow: hidden; */
+    /* transition: 1s ease-out; */
+    transition: 1s ease-in;
+    /* transform: translateX(0%, 100%); */
+    /* transform: translate(100vw, 0); */
+    /* transform: translateX(0, 100vw); */
+    /* transform: translateX(0, 100%); */
 }
 
 .x {
@@ -246,10 +309,29 @@ textarea {
     transform: translateY(1px);
 }
 
-/* ////////////////////// WELCOME ////////////////////// */
+.choose-file {
+    margin: 7% 20%;
+}
 
-.logo-heading {
-    display: flex;
+.choose-file:hover {
+    background-color: rgb(238, 236, 236);
+}
+
+label:hover {
+    color: grey;
+}
+
+.input-for-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.button-uploader {
+    margin-top: 5%;
 }
 
 /* ////////////////////// FOOTER ////////////////////// */
@@ -271,8 +353,4 @@ footer {
 
 .contact {
     padding: 9px;
-}
-
-.white {
-    color: white;
 }

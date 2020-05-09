@@ -59,7 +59,7 @@ export default class Registration extends React.Component {
             <div className="register-container">
                 <h2>Registration</h2>
                 {this.state.error && (
-                    <h4>Something went wrong. Please fill out all 4 fields.</h4>
+                    <h5>Something went wrong. Please fill out all 4 fields.</h5>
                 )}
 
                 <div className="flexbox-register">
