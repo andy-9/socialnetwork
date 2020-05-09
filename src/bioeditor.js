@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "./axios";
-import { Link } from "react-router-dom";
 
 export default class BioEditor extends React.Component {
     constructor() {
@@ -78,6 +77,7 @@ export default class BioEditor extends React.Component {
                         rows="10"
                     ></textarea>
                     <button
+                        className="save-button"
                         onClick={(e) => {
                             this.uploadBio(e);
                         }}
@@ -85,6 +85,7 @@ export default class BioEditor extends React.Component {
                         save
                     </button>
                     <button
+                        className="toggle-textarea"
                         onClick={() => {
                             this.toggleTextarea();
                         }}
@@ -97,25 +98,26 @@ export default class BioEditor extends React.Component {
             return (
                 <div className="bioeditor-container">
                     <p className="bio-text">{this.props.bio}</p>
-                    <a
+                    <button
+                        className="edit-bio-button"
                         onClick={() => {
                             this.toggleTextarea();
                         }}
                     >
                         Edit your info
-                    </a>
+                    </button>
                 </div>
             );
         } else {
             return (
                 <div className="bioeditor-container">
-                    <a
+                    <button
                         onClick={() => {
                             this.toggleTextarea();
                         }}
                     >
                         Tell us a little bit about yourself
-                    </a>
+                    </button>
                 </div>
             );
         }
