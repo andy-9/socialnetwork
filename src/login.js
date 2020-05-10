@@ -39,6 +39,7 @@ export default class Login extends React.Component {
                     if (data.falsePassword) {
                         this.setState({
                             falsePassword: true,
+                            error: false,
                         });
                     } else {
                         this.setState({

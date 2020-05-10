@@ -85,37 +85,42 @@ app.get("/welcome", (req, res) => {
 
 app.post("/register", (req, res) => {
     console.log("index.js, post /register");
-    let { first, last, email, password } = req.body;
+    let { first, last, email, password, confirmPassword } = req.body;
     console.log(
         "index.js post /register, all inserted data:",
         first,
         last,
         email,
-        password
+        password,
+        confirmPassword
     );
 
-    if (first && last && email && password) {
-        hash(password)
-            .then((hashedPw) => {
-                console.log("password hashed in /register:", hashedPw);
-                return db.registerUser(first, last, email, hashedPw);
-            })
-            .then((resultId) => {
-                // console.log("resultId:", resultId);
-                req.session.userId = resultId;
-                // console.log("index.js, req.session:", req.session);
-                res.json({ success: true });
-                console.log(
-                    "registration successful, 4 input fields added to database, cookie 'userId' set, redirect to /"
-                );
-            })
-            .catch((err) => {
-                console.log("CATCH in index.js in post /register:", err);
-                res.json({ success: false, error: true });
-            });
+    if (first && last && email && password && confirmPassword) {
+        if (password != confirmPassword) {
+            res.json({ success: false, errorConfirmPassword: true });
+            console.log("index.js, second password does not match first");
+        } else
+            hash(password)
+                .then((hashedPw) => {
+                    console.log("password hashed in /register:", hashedPw);
+                    return db.registerUser(first, last, email, hashedPw);
+                })
+                .then((resultId) => {
+                    // console.log("resultId:", resultId);
+                    req.session.userId = resultId;
+                    // console.log("index.js, req.session:", req.session);
+                    res.json({ success: true });
+                    console.log(
+                        "registration successful, 4 input fields added to database, cookie 'userId' set, redirect to /"
+                    );
+                })
+                .catch((err) => {
+                    console.log("CATCH in index.js in post /register:", err);
+                    res.json({ success: false, error: true });
+                });
     } else {
         res.json({ success: false, error: true });
-        console.log("4 input fields on /register not complete");
+        console.log("5 input fields on /register not complete");
     }
 });
 

@@ -9,6 +9,7 @@ export default class Registration extends React.Component {
         super();
         this.state = {
             error: false,
+            errorConfirmPassword: false,
         };
     }
 
@@ -24,12 +25,12 @@ export default class Registration extends React.Component {
         this.setState(
             {
                 [e.target.name]: e.target.value,
-            },
-            () =>
-                console.log(
-                    "registrations.js 'this.state' in handleChange:",
-                    this.state
-                )
+            }
+            // () =>
+            //     console.log(
+            //         "registrations.js 'this.state' in handleChange:",
+            //         this.state
+            //     )
             // console.log in the callback because setState is asynchronous
         );
     }
@@ -44,12 +45,42 @@ export default class Registration extends React.Component {
                     error: false,
                 });
                 location.replace("/");
+            } else if (data.errorConfirmPassword) {
+                console.log(
+                    "registration.js, 2 passwords do not match in /register"
+                );
+                this.setState({
+                    errorConfirmPassword: true,
+                });
             } else {
-                console.log("registration.js, no success in /register");
+                console.log(
+                    "registration.js, no success in /register, data.error",
+                    data.error
+                );
                 this.setState({
                     error: true,
                 });
             }
+            // } else {
+            //     console.log();
+            //     this.setState({
+            //         errorConfirmPassword: true,
+            //     });
+            // }
+            // } else {
+            //     console.log("registration.js, no success in /register");
+            //     this.setState({
+            //         error: true,
+            //     });
+            //     this.setState({
+            //         errorConfirmPassword: true,
+            //     });
+            //     // } else {
+            //     //     console.log("registration.js, 2 passwords do not match in /register");
+            //     //     this.setState({
+            //     //         errorConfirmPassword: true,
+            //     //     });
+            // }
         });
     }
 
@@ -58,9 +89,6 @@ export default class Registration extends React.Component {
         return (
             <div className="register-container">
                 <h2>Registration</h2>
-                {this.state.error && (
-                    <h5>Something went wrong. Please fill out all 4 fields.</h5>
-                )}
 
                 <div className="flexbox-register">
                     <div>
@@ -77,7 +105,6 @@ export default class Registration extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
-
                     <div>
                         <ion-icon
                             className="icon"
@@ -91,7 +118,6 @@ export default class Registration extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
-
                     <div>
                         <ion-icon
                             className="icon"
@@ -106,7 +132,6 @@ export default class Registration extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
-
                     <div>
                         <ion-icon
                             className="icon"
@@ -120,6 +145,33 @@ export default class Registration extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
+                    <div>
+                        <ion-icon
+                            className="icon"
+                            name="checkmark-done-sharp"
+                        ></ion-icon>
+                        {/* <ion-icon
+                            className="icon"
+                            name="lock-closed-sharp"
+                        ></ion-icon> */}
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Retype Password"
+                            autoComplete="off"
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                    </div>
+
+                    {this.state.errorConfirmPassword && (
+                        <h5>Your second password does not match your first.</h5>
+                    )}
+                    {this.state.error && (
+                        <h5>
+                            Something went wrong. Please fill out all 5 fields.
+                        </h5>
+                    )}
+
                     <button onClick={() => this.submit()}>Register</button>
                 </div>
                 <div className="placeholder"></div>
