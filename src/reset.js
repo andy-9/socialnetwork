@@ -8,9 +8,10 @@ export default class ResetPassword extends React.Component {
         this.state = {
             step: 1,
             error: false,
-            errorConfirmPassword: false,
             falseEmail: false,
             falseCode: false,
+            passwordTooShort: false,
+            errorConfirmPassword: false,
         };
     }
 
@@ -74,6 +75,17 @@ export default class ResetPassword extends React.Component {
                 } else if (data.falseCode) {
                     this.setState({
                         falseCode: true,
+                        passwordTooShort: false,
+                        errorConfirmPassword: false,
+                        error: false,
+                    });
+                } else if (data.passwordTooShort) {
+                    console.log(
+                        "reset.js, password too short in submitCodeAndPassword"
+                    );
+                    this.setState({
+                        passwordTooShort: true,
+                        falseCode: false,
                         errorConfirmPassword: false,
                         error: false,
                     });
@@ -84,12 +96,15 @@ export default class ResetPassword extends React.Component {
                     this.setState({
                         errorConfirmPassword: true,
                         falseCode: false,
+                        passwordTooShort: false,
                         error: false,
                     });
                 } else {
+                    console.log("reset.js, error in submitCodeAndPassword");
                     this.setState({
                         error: true,
                         falseCode: false,
+                        passwordTooShort: false,
                         errorConfirmPassword: false,
                     });
                 }
@@ -191,11 +206,17 @@ export default class ResetPassword extends React.Component {
                             <input
                                 name="password"
                                 type="password"
-                                placeholder="New Password"
+                                placeholder="New Password (min. 8 characters)"
                                 autoComplete="off"
                                 onChange={(e) => this.handleChange(e)}
                             />
                         </div>
+                        {this.state.passwordTooShort && (
+                            <h5>
+                                Your password is too short. Please use at least
+                                8 characters.
+                            </h5>
+                        )}
                         <div>
                             <ion-icon
                                 className="icon"

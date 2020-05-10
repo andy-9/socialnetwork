@@ -9,6 +9,7 @@ export default class Registration extends React.Component {
         super();
         this.state = {
             error: false,
+            passwordTooShort: false,
             errorConfirmPassword: false,
         };
     }
@@ -45,12 +46,21 @@ export default class Registration extends React.Component {
                     error: false,
                 });
                 location.replace("/");
+            } else if (data.passwordTooShort) {
+                console.log("registration.js, password too short");
+                this.setState({
+                    passwordTooShort: true,
+                    errorConfirmPassword: false,
+                    error: false,
+                });
             } else if (data.errorConfirmPassword) {
                 console.log(
                     "registration.js, 2 passwords do not match in /register"
                 );
                 this.setState({
                     errorConfirmPassword: true,
+                    passwordTooShort: false,
+                    error: false,
                 });
             } else {
                 console.log(
@@ -59,6 +69,8 @@ export default class Registration extends React.Component {
                 );
                 this.setState({
                     error: true,
+                    errorConfirmPassword: false,
+                    passwordTooShort: false,
                 });
             }
         });
@@ -119,11 +131,19 @@ export default class Registration extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            placeholder="Password"
+                            placeholder="Password (min. 8 characters)"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
+
+                    {this.state.passwordTooShort && (
+                        <h5>
+                            Your password is too short. Please use at least 8
+                            characters.
+                        </h5>
+                    )}
+
                     <div>
                         <ion-icon
                             className="icon"

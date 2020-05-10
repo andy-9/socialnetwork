@@ -35,17 +35,15 @@ export default class Login extends React.Component {
                         error: false,
                     });
                     location.replace("/");
+                } else if (data.falsePassword) {
+                    this.setState({
+                        falsePassword: true,
+                        error: false,
+                    });
                 } else {
-                    if (data.falsePassword) {
-                        this.setState({
-                            falsePassword: true,
-                            error: false,
-                        });
-                    } else {
-                        this.setState({
-                            error: true,
-                        });
-                    }
+                    this.setState({
+                        error: true,
+                    });
                 }
             })
             .catch((err) => {

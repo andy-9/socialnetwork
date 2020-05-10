@@ -95,14 +95,19 @@ app.post("/register", (req, res) => {
         confirmPassword
     );
 
-    if (first && last && email && password && confirmPassword) {
+    if (password.length < 8) {
+        res.json({ success: false, passwordTooShort: true });
+    } else if (first && last && email && password && confirmPassword) {
         if (password != confirmPassword) {
             res.json({ success: false, errorConfirmPassword: true });
             console.log("index.js, second password does not match first");
         } else
             hash(password)
                 .then((hashedPw) => {
-                    console.log("password hashed in /register:", hashedPw);
+                    console.log(
+                        "index.js, password hashed in /register:",
+                        hashedPw
+                    );
                     return db.registerUser(first, last, email, hashedPw);
                 })
                 .then((resultId) => {
@@ -148,13 +153,18 @@ app.post("/login", (req, res) => {
                 console.log("match value of compare:", matchValue); // true or false
                 if (matchValue) {
                     req.session.userId = id;
-                    res.json({ success: true });
+                    res.json({
+                        success: true,
+                    });
                     console.log(
                         "login successful, redirect to /, cookie 'userId' set",
                         req.session
                     );
                 } else {
-                    res.json({ success: false, falsePassword: true });
+                    res.json({
+                        success: false,
+                        falsePassword: true,
+                    });
                     console.log(
                         "index.js, 2 input fields on /login do not match"
                     );
@@ -162,10 +172,16 @@ app.post("/login", (req, res) => {
             })
             .catch((err) => {
                 console.log("CATCH in index.js in post /login:", err);
-                res.json({ success: false, error: true });
+                res.json({
+                    success: false,
+                    error: true,
+                });
             });
     } else {
-        res.json({ success: false, error: true });
+        res.json({
+            success: false,
+            error: true,
+        });
         console.log(
             "2 input fields on /login not complete or falsy, rerender /login with error message"
         );
@@ -329,7 +345,9 @@ app.post("/password/reset/verify", (req, res) => {
         confirmPassword
     );
 
-    if (code && password && confirmPassword) {
+    if (password.length < 8) {
+        res.json({ success: false, passwordTooShort: true });
+    } else if (code && password && confirmPassword) {
         if (password != confirmPassword) {
             res.json({ success: false, errorConfirmPassword: true });
             console.log("index.js, second password does not match first");
