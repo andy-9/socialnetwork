@@ -8,6 +8,7 @@ export default class ResetPassword extends React.Component {
         this.state = {
             step: 1,
             error: false,
+            errorConfirmPassword: false,
             falseEmail: false,
             falseCode: false,
         };
@@ -15,7 +16,7 @@ export default class ResetPassword extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-        console.log("reset.js, e.target.value:", e.target.value);
+        // console.log("reset.js, e.target.value:", e.target.value);
     }
 
     submitEmail() {
@@ -32,13 +33,15 @@ export default class ResetPassword extends React.Component {
                     this.setState({
                         step: 2,
                     });
-                } else if (data.error) {
+                } else if (data.falseEmail) {
                     this.setState({
-                        error: true,
+                        falseEmail: true,
+                        error: false,
                     });
                 } else {
                     this.setState({
-                        falseEmail: true,
+                        error: true,
+                        falseEmail: false,
                     });
                 }
             })
@@ -46,6 +49,7 @@ export default class ResetPassword extends React.Component {
                 console.log("CATCH in post /reset in submitEmail():", err);
                 this.setState({
                     error: true,
+                    falseEmail: false,
                 });
             });
     }
@@ -67,9 +71,26 @@ export default class ResetPassword extends React.Component {
                     this.setState({
                         step: 3,
                     });
-                } else {
+                } else if (data.falseCode) {
                     this.setState({
                         falseCode: true,
+                        errorConfirmPassword: false,
+                        error: false,
+                    });
+                } else if (data.errorConfirmPassword) {
+                    console.log(
+                        "reset.js, 2 passwords do not match in submitCodeAndPassword"
+                    );
+                    this.setState({
+                        errorConfirmPassword: true,
+                        falseCode: false,
+                        error: false,
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                        falseCode: false,
+                        errorConfirmPassword: false,
                     });
                 }
             })
@@ -80,20 +101,28 @@ export default class ResetPassword extends React.Component {
                 );
                 this.setState({
                     error: true,
+                    falseCode: false,
+                    errorConfirmPassword: false,
                 });
             });
     }
 
     render() {
         return (
-            <div>
+            <div className="reset-container">
                 {this.state.step == 1 && (
-                    <div>
-                        <h3>Reset Password</h3>
-                        <p>
-                            Please enter the email address with which you were
-                            registered
+                    <div className="flexbox-reset">
+                        <h2>Reset Password</h2>
+
+                        <p className="center">
+                            Please enter the email address with which you
+                            registered.
                         </p>
+                        {this.state.error && (
+                            <h5>
+                                Sorry, something went wrong. Please try again.
+                            </h5>
+                        )}
                         <div>
                             <ion-icon
                                 className="icon"
@@ -115,21 +144,24 @@ export default class ResetPassword extends React.Component {
                                 <Link to="/"> here</Link>.
                             </h5>
                         )}
-                        {this.state.error && (
-                            <h5>
-                                Sorry, something went wrong. Please try again.
-                            </h5>
-                        )}
+
                         <button onClick={() => this.submitEmail()}>
                             Submit
                         </button>
+                        <p className="center">
+                            Ah, I just remembered! Back to{" "}
+                            <Link to="/login">login</Link>
+                        </p>
                     </div>
                 )}
 
                 {this.state.step == 2 && (
-                    <div>
+                    <div className="flexbox-reset">
                         <h3>Reset Password</h3>
-                        <p>Please enter the code you received by email.</p>
+                        <p className="center">
+                            Please enter the code you received by email. You
+                            have a maximum of 10 minutes.
+                        </p>
                         <div>
                             <ion-icon
                                 className="icon"
@@ -150,7 +182,7 @@ export default class ResetPassword extends React.Component {
                                 <Link to="/"> register</Link>.
                             </h5>
                         )}
-                        <p>Please enter a new password</p>
+                        <p>Please enter a new password and confirm it.</p>
                         <div>
                             <ion-icon
                                 className="icon"
@@ -164,6 +196,24 @@ export default class ResetPassword extends React.Component {
                                 onChange={(e) => this.handleChange(e)}
                             />
                         </div>
+                        <div>
+                            <ion-icon
+                                className="icon"
+                                name="checkmark-done-sharp"
+                            ></ion-icon>
+                            <input
+                                name="confirmPassword"
+                                type="password"
+                                placeholder="Retype Password"
+                                autoComplete="off"
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                        </div>
+                        {this.state.errorConfirmPassword && (
+                            <h5>
+                                Your second password does not match your first.
+                            </h5>
+                        )}
                         {this.state.error && (
                             <h5>
                                 Sorry, something went wrong. Please try again.
@@ -176,7 +226,7 @@ export default class ResetPassword extends React.Component {
                 )}
 
                 {this.state.step == 3 && (
-                    <div>
+                    <div className="flexbox-reset">
                         <h3>Your password is reset.</h3>
                         <p>
                             You can now <Link to="/login">login</Link> with your

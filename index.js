@@ -69,7 +69,7 @@ app.use(function (req, res, next) {
 //////////////////////// WELCOME ////////////////////////
 
 app.get("/welcome", (req, res) => {
-    console.log("index.js, get /welcome");
+    // console.log("index.js, get /welcome");
     if (req.session.userId) {
         res.redirect("/");
         console.log("index.js get /welcome, has cookie, redirect to /");
@@ -269,8 +269,13 @@ app.post("/password/reset/start", (req, res) => {
 
                     db.addSecretCode(email, secretCode)
                         .then(() => {
+                            console.log(
+                                "index.js, addSecretCode, email & secretCode after .then:",
+                                email,
+                                secretCode
+                            );
                             ses.sendEmail(
-                                email, // maybe result.email
+                                email,
                                 "Your reset code",
                                 `Your reset code is ${secretCode}. It is valid for 10 minutes.`
                             );
@@ -300,7 +305,8 @@ app.post("/password/reset/start", (req, res) => {
             })
             .catch((err) => {
                 console.log(
-                    "CATCH in index.js /reset/start getHashByEmail, mail-address not in database"
+                    "CATCH in index.js /reset/start getHashByEmail, mail-address not in database",
+                    err
                 );
                 res.json({ success: false, falseEmail: true });
             });
@@ -314,67 +320,78 @@ app.post("/password/reset/start", (req, res) => {
 
 app.post("/password/reset/verify", (req, res) => {
     console.log("index.js, post /reset/verify");
-    let { email, code, password } = req.body;
+    let { email, code, password, confirmPassword } = req.body;
     console.log(
         "index.js post /reset/verify, inserted data:",
         email,
         code,
-        password
+        password,
+        confirmPassword
     );
 
-    if (code && password) {
-        db.getSecretCode(email)
-            .then((databaseCode) => {
-                console.log(
-                    "result getSecretCode in index.js post reset/verify:",
-                    databaseCode
-                );
-
-                if (code == databaseCode) {
-                    hash(password)
-                        .then((hashedPw) => {
-                            console.log(
-                                "password hashed in index.js post reset/verify getSecretCode:",
-                                hashedPw
-                            );
-                            db.updatePassword(email, hashedPw)
-                                .then(() => {
-                                    // req.session.userId = resultId;
-                                    res.json({ success: true });
-                                    console.log(
-                                        "index.js /reset/verify updatePassword, comparing codes successful, new password in db, now step 3"
-                                    );
-                                })
-                                .catch((err) => {
-                                    console.log(
-                                        "CATCH in index.js /reset/verify updatePassword, comparing codes successful, but update didn't work"
-                                    );
-                                    res.json({ success: false, error: true });
-                                });
-                        })
-                        .catch((err) => {
-                            console.log(
-                                "CATCH in index.js /reset/verify hash(password)",
-                                err
-                            );
-                        });
-                } else {
+    if (code && password && confirmPassword) {
+        if (password != confirmPassword) {
+            res.json({ success: false, errorConfirmPassword: true });
+            console.log("index.js, second password does not match first");
+        } else
+            db.getSecretCode(email)
+                .then((databaseCode) => {
                     console.log(
-                        "index.js /reset/verify, else in comparing codes NOT successful"
+                        "result getSecretCode in index.js post reset/verify:",
+                        databaseCode
                     );
-                    res.json({
-                        success: false,
-                        falseCode: true,
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(
-                    "CATCH in index.js /reset/verify getSecretCode:",
-                    err
-                );
-                res.json({ success: false, error: true });
-            });
+
+                    if (code == databaseCode) {
+                        hash(password)
+                            .then((hashedPw) => {
+                                console.log(
+                                    "password hashed in index.js post reset/verify getSecretCode:",
+                                    hashedPw
+                                );
+                                db.updatePassword(email, hashedPw)
+                                    .then(() => {
+                                        // req.session.userId = resultId;
+                                        res.json({ success: true });
+                                        console.log(
+                                            "index.js /reset/verify updatePassword, comparing codes successful, new password in db, now step 3"
+                                        );
+                                    })
+                                    .catch((err) => {
+                                        console.log(
+                                            "CATCH in index.js /reset/verify updatePassword, comparing codes successful, but update didn't work"
+                                        );
+                                        res.json({
+                                            success: false,
+                                            error: true,
+                                        });
+                                    });
+                            })
+                            .catch((err) => {
+                                console.log(
+                                    "CATCH in index.js /reset/verify hash(password)",
+                                    err
+                                );
+                            });
+                    } else {
+                        console.log(
+                            "index.js /reset/verify, else in comparing codes NOT successful"
+                        );
+                        res.json({
+                            success: false,
+                            falseCode: true,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log(
+                        "CATCH in index.js /reset/verify getSecretCode:",
+                        err
+                    );
+                    res.json({ success: false, error: true });
+                });
+    } else if (!code) {
+        res.json({ success: false, falseCode: true });
+        console.log("index.js /reset/verify, falseCode");
     } else {
         res.json({ success: false, error: true });
         console.log(

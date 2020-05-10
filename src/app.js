@@ -75,7 +75,7 @@ export default class App extends React.Component {
                                 <Logo />
                             </div>
 
-                            <h1>Kite Inc.</h1>
+                            <h1>Kite.Inc</h1>
 
                             <div>
                                 <Navbar />

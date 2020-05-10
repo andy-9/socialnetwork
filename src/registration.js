@@ -61,30 +61,9 @@ export default class Registration extends React.Component {
                     error: true,
                 });
             }
-            // } else {
-            //     console.log();
-            //     this.setState({
-            //         errorConfirmPassword: true,
-            //     });
-            // }
-            // } else {
-            //     console.log("registration.js, no success in /register");
-            //     this.setState({
-            //         error: true,
-            //     });
-            //     this.setState({
-            //         errorConfirmPassword: true,
-            //     });
-            //     // } else {
-            //     //     console.log("registration.js, 2 passwords do not match in /register");
-            //     //     this.setState({
-            //     //         errorConfirmPassword: true,
-            //     //     });
-            // }
         });
     }
 
-    // {/* <img src="/logo.png" alt="logo" /> */}
     render() {
         return (
             <div className="register-container">
@@ -150,10 +129,6 @@ export default class Registration extends React.Component {
                             className="icon"
                             name="checkmark-done-sharp"
                         ></ion-icon>
-                        {/* <ion-icon
-                            className="icon"
-                            name="lock-closed-sharp"
-                        ></ion-icon> */}
                         <input
                             name="confirmPassword"
                             type="password"

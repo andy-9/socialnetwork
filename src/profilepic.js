@@ -3,7 +3,7 @@ import React from "react";
 export default function ProfilePic({
     first,
     last,
-    img_url = "/default.svg",
+    img_url = "default.svg",
     toggleModal,
 }) {
     // console.log(
@@ -14,7 +14,7 @@ export default function ProfilePic({
     //     toggleModal
     // );
 
-    // let url = img_url || "default.svg";
+    img_url = img_url || "default.svg";
 
     return (
         <div className="profilepic" onClick={toggleModal}>

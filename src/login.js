@@ -60,6 +60,8 @@ export default class Login extends React.Component {
     render() {
         return (
             <div className="login-container">
+                <h2>Login</h2>
+
                 {this.state.error && (
                     <h5>
                         Something went wrong. Please use the email-address you
