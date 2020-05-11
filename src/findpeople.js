@@ -53,7 +53,7 @@ export default function FindPeople() {
             <input
                 onChange={(e) => {
                     // setFind(e.target.value);
-                    setUser(e.target.value);
+                    setFind(e.target.value);
                     setJustJoined(false);
                 }}
                 placeholder="Enter Name"
