@@ -12,9 +12,9 @@ export default function Welcome() {
         <div>
             <h1>Kite.Inc</h1>
             <LogoNoText />
-            <Navbar />
             <HashRouter>
                 <div>
+                    <Navbar />
                     <Route exact path="/" component={Registration} />
                     <Route path="/login" component={Login} />
                     <Route path="/reset" component={ResetPassword} />

@@ -4,13 +4,14 @@ import Navbar from "./navbar";
 import ProfilePic from "./profilepic";
 
 export default function Presentational({ first, last, img_url, toggleModal }) {
-    console.log(
-        "presentational.js, arguments in Presentational():",
-        first,
-        last,
-        img_url,
-        toggleModal
-    );
+    // console.log(
+    //     "presentational.js, arguments in Presentational():",
+    //     first,
+    //     last,
+    //     img_url,
+    //     toggleModal
+    // );
+
     return (
         <div className="header">
             <Logo />

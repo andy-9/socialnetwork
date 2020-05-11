@@ -418,25 +418,48 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
-//////////////////////// USER-ID / OTHER USER ////////////////////////
+//////////////////////// FIND PEOPLE ////////////////////////
 
-app.get("/users", (req, res) => {
-    console.log("index.js, get /api/users running");
-    console.log("index.js, get /api/users, req.params:", req.params);
+app.get("/api/users", (req, res) => {
+    console.log("index.js, get /users running");
 
-    db.getRecentUsers()
-        .then((lastThree) => {
+    db.getRecentUsers(req.session.userId)
+        .then((data) => {
             console.log(
                 "result getRecentUsers in index.js get /api/users:",
-                lastThree
+                data
             );
-            res.json({ lastThree });
+            res.json(data);
         })
         .catch((err) => {
             console.log("CATCH in index.js /api/users getRecentUsers", err);
-            // res.json({ isLoggedInUser: true });
+            // res.json({ error: true });
         });
 });
+
+app.get("/search-users/:find", (req, res) => {
+    console.log("index.js, get /search-users/:id running");
+    console.log(
+        "index.js, get /search-users/:id, req.params.find:",
+        req.params.find
+    );
+    let val = req.params.find;
+
+    db.getMatchingUsers(val)
+        .then((matchResult) => {
+            console.log(
+                "result getRecentUsers in index.js get /api/users:",
+                matchResult
+            );
+            res.json(matchResult);
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js /api/users getRecentUsers", err);
+            // res.json({ error: true });
+        });
+});
+
+//////////////////////// OTHER PROFILES ////////////////////////
 
 // needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {

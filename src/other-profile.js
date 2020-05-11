@@ -25,7 +25,7 @@ class OtherProfile extends Component {
                     this.setState({
                         first: data.otherUserInfo.first,
                         last: data.otherUserInfo.last,
-                        img_url: data.otherUserInfo.img_url,
+                        img_url: data.otherUserInfo.img_url || "/default.svg",
                         bio: data.otherUserInfo.bio,
                     });
                 }

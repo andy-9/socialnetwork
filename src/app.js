@@ -105,7 +105,6 @@ export default class App extends React.Component {
                         />
 
                         <Route
-                            exact
                             path="/user/:id"
                             render={(props) => (
                                 <OtherProfile
@@ -115,11 +114,7 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
-                        <Route
-                            exact
-                            path="/users"
-                            render={() => <FindPeople />}
-                        />
+                        <Route path="/users" render={() => <FindPeople />} />
                     </div>
                 </BrowserRouter>
             </div>

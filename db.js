@@ -135,14 +135,16 @@ module.exports.updatePassword = (email, password) => {
 
 ////////////////////////// FIND PEOPLE //////////////////////////
 
-module.exports.getRecentUsers = () => {
+module.exports.getRecentUsers = (id) => {
     return db
         .query(
             `
             SELECT *
             FROM users
+            WHERE id != $1
             ORDER BY id
-            DESC LIMIT 3`
+            DESC LIMIT 3`,
+            [id]
         )
         .then((result) => {
             console.log("db.js, getRecentUsers, result:", result.rows);
@@ -156,15 +158,16 @@ module.exports.getRecentUsers = () => {
 module.exports.getMatchingUsers = (val) => {
     return db
         .query(
-            `SELECT first
+            `SELECT *
             FROM users
             WHERE first
-            ILIKE $1;`,
+            ILIKE $1
+            ORDER BY first;`,
             [val + "%"]
         )
         .then((result) => {
-            console.log("db.js, getMatchingUsers, result:", result);
-            return result;
+            console.log("db.js, getMatchingUsers, result.rows:", result.rows);
+            return result.rows;
         })
         .catch((err) => {
             console.log("CATCH in db.js in getMatchingUsers:", err);
