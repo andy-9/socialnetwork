@@ -6,15 +6,15 @@ export default function ProfilePic({
     img_url = "default.svg",
     toggleModal,
 }) {
-    // console.log(
-    //     "profilePic.js, arguments in ProfilePic():",
-    //     fisrst,
-    //     last,
-    //     img_url,
-    //     toggleModal
-    // );
+    console.log(
+        "profilePic.js, arguments in ProfilePic():",
+        first,
+        last,
+        img_url,
+        toggleModal
+    );
 
-    img_url = img_url || "default.svg";
+    // img_url = img_url || "default.svg";
 
     return (
         <div className="profilepic" onClick={toggleModal}>

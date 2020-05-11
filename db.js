@@ -121,10 +121,52 @@ module.exports.getSecretCode = (email) => {
 };
 
 module.exports.updatePassword = (email, password) => {
-    return db.query(
-        `UPDATE users
-        SET password = $2
-        WHERE email = $1;`,
-        [email, password]
-    );
+    return db
+        .query(
+            `UPDATE users
+            SET password = $2
+            WHERE email = $1;`,
+            [email, password]
+        )
+        .catch((err) => {
+            console.log("CATCH in db.js in updatePassword:", err);
+        });
+};
+
+////////////////////////// FIND PEOPLE //////////////////////////
+
+module.exports.getRecentUsers = () => {
+    return db
+        .query(
+            `
+            SELECT *
+            FROM users
+            ORDER BY id
+            DESC LIMIT 3`
+        )
+        .then((result) => {
+            console.log("db.js, getRecentUsers, result:", result.rows);
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getRecentUsers:", err);
+        });
+};
+
+module.exports.getMatchingUsers = (val) => {
+    return db
+        .query(
+            `SELECT first
+            FROM users
+            WHERE first
+            ILIKE $1;`,
+            [val + "%"]
+        )
+        .then((result) => {
+            console.log("db.js, getMatchingUsers, result:", result);
+            return result;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getMatchingUsers:", err);
+        });
 };

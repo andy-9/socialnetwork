@@ -2,16 +2,18 @@ import React from "React";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-    return <p>{<a href="/logout">Logout</a>}</p>;
+    return (
+        <div className="navbar-container">
+            <p>{<a href="/logout">Logout</a>}</p>
+            <p>
+                <Link to="/users">Find People</Link>
+            </p>
+        </div>
+    );
 }
 
-{
-    /* <Link to="/logout">Logout</Link>; */
-}
-
+// My Profile
 // Chat
 // Online
 // Friends
-// Find People
-// Logout
 // (Search icon) <ion-icon name="search-sharp"></ion-icon>

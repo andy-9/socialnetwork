@@ -19,7 +19,7 @@
 }
 
 main {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 50px);
     /* min-height: 100%; */
 }
 
@@ -75,6 +75,14 @@ h5 {
     text-align: center;
 }
 
+/* ////////////////////// HEADER ////////////////////// */
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 /* ////////////////////// LOGO ////////////////////// */
 
 .logo-big {
@@ -87,6 +95,14 @@ h5 {
 .logo-small {
     height: 100px;
     margin-right: 100px;
+}
+
+/* ////////////////////// NAVBAR ////////////////////// */
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 /* ////////////////////// REGISTER ////////////////////// */
@@ -366,7 +382,6 @@ footer {
     height: 50px;
     background-color: grey;
     margin-top: 50px;
-    /* bottom: 0; */
 }
 
 #copyright {

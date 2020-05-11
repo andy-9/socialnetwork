@@ -10,7 +10,7 @@ import { HashRouter, Route } from "react-router-dom";
 export default function Welcome() {
     return (
         <div>
-            <h1>Kiters Against Sexism</h1>
+            <h1>Kite.Inc</h1>
             <LogoNoText />
             <Navbar />
             <HashRouter>

@@ -420,6 +420,24 @@ app.post("/password/reset/verify", (req, res) => {
 
 //////////////////////// USER-ID / OTHER USER ////////////////////////
 
+app.get("/users", (req, res) => {
+    console.log("index.js, get /api/users running");
+    console.log("index.js, get /api/users, req.params:", req.params);
+
+    db.getRecentUsers()
+        .then((lastThree) => {
+            console.log(
+                "result getRecentUsers in index.js get /api/users:",
+                lastThree
+            );
+            res.json({ lastThree });
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js /api/users getRecentUsers", err);
+            // res.json({ isLoggedInUser: true });
+        });
+});
+
 // needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {
     // console.log("index.js, get /api/user/:id running");
