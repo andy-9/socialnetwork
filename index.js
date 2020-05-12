@@ -433,7 +433,6 @@ app.get("/api/users", (req, res) => {
         })
         .catch((err) => {
             console.log("CATCH in index.js /api/users getRecentUsers", err);
-            // res.json({ error: true });
         });
 });
 
@@ -444,18 +443,36 @@ app.get("/search-users/:find", (req, res) => {
     //     req.params.find
     // );
     let val = req.params.find;
+    let arr = [];
 
-    db.getMatchingUsers(val)
-        .then((matchResult) => {
+    db.getMatchingUsersFirst(val)
+        .then((matchResultsFirst) => {
             // console.log(
-            //     "result getRecentUsers in index.js get /api/users:",
-            //     matchResult
+            //     "index.js, result getMatchingUsersFirst in get /search-users/:find",
+            //     matchResultsFirst
             // );
-            res.json(matchResult);
+            console.log("IMPORTANT 1:", matchResultsFirst);
+            matchResultsFirst.map((first) => arr.push(first));
+            console.log("IMPORTANT 2:", arr);
+        })
+        .then(() => {
+            return db.getMatchingUsersLast(val);
+        })
+        .then((matchResultsLast) => {
+            // console.log(
+            //     "index.js, result getMatchingUsersLast in get /search-users/:find",
+            //     matchResultsLast
+            // );
+            console.log("IMPORTANT 3:", matchResultsLast);
+            matchResultsLast.map((last) => arr.push(last));
+            // console.log(
+            //     "index.js, array getMatchingUsers in get /search-users/:find",
+            //     arr
+            // );
+            res.json(arr);
         })
         .catch((err) => {
-            console.log("CATCH in index.js /api/users getRecentUsers", err);
-            // res.json({ error: true });
+            console.log("CATCH in index.js /api/users getMatchingUsers", err);
         });
 });
 

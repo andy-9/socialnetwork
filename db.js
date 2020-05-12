@@ -147,7 +147,7 @@ module.exports.getRecentUsers = (id) => {
             [id]
         )
         .then((result) => {
-            console.log("db.js, getRecentUsers, result:", result.rows);
+            // console.log("db.js, getRecentUsers, result:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -155,7 +155,7 @@ module.exports.getRecentUsers = (id) => {
         });
 };
 
-module.exports.getMatchingUsers = (val) => {
+module.exports.getMatchingUsersFirst = (val) => {
     return db
         .query(
             `SELECT *
@@ -166,11 +166,36 @@ module.exports.getMatchingUsers = (val) => {
             [val + "%"]
         )
         .then((result) => {
-            console.log("db.js, getMatchingUsers, result.rows:", result.rows);
+            // console.log(
+            //     "db.js, getMatchingUsersFirst, result.rows:",
+            //     result.rows
+            // );
             return result.rows;
         })
         .catch((err) => {
-            console.log("CATCH in db.js in getMatchingUsers:", err);
+            console.log("CATCH in db.js in getMatchingUsersFirst:", err);
+        });
+};
+
+module.exports.getMatchingUsersLast = (val) => {
+    return db
+        .query(
+            `SELECT *
+            FROM users
+            WHERE last
+            ILIKE $1
+            ORDER BY last`,
+            [val + "%"]
+        )
+        .then((result) => {
+            // console.log(
+            //     "db.js, getMatchingUsersLast, result.rows:",
+            //     result.rows
+            // );
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getMatchingUsersLast:", err);
         });
 };
 
@@ -185,7 +210,7 @@ module.exports.areUsersFriends = (receiver_id, sender_id) => {
             [sender_id, receiver_id]
         )
         .then((result) => {
-            console.log("db.js, areUsersFriends, result.rows:", result.rows);
+            // console.log("db.js, areUsersFriends, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -202,7 +227,7 @@ module.exports.friendshipRequest = (sender_id, receiver_id) => {
             [sender_id, receiver_id]
         )
         .then((result) => {
-            console.log("db.js, areUsersFriends, result.rows:", result.rows);
+            // console.log("db.js, areUsersFriends, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -254,7 +279,7 @@ module.exports.deleteFriendship = (id) => {
             [id]
         )
         .then((result) => {
-            console.log("db.js, deleteFriendship, result.rows:", result.rows);
+            // console.log("db.js, deleteFriendship, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {

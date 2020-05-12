@@ -55,11 +55,15 @@ export default function FindPeople() {
             <div>
                 {users.map((each) => (
                     <Link to={`/user/${each.id}`} key={each.id}>
-                        <ProfilePic
+                        <img
+                            src={each.img_url || "/default.svg"}
+                            alt={`${each.first} ${each.last}`}
+                        />
+                        {/* <ProfilePic
                             first={each.first}
                             last={each.last}
                             imageUrl={each.img_url}
-                        />
+                        /> */}
                         {each.first} {each.last}
                     </Link>
                 ))}
