@@ -14,7 +14,7 @@ export default function ProfilePic({
     //     toggleModal
     // );
 
-    // img_url = img_url || "/default.svg";
+    img_url = img_url || "/default.svg";
 
     return (
         <div className="profilepic" onClick={toggleModal}>

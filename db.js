@@ -173,3 +173,22 @@ module.exports.getMatchingUsers = (val) => {
             console.log("CATCH in db.js in getMatchingUsers:", err);
         });
 };
+
+////////////////////////// FRIENDSHIP  //////////////////////////
+
+module.exports.areUsersFriends = (sender_id, receiver_id) => {
+    return db
+        .query(
+            `SELECT * FROM friendships
+            WHERE (receiver_id = $1 AND sender_id = $2)
+            OR (receiver_id = $2 AND sender_id = $1)`,
+            [sender_id, receiver_id]
+        )
+        .then((result) => {
+            console.log("db.js, areUsersFriends, result.rows:", result.rows);
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in areUsersFriends:", err);
+        });
+};

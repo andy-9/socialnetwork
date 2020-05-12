@@ -9,29 +9,36 @@ export default function FindPeople() {
     const [justJoined, setJustJoined] = useState(true);
 
     useEffect(() => {
-        // console.log("findpeople.js, useEffect runs");
-        // console.log("findpeople.js, find:", find);
-        // console.log("findpeople.js, find 2:", `/search-users/${find}`);
+        console.log("findpeople.js, useEffect for /api/users runs");
+        let abort;
+        (async () => {
+            const { data } = await axios.get("/api/users");
+            console.log("findpeople.js, data from /api/users:", data);
+            if (!abort) {
+                setUsers(data);
+            }
+        })();
+        return () => {
+            abort = true;
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log("findpeople.js, useEffect for /search-users/:find runs");
+        console.log("find:", find);
+        console.log("find 2:", `/search-users/${find}`);
 
         let abort;
 
         (async () => {
             if (!find) {
-                const { data } = await axios.get("/api/users");
-                // console.log("findpeople.js, data from /api/users:", data);
-                if (!abort) {
-                    setUsers(data);
-                }
                 setJustJoined(true);
-            } else {
-                const { data } = await axios.get(`/search-users/${find}`);
-                // console.log(
-                //     "findpeople.js, data from /search-users/:find:",
-                //     data
-                // );
-                if (!abort) {
-                    setUsers(data);
-                }
+                return;
+            }
+            const { data } = await axios.get(`/search-users/${find}`);
+            console.log("findpeople.js, data from /search-users/:find:", data);
+            if (!abort) {
+                setUsers(data);
             }
         })();
 

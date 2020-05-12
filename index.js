@@ -421,14 +421,14 @@ app.post("/password/reset/verify", (req, res) => {
 //////////////////////// FIND PEOPLE ////////////////////////
 
 app.get("/api/users", (req, res) => {
-    console.log("index.js, get /users running");
+    // console.log("index.js, get /users running");
 
     db.getRecentUsers(req.session.userId)
         .then((data) => {
-            console.log(
-                "result getRecentUsers in index.js get /api/users:",
-                data
-            );
+            // console.log(
+            //     "result getRecentUsers in index.js get /api/users:",
+            //     data
+            // );
             res.json(data);
         })
         .catch((err) => {
@@ -438,19 +438,19 @@ app.get("/api/users", (req, res) => {
 });
 
 app.get("/search-users/:find", (req, res) => {
-    console.log("index.js, get /search-users/:id running");
-    console.log(
-        "index.js, get /search-users/:id, req.params.find:",
-        req.params.find
-    );
+    // console.log("index.js, get /search-users/:id running");
+    // console.log(
+    //     "index.js, get /search-users/:id, req.params.find:",
+    //     req.params.find
+    // );
     let val = req.params.find;
 
     db.getMatchingUsers(val)
         .then((matchResult) => {
-            console.log(
-                "result getRecentUsers in index.js get /api/users:",
-                matchResult
-            );
+            // console.log(
+            //     "result getRecentUsers in index.js get /api/users:",
+            //     matchResult
+            // );
             res.json(matchResult);
         })
         .catch((err) => {
@@ -461,7 +461,6 @@ app.get("/search-users/:find", (req, res) => {
 
 //////////////////////// OTHER PROFILES ////////////////////////
 
-// needs to be different to my naming in app.js, add 'api/
 app.get("/api/user/:id", (req, res) => {
     // console.log("index.js, get /api/user/:id running");
     // console.log("req.params.id:", req.params.id);
@@ -485,6 +484,25 @@ app.get("/api/user/:id", (req, res) => {
             console.log("CATCH in index.js /api/user/:id getUserInfo", err);
             res.json({ isLoggedInUser: true });
         });
+});
+
+//////////////////////// FRIENDSHIP ////////////////////////
+
+app.get("/friendshipstatus/:otherUserId", (req, res) => {
+    console.log("index.js, get /friendshipstatus/otherUserId running");
+    console.log("index.js, req.session.userId:", req.session.userId);
+    const sender_id = req.session.userId;
+    console.log("index.js, otherUserId", otherUserId);
+    console.log("index.js, req.params:", req.params);
+    const receiver_id = req.params;
+
+    // db.areUsersFriends = (sender_id, receiver_id)
+
+    // SERVER SENDS:
+    // res.json({buttonText: "Make friend request"}) // INSERT row in database
+    // res.json({buttonText: "Cancel friend request"}) // DELETE row in database
+    // res.json({buttonText: "Accept friend request"}) // UPDATE row in database // change status of friendship from false to true
+    // res.json({buttonText: "End friend request"}) // DELETE row in database
 });
 
 //////////////////////// LOGOUT ////////////////////////

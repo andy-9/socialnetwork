@@ -66,7 +66,7 @@ export default class App extends React.Component {
         }
 
         return (
-            <div>
+            <div id="whole-screen">
                 <BrowserRouter>
                     <div className="logo-heading">
                         <div>

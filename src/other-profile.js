@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "./axios";
+import FriendShipButton from "./friend-button";
 
 class OtherProfile extends Component {
     constructor(props) {
@@ -53,6 +54,9 @@ class OtherProfile extends Component {
                             {this.state.first} {this.state.last}
                         </h3>
                         <p className="bio-text">{this.state.bio}</p>
+                        <FriendShipButton
+                            otherUserId={this.props.match.params.id}
+                        />
                     </div>
                 </div>
             </Fragment>
