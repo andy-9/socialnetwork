@@ -490,20 +490,114 @@ app.get("/api/user/:id", (req, res) => {
 
 app.get("/friendshipstatus/:otherUserId", (req, res) => {
     console.log("index.js, get /friendshipstatus/otherUserId running");
-    console.log("index.js, req.session.userId:", req.session.userId);
+    console.log(
+        "index.js, get /friendshipstatus/otherUserId req.params.otherUserId:",
+        req.params.otherUserId
+    );
+    const receiver_id = req.params.otherUserId;
+    console.log(
+        "index.js, get /friendshipstatus/otherUserId req.session.userId:",
+        req.session.userId
+    );
     const sender_id = req.session.userId;
-    console.log("index.js, otherUserId", otherUserId);
-    console.log("index.js, req.params:", req.params);
-    const receiver_id = req.params;
 
-    // db.areUsersFriends = (sender_id, receiver_id)
+    db.areUsersFriends(receiver_id, sender_id)
+        .then((result) => {
+            console.log("result areUsersFriends in index.js:", result);
 
-    // SERVER SENDS:
-    // res.json({buttonText: "Make friend request"}) // INSERT row in database
-    // res.json({buttonText: "Cancel friend request"}) // DELETE row in database
-    // res.json({buttonText: "Accept friend request"}) // UPDATE row in database // change status of friendship from false to true
-    // res.json({buttonText: "End friend request"}) // DELETE row in database
+            if (result == 0) {
+                console.log(
+                    "index.js, areUsersFriends, they are no friends, 'send friend request'"
+                );
+                res.json({ buttonText: "Send Friend Request" });
+            } else if (result[0].accepted == true) {
+                console.log(
+                    "index.js, areUsersFriends, they are friends, 'cancel friendship'"
+                );
+                res.json({ buttonText: "Cancel Friendship" });
+            } else if (
+                // result.accepted == false &&
+                result[0].sender_id == req.session.userId
+            ) {
+                console.log(
+                    "index.js, areUsersFriends, friendship request was sent, 'cancel friend request'"
+                );
+                res.json({ buttonText: "Cancel Friend Request" });
+            } else {
+                console.log(
+                    "index.js, areUsersFriends, friendship was requested by someone else, 'accept friend request'"
+                );
+                res.json({ buttonText: "Accept Friend Request" });
+            }
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js areUsersFriends", err);
+        });
 });
+
+app.post("/send-friend-request/:otherUserId", (req, res) => {
+    console.log("index.js, post /send-friend-request/:userId running");
+    console.log(
+        "index.js, post /send-friend-request/:userId, req.session.userId:",
+        req.session.userId
+    );
+    const sender_id = req.session.userId;
+    console.log(
+        "index.js, post /send-friend-request/:userId, req.params.otherUserId:",
+        req.params.otherUserId
+    );
+    const receiver_id = req.params.otherUserId;
+    console.log(
+        "index.js, post /send-friend-request/:otherUserId, req.body:",
+        req.body
+    );
+
+    if (req.body.bt == "Send Friend Request") {
+        db.friendshipRequest(sender_id, receiver_id)
+            .then((result) => {
+                console.log(
+                    "index.js, data inserted - new row, result friendshipRequest in post /send-friend-request/:otherUserId:",
+                    result
+                );
+                res.json({ buttonText: "Cancel Friend Request" });
+            })
+            .catch((err) => {
+                console.log("CATCH in index.js friendshipRequest", err);
+            });
+    } else if (req.body.bt == "Accept Friend Request") {
+        console.log("index.js, IMPORTANT receiver_id:", receiver_id);
+        console.log("index.js, IMPORTANT sender_id:", sender_id);
+        db.acceptFriendship(receiver_id, sender_id)
+            .then((result) => {
+                console.log(
+                    "index.js acceptFriendship, friendship accepted in /send-friend-request/:otherUserId, result:",
+                    result
+                );
+                res.json({ buttonText: "Cancel Friendship" });
+            })
+            .catch((err) => {
+                console.log("CATCH in index.js friendshipRequest", err);
+            });
+    } else {
+        db.deleteFriendship(sender_id)
+            .then((result) => {
+                console.log(
+                    "index.js, deleteFriendship in /send-friend-request/:otherUserId, friendship & db-row deleted:",
+                    result
+                );
+                res.json({ buttonText: "Send Friend Request" });
+            })
+            .catch((err) => {
+                console.log("CATCH in index.js deleteFriendship", err);
+            });
+    }
+});
+
+// SERVER SENDS:
+// res.json({buttonText: "Make friend request"}) // INSERT row in database
+// res.json({buttonText: "Cancel friend request"}) // DELETE row in database
+// res.json({buttonText: "Accept friend request"}) // UPDATE row in database // change status of friendship from false to true
+// res.json({buttonText: "End friend request"}) // DELETE row in database
 
 //////////////////////// LOGOUT ////////////////////////
 app.get("/logout", (req, res) => {

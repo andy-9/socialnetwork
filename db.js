@@ -176,7 +176,7 @@ module.exports.getMatchingUsers = (val) => {
 
 ////////////////////////// FRIENDSHIP  //////////////////////////
 
-module.exports.areUsersFriends = (sender_id, receiver_id) => {
+module.exports.areUsersFriends = (receiver_id, sender_id) => {
     return db
         .query(
             `SELECT * FROM friendships
@@ -190,5 +190,74 @@ module.exports.areUsersFriends = (sender_id, receiver_id) => {
         })
         .catch((err) => {
             console.log("CATCH in db.js in areUsersFriends:", err);
+        });
+};
+
+module.exports.friendshipRequest = (sender_id, receiver_id) => {
+    return db
+        .query(
+            `INSERT INTO friendships (sender_id, receiver_id)
+            VALUES ($1, $2)
+            RETURNING *`,
+            [sender_id, receiver_id]
+        )
+        .then((result) => {
+            console.log("db.js, areUsersFriends, result.rows:", result.rows);
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in areUsersFriends:", err);
+        });
+};
+
+module.exports.acceptFriendship = (receiver_id, sender_id) => {
+    return db
+        .query(
+            `UPDATE friendships SET accepted = TRUE
+        WHERE (receiver_id = $1 AND sender_id = $2)
+        OR (receiver_id = $2 AND sender_id = $1);`,
+            [receiver_id, sender_id]
+        )
+        .then((result) => {
+            console.log("db.js, acceptFriendship, result.rows:", result.rows);
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in acceptFriendship:", err);
+        });
+};
+
+// module.exports.acceptFriendship = (receiver_id) => {
+//     return db
+//         .query(
+//             `UPDATE friendships
+//             SET accepted = TRUE
+//             WHERE receiver_id = $1
+//             RETURNING *`,
+//             [receiver_id]
+//         )
+//         .then((result) => {
+//             console.log("db.js, acceptFriendship, result.rows:", result.rows);
+//             return result.rows;
+//         })
+//         .catch((err) => {
+//             console.log("CATCH in db.js in acceptFriendship:", err);
+//         });
+// };
+
+module.exports.deleteFriendship = (id) => {
+    return db
+        .query(
+            `DELETE FROM friendships
+            WHERE sender_id = $1
+            OR receiver_id = $1`,
+            [id]
+        )
+        .then((result) => {
+            console.log("db.js, deleteFriendship, result.rows:", result.rows);
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in deleteFriendship:", err);
         });
 };
