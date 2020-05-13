@@ -14,7 +14,6 @@ export default function Welcome() {
             <LogoNoText />
             <HashRouter>
                 <div>
-                    <Navbar />
                     <Route exact path="/" component={Registration} />
                     <Route path="/login" component={Login} />
                     <Route path="/reset" component={ResetPassword} />
