@@ -182,8 +182,8 @@ module.exports.getMatchingUsersLast = (val) => {
         .query(
             `SELECT *
             FROM users
-            WHERE last
-            ILIKE $1
+            WHERE (last ILIKE $1
+            AND last ILIKE $1 <> first ILIKE $1)
             ORDER BY last`,
             [val + "%"]
         )
@@ -238,9 +238,11 @@ module.exports.friendshipRequest = (sender_id, receiver_id) => {
 module.exports.acceptFriendship = (receiver_id, sender_id) => {
     return db
         .query(
-            `UPDATE friendships SET accepted = TRUE
-        WHERE (receiver_id = $1 AND sender_id = $2)
-        OR (receiver_id = $2 AND sender_id = $1);`,
+            `UPDATE friendships
+            SET accepted = TRUE
+            WHERE (receiver_id = $1 AND sender_id = $2)
+            OR (receiver_id = $2 AND sender_id = $1)
+            RETURNING *;`,
             [receiver_id, sender_id]
         )
         .then((result) => {
@@ -270,13 +272,13 @@ module.exports.acceptFriendship = (receiver_id, sender_id) => {
 //         });
 // };
 
-module.exports.deleteFriendship = (id) => {
+module.exports.deleteFriendship = (receiver_id, sender_id) => {
     return db
         .query(
             `DELETE FROM friendships
-            WHERE sender_id = $1
-            OR receiver_id = $1`,
-            [id]
+            WHERE (receiver_id = $1 AND sender_id = $2)
+            OR (receiver_id = $2 AND sender_id = $1);`,
+            [receiver_id, sender_id]
         )
         .then((result) => {
             // console.log("db.js, deleteFriendship, result.rows:", result.rows);

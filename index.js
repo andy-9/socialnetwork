@@ -596,7 +596,7 @@ app.post("/send-friend-request/:otherUserId", (req, res) => {
                 console.log("CATCH in index.js friendshipRequest", err);
             });
     } else {
-        db.deleteFriendship(sender_id)
+        db.deleteFriendship(receiver_id, sender_id)
             .then((result) => {
                 console.log(
                     "index.js, deleteFriendship in /send-friend-request/:otherUserId, friendship & db-row deleted:",
