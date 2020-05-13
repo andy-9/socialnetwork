@@ -246,31 +246,16 @@ module.exports.acceptFriendship = (receiver_id, sender_id) => {
             [receiver_id, sender_id]
         )
         .then((result) => {
-            console.log("db.js, acceptFriendship, result.rows:", result.rows);
-            return result.rows;
+            // console.log(
+            //     "db.js, acceptFriendship, result.rows[0]:",
+            //     result.rows[0]
+            // );
+            return result.rows[0];
         })
         .catch((err) => {
             console.log("CATCH in db.js in acceptFriendship:", err);
         });
 };
-
-// module.exports.acceptFriendship = (receiver_id) => {
-//     return db
-//         .query(
-//             `UPDATE friendships
-//             SET accepted = TRUE
-//             WHERE receiver_id = $1
-//             RETURNING *`,
-//             [receiver_id]
-//         )
-//         .then((result) => {
-//             console.log("db.js, acceptFriendship, result.rows:", result.rows);
-//             return result.rows;
-//         })
-//         .catch((err) => {
-//             console.log("CATCH in db.js in acceptFriendship:", err);
-//         });
-// };
 
 module.exports.deleteFriendship = (receiver_id, sender_id) => {
     return db

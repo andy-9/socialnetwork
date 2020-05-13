@@ -73,8 +73,8 @@ export default class BioEditor extends React.Component {
                         defaultValue={this.props.bio}
                         onChange={(e) => this.handleChange(e)}
                         name="textarea"
-                        cols="50"
-                        rows="3"
+                        cols="60"
+                        rows="5"
                     ></textarea>
                     <div className="flexbox-buttons-bioeditor">
                         <button

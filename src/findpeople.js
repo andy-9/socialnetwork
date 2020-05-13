@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import ProfilePic from "./profilepic";
 
 export default function FindPeople() {
     const [users, setUsers] = useState([]);
@@ -41,33 +40,46 @@ export default function FindPeople() {
     }, [find]);
 
     return (
-        <div>
-            <h2>Find People</h2>
-            <input
-                onChange={(e) => {
-                    setFind(e.target.value);
-                    setJustJoined(false);
-                }}
-                placeholder="Enter Name"
-            />
-            {justJoined && <h4>Checkout who just joined</h4>}
-            {!justJoined && <h4>Search Results</h4>}
-            <div>
-                {users.map((each) => (
-                    <Link to={`/user/${each.id}`} key={each.id}>
-                        <img
-                            src={each.img_url || "/default.svg"}
-                            alt={`${each.first} ${each.last}`}
-                        />
-                        {/* <ProfilePic
-                            first={each.first}
-                            last={each.last}
-                            imageUrl={each.img_url}
-                        /> */}
-                        {each.first} {each.last}
-                    </Link>
-                ))}
-                {!users.length && <div>No results found</div>}
+        <div id="find-people-container">
+            <h2>Connect with your peers</h2>
+            <div id="find-people">
+                <div id="searchbar">
+                    <input
+                        className="input-findpeople"
+                        onChange={(e) => {
+                            setFind(e.target.value);
+                            setJustJoined(false);
+                        }}
+                        placeholder="Enter First or Last Name"
+                    />
+                    {justJoined && (
+                        <h3 className="searchbar-friends">
+                            Checkout who just joined:
+                        </h3>
+                    )}
+                    {!justJoined && <h3>Search Results</h3>}
+                </div>
+
+                <div id="peers">
+                    {users.map((each) => (
+                        <Link
+                            className="one-percent-right one-percent-bottom"
+                            to={`/user/${each.id}`}
+                            key={each.id}
+                        >
+                            <div className="pic-peers">
+                                <img
+                                    src={each.img_url || "/default.svg"}
+                                    alt={`${each.first} ${each.last}`}
+                                />
+                            </div>
+                            <div className="center">
+                                {each.first} {each.last}
+                            </div>
+                        </Link>
+                    ))}
+                    {!users.length && <p>No results found</p>}
+                </div>
             </div>
         </div>
     );

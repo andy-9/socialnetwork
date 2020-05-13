@@ -24,7 +24,7 @@ export default function Profile({
 
     return (
         <div className="profile">
-            <div className="pic-in-profile">
+            <div className="pic-for-profile">
                 <ProfilePic
                     first={first}
                     last={last}
@@ -32,11 +32,16 @@ export default function Profile({
                     toggleModal={toggleModal}
                 />
             </div>
-            <div>
+            <div className="text-for-profile">
                 <h3 className="profile-fullname">
                     {first} {last}
                 </h3>
-                <BioEditor id={id} bio={bio} updateBio={updateBio} />
+                <BioEditor
+                    className="bio-text"
+                    id={id}
+                    bio={bio}
+                    updateBio={updateBio}
+                />
             </div>
         </div>
     );

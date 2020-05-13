@@ -43,13 +43,13 @@ class OtherProfile extends Component {
         return (
             <Fragment>
                 <div className="profile">
-                    <div className="pic-in-profile">
+                    <div className="pic-for-profile">
                         <img
-                            src={this.state.img_url}
+                            src={this.state.img_url || "/default.svg"}
                             alt={`${this.state.first} ${this.state.last}`}
                         />
                     </div>
-                    <div>
+                    <div className="text-for-profile">
                         <h3 className="profile-fullname">
                             {this.state.first} {this.state.last}
                         </h3>
