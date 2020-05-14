@@ -16,7 +16,6 @@ module.exports.registerUser = (first, last, email, password) => {
             [first, last, email, password]
         )
         .then((result) => {
-            console.log("db.js, result of registerUser", result.rows[0].id);
             return result.rows[0].id;
         })
         .catch((err) => {
@@ -147,7 +146,6 @@ module.exports.getRecentUsers = (id) => {
             [id]
         )
         .then((result) => {
-            // console.log("db.js, getRecentUsers, result:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -166,10 +164,6 @@ module.exports.getMatchingUsersFirst = (val) => {
             [val + "%"]
         )
         .then((result) => {
-            // console.log(
-            //     "db.js, getMatchingUsersFirst, result.rows:",
-            //     result.rows
-            // );
             return result.rows;
         })
         .catch((err) => {
@@ -188,10 +182,6 @@ module.exports.getMatchingUsersLast = (val) => {
             [val + "%"]
         )
         .then((result) => {
-            // console.log(
-            //     "db.js, getMatchingUsersLast, result.rows:",
-            //     result.rows
-            // );
             return result.rows;
         })
         .catch((err) => {
@@ -199,7 +189,7 @@ module.exports.getMatchingUsersLast = (val) => {
         });
 };
 
-////////////////////////// FRIENDSHIP  //////////////////////////
+////////////////////////// FRIENDSHIP-ACTION //////////////////////////
 
 module.exports.areUsersFriends = (receiver_id, sender_id) => {
     return db
@@ -210,7 +200,6 @@ module.exports.areUsersFriends = (receiver_id, sender_id) => {
             [sender_id, receiver_id]
         )
         .then((result) => {
-            // console.log("db.js, areUsersFriends, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -227,7 +216,6 @@ module.exports.friendshipRequest = (sender_id, receiver_id) => {
             [sender_id, receiver_id]
         )
         .then((result) => {
-            // console.log("db.js, areUsersFriends, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
@@ -246,10 +234,6 @@ module.exports.acceptFriendship = (receiver_id, sender_id) => {
             [receiver_id, sender_id]
         )
         .then((result) => {
-            // console.log(
-            //     "db.js, acceptFriendship, result.rows[0]:",
-            //     result.rows[0]
-            // );
             return result.rows[0];
         })
         .catch((err) => {
@@ -266,10 +250,34 @@ module.exports.deleteFriendship = (receiver_id, sender_id) => {
             [receiver_id, sender_id]
         )
         .then((result) => {
-            // console.log("db.js, deleteFriendship, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
             console.log("CATCH in db.js in deleteFriendship:", err);
+        });
+};
+
+////////////////////////// FRIENDS-STATUS //////////////////////////
+
+module.exports.myFriendsAndWannabes = (id) => {
+    return db
+        .query(
+            `SELECT users.id, first, last, img_url, accepted
+            FROM friendships
+            JOIN users
+            ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+            OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+            OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)`,
+            [id]
+        )
+        .then((result) => {
+            console.log(
+                "db.js, myFriendsAndWannabes, result.rows:",
+                result.rows
+            );
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in myFriendsAndWannabes:", err);
         });
 };

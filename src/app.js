@@ -4,6 +4,7 @@ import Presentational from "./presentational";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import FindPeople from "./findpeople";
+import Friends from "./friends";
 import OtherProfile from "./other-profile";
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -105,6 +106,7 @@ export default class App extends React.Component {
                         />
 
                         <Route
+                            exact
                             path="/user/:id"
                             render={(props) => (
                                 <OtherProfile
@@ -114,7 +116,17 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
-                        <Route path="/users" render={() => <FindPeople />} />
+                        <Route
+                            exact
+                            path="/users"
+                            render={() => <FindPeople />}
+                        />
+
+                        <Route
+                            exact
+                            path="/friends"
+                            render={() => <Friends />}
+                        />
                     </div>
                 </BrowserRouter>
             </div>

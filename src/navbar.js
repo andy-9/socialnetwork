@@ -10,6 +10,15 @@ export default function Navbar() {
             </p>
 
             <p>
+                <ion-icon className="icon" name="heart-sharp"></ion-icon>
+                {/* <ion-icon
+                    className="icon"
+                    name="people-circle-sharp"
+                ></ion-icon> */}
+                <Link to="/friends">Friends</Link>
+            </p>
+
+            <p>
                 <ion-icon className="icon" name="person-sharp"></ion-icon>
                 <Link to="/">My Profile</Link>
             </p>
@@ -24,4 +33,3 @@ export default function Navbar() {
 
 // Chat
 // Online
-// Friends

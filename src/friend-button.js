@@ -38,7 +38,7 @@ export default function FriendShipButton({ otherUserId, first, last }) {
                     Send {first} {last} a friend request.
                 </p>
             )}
-            {buttonText == "Cancel Friendship" && (
+            {buttonText == "End Friendship" && (
                 <p>
                     You are friends with {first} {last}.
                 </p>

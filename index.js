@@ -9,7 +9,6 @@ const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 const s3 = require("./s3");
 const config = require("./config");
-// const helmet = require("helmet");
 
 ////////////////// IMAGE UPLOAD BOILERPLATE //////////////////
 
@@ -37,7 +36,6 @@ const uploader = multer({
 
 //////////////////////// MIDDLEWARE ////////////////////////
 app.use(compression());
-// app.use(helmet());
 app.use(express.json());
 app.use(express.static("./public"));
 
@@ -69,31 +67,17 @@ app.use(function (req, res, next) {
 //////////////////////// WELCOME ////////////////////////
 
 app.get("/welcome", (req, res) => {
-    // console.log("index.js, get /welcome");
     if (req.session.userId) {
         res.redirect("/");
-        // console.log("index.js get /welcome, has cookie, redirect to /");
     } else {
         res.sendFile(__dirname + "/index.html");
-        // console.log(
-        //     "index.js get /welcome, no cookie, sendFile to /index.html"
-        // );
     }
 });
 
 //////////////////////// REGISTER ////////////////////////
 
 app.post("/register", (req, res) => {
-    // console.log("index.js, post /register");
     let { first, last, email, password, confirmPassword } = req.body;
-    // console.log(
-    //     "index.js post /register, all inserted data:",
-    //     first,
-    //     last,
-    //     email,
-    //     password,
-    //     confirmPassword
-    // );
 
     if (password.length < 8) {
         res.json({ success: false, passwordTooShort: true });
@@ -104,20 +88,11 @@ app.post("/register", (req, res) => {
         } else
             hash(password)
                 .then((hashedPw) => {
-                    // console.log(
-                    //     "index.js, password hashed in /register:",
-                    //     hashedPw
-                    // );
                     return db.registerUser(first, last, email, hashedPw);
                 })
                 .then((resultId) => {
-                    // console.log("resultId:", resultId);
                     req.session.userId = resultId;
-                    // console.log("index.js, req.session:", req.session);
                     res.json({ success: true });
-                    // console.log(
-                    //     "registration successful, 4 input fields added to database, cookie 'userId' set, redirect to /"
-                    // );
                 })
                 .catch((err) => {
                     console.log("CATCH in index.js in post /register:", err);
@@ -132,17 +107,11 @@ app.post("/register", (req, res) => {
 //////////////////////// LOGIN ////////////////////////
 
 app.post("/login", (req, res) => {
-    // console.log("index.js, post /login");
     let { email, password } = req.body;
-    // console.log("index.js post /register, all inserted data:", email, password);
 
     if (email && password) {
         db.getHashByEmail(email)
             .then((result) => {
-                // console.log(
-                //     "result getHashByEmail in index.js in post /login:",
-                //     result
-                // ); // logs password & id in object
                 id = result.id;
                 return result.password;
             })
@@ -150,16 +119,11 @@ app.post("/login", (req, res) => {
                 return compare(password, hashedPw);
             })
             .then((matchValue) => {
-                // console.log("match value of compare:", matchValue); // true or false
                 if (matchValue) {
                     req.session.userId = id;
                     res.json({
                         success: true,
                     });
-                    // console.log(
-                    //     "login successful, redirect to /, cookie 'userId' set",
-                    //     req.session
-                    // );
                 } else {
                     res.json({
                         success: false,
@@ -190,14 +154,8 @@ app.post("/login", (req, res) => {
 
 //////////////////////// APP /USER ////////////////////////
 app.get("/user", (req, res) => {
-    // console.log("index.js, get /user, req.session", req.session);
-
     db.getUserInfo(req.session.userId)
         .then((result) => {
-            // console.log(
-            //     "result getUserInfo in index.js in post /user:",
-            //     result
-            // );
             res.json(result);
         })
         .catch((err) => {
@@ -207,19 +165,12 @@ app.get("/user", (req, res) => {
 
 //////////////////////// UPLOADER ////////////////////////
 app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
-    // console.log("index.js post /imgupload, uploaded (req.)file:", req.file);
-    filename = req.file.filename;
-    // console.log("index.js post /imgupload, config.s3Url", config.s3Url);
+    let filename = req.file.filename;
     let img_url = config.s3Url + filename;
-    // console.log("index.js post /imgupload, complete new url:", img_url);
 
     if (req.file) {
         db.addUserPic(req.session.userId, img_url)
             .then(({ rows }) => {
-                // console.log(
-                //     "index.js post /imgupload, addUserPic response from db:",
-                //     rows[0]
-                // );
                 const userImg = rows[0];
                 res.json({
                     userImg,
@@ -238,15 +189,8 @@ app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
 
 //////////////////////// BIO ////////////////////////
 app.post("/bio", (req, res) => {
-    // console.log("index.js, post /bio");
-    // console.log("req.body:", req.body);
-
     db.addUserBio(req.session.userId, req.body.bio)
         .then(({ rows }) => {
-            // console.log(
-            //     "index.js post /bio, addUserBio response from db:",
-            //     rows[0]
-            // );
             const userBio = rows[0];
             res.json({
                 userBio,
@@ -261,27 +205,16 @@ app.post("/bio", (req, res) => {
 //////////////////////// RESET START ////////////////////////
 
 app.post("/password/reset/start", (req, res) => {
-    // console.log("index.js, post /password/reset/start");
     let secretCode; // const possible?
     let { email } = req.body;
-    // console.log("index.js post /reset/start, inserted data:", email);
 
     if (email) {
         db.getHashByEmail(email)
             .then((result) => {
-                // console.log(
-                //     "result getHashByEmail in index.js post reset/start:",
-                //     result
-                // );
-
                 if (result) {
                     secretCode = cryptoRandomString({
                         length: 6,
                     });
-                    // console.log(
-                    //     "index.js getHashByEmail /reset/start, secretCode:",
-                    //     secretCode
-                    // );
 
                     db.addSecretCode(email, secretCode)
                         .then(() => {
@@ -298,9 +231,6 @@ app.post("/password/reset/start", (req, res) => {
                         })
                         .then(() => {
                             res.json({ success: true });
-                            // console.log(
-                            //     "index.js /reset/start addSecretCode, email-address exists in database, now step 2"
-                            // );
                         })
                         .catch((err) => {
                             console.log(
@@ -335,15 +265,7 @@ app.post("/password/reset/start", (req, res) => {
 //////////////////////// RESET VERIFY ////////////////////////
 
 app.post("/password/reset/verify", (req, res) => {
-    // console.log("index.js, post /reset/verify");
     let { email, code, password, confirmPassword } = req.body;
-    // console.log(
-    //     "index.js post /reset/verify, inserted data:",
-    //     email,
-    //     code,
-    //     password,
-    //     confirmPassword
-    // );
 
     if (password.length < 8) {
         res.json({ success: false, passwordTooShort: true });
@@ -362,21 +284,15 @@ app.post("/password/reset/verify", (req, res) => {
                     if (code == databaseCode) {
                         hash(password)
                             .then((hashedPw) => {
-                                // console.log(
-                                //     "password hashed in index.js post reset/verify getSecretCode:",
-                                //     hashedPw
-                                // );
                                 db.updatePassword(email, hashedPw)
                                     .then(() => {
                                         // req.session.userId = resultId;
                                         res.json({ success: true });
-                                        // console.log(
-                                        //     "index.js /reset/verify updatePassword, comparing codes successful, new password in db, now step 3"
-                                        // );
                                     })
                                     .catch((err) => {
                                         console.log(
-                                            "CATCH in index.js /reset/verify updatePassword, comparing codes successful, but update didn't work"
+                                            "CATCH in index.js /reset/verify updatePassword, comparing codes successful, but update didn't work",
+                                            err
                                         );
                                         res.json({
                                             success: false,
@@ -421,14 +337,8 @@ app.post("/password/reset/verify", (req, res) => {
 //////////////////////// FIND PEOPLE ////////////////////////
 
 app.get("/api/users", (req, res) => {
-    // console.log("index.js, get /users running");
-
     db.getRecentUsers(req.session.userId)
         .then((data) => {
-            // console.log(
-            //     "result getRecentUsers in index.js get /api/users:",
-            //     data
-            // );
             res.json(data);
         })
         .catch((err) => {
@@ -437,35 +347,18 @@ app.get("/api/users", (req, res) => {
 });
 
 app.get("/search-users/:find", (req, res) => {
-    // console.log("index.js, get /search-users/:id running");
-    // console.log(
-    //     "index.js, get /search-users/:id, req.params.find:",
-    //     req.params.find
-    // );
     let val = req.params.find;
     let arr = [];
 
     db.getMatchingUsersFirst(val)
         .then((matchResultsFirst) => {
-            // console.log(
-            //     "index.js, result getMatchingUsersFirst in get /search-users/:find",
-            //     matchResultsFirst
-            // );
             matchResultsFirst.map((first) => arr.push(first));
         })
         .then(() => {
             return db.getMatchingUsersLast(val);
         })
         .then((matchResultsLast) => {
-            // console.log(
-            //     "index.js, result getMatchingUsersLast in get /search-users/:find",
-            //     matchResultsLast
-            // );
             matchResultsLast.map((last) => arr.push(last));
-            // console.log(
-            //     "index.js, array getMatchingUsers in get /search-users/:find",
-            //     arr
-            // );
             res.json(arr);
         })
         .catch((err) => {
@@ -476,19 +369,11 @@ app.get("/search-users/:find", (req, res) => {
 //////////////////////// OTHER PROFILES ////////////////////////
 
 app.get("/api/user/:id", (req, res) => {
-    // console.log("index.js, get /api/user/:id running");
-    // console.log("req.params.id:", req.params.id);
     const id = req.params.id;
-    // console.log("req.session.userId", req.session.userId);
 
     db.getUserInfo(id)
         .then((otherUserInfo) => {
-            // console.log(
-            //     "result getUserInfo in index.js get /api/user/:id:",
-            //     otherUserInfo
-            // );
             if (otherUserInfo.id == req.session.userId) {
-                // console.log("same id as in db");
                 res.json({ isLoggedInUser: true });
             } else {
                 res.json({ otherUserInfo, isLoggedInUser: false });
@@ -500,44 +385,21 @@ app.get("/api/user/:id", (req, res) => {
         });
 });
 
-//////////////////////// FRIENDSHIP ////////////////////////
+//////////////////////// FRIENDSHIP-ACTION ////////////////////////
 
 app.get("/friendshipstatus/:otherUserId", (req, res) => {
-    // console.log("index.js, get /friendshipstatus/otherUserId running");
-    // console.log(
-    //     "index.js, get /friendshipstatus/otherUserId req.params.otherUserId:",
-    //     req.params.otherUserId
-    // );
     const receiver_id = req.params.otherUserId;
-    // console.log(
-    //     "index.js, get /friendshipstatus/otherUserId req.session.userId:",
-    //     req.session.userId
-    // );
     const sender_id = req.session.userId;
 
     db.areUsersFriends(receiver_id, sender_id)
         .then((result) => {
-            // console.log("result areUsersFriends in index.js:", result);
-
             if (result == 0) {
-                // console.log(
-                //     "index.js, areUsersFriends, they are no friends, 'send friend request'"
-                // );
                 res.json({ buttonText: "Send Friend Request" });
             } else if (result[0].accepted == true) {
-                // console.log(
-                //     "index.js, areUsersFriends, they are friends, 'cancel friendship'"
-                // );
-                res.json({ buttonText: "Cancel Friendship" });
+                res.json({ buttonText: "End Friendship" });
             } else if (result[0].sender_id == req.session.userId) {
-                // console.log(
-                //     "index.js, areUsersFriends, friendship request was sent, 'cancel friend request'"
-                // );
                 res.json({ buttonText: "Cancel Friend Request" });
             } else {
-                // console.log(
-                //     "index.js, areUsersFriends, friendship was requested by someone else, 'accept friend request'"
-                // );
                 res.json({ buttonText: "Accept Friend Request" });
             }
         })
@@ -547,29 +409,12 @@ app.get("/friendshipstatus/:otherUserId", (req, res) => {
 });
 
 app.post("/send-friend-request/:otherUserId", (req, res) => {
-    // console.log("index.js, post /send-friend-request/:userId running");
-    // console.log(
-    // "index.js, post /send-friend-request/:userId, req.session.userId:",
-    // req.session.userId
-    // );
     const sender_id = req.session.userId;
-    // console.log(
-    //     "index.js, post /send-friend-request/:userId, req.params.otherUserId:",
-    //     req.params.otherUserId
-    // );
     const receiver_id = req.params.otherUserId;
-    // console.log(
-    //     "index.js, post /send-friend-request/:otherUserId, req.body:",
-    //     req.body
-    // );
 
     if (req.body.bt == "Send Friend Request") {
         db.friendshipRequest(sender_id, receiver_id)
-            .then((result) => {
-                // console.log(
-                //     "index.js, data inserted - new row, result friendshipRequest in post /send-friend-request/:otherUserId:",
-                //     result
-                // );
+            .then(() => {
                 res.json({ buttonText: "Cancel Friend Request" });
             })
             .catch((err) => {
@@ -577,12 +422,8 @@ app.post("/send-friend-request/:otherUserId", (req, res) => {
             });
     } else if (req.body.bt == "Accept Friend Request") {
         db.acceptFriendship(receiver_id, sender_id)
-            .then((result) => {
-                // console.log(
-                //     "index.js acceptFriendship, friendship accepted in /send-friend-request/:otherUserId, result:",
-                //     result
-                // );
-                res.json({ buttonText: "Cancel Friendship" });
+            .then(() => {
+                res.json({ buttonText: "End Friendship" });
             })
             .catch((err) => {
                 console.log("CATCH in index.js friendshipRequest", err);
@@ -590,10 +431,6 @@ app.post("/send-friend-request/:otherUserId", (req, res) => {
     } else {
         db.deleteFriendship(receiver_id, sender_id)
             .then(() => {
-                // console.log(
-                //     "index.js, deleteFriendship in /send-friend-request/:otherUserId, friendship & db-row deleted:",
-                //     result
-                // );
                 res.json({ buttonText: "Send Friend Request" });
             })
             .catch((err) => {
@@ -602,29 +439,34 @@ app.post("/send-friend-request/:otherUserId", (req, res) => {
     }
 });
 
-// SERVER SENDS:
-// res.json({buttonText: "Make friend request"}) // INSERT row in database
-// res.json({buttonText: "Cancel friend request"}) // DELETE row in database
-// res.json({buttonText: "Accept friend request"}) // UPDATE row in database // change status of friendship from false to true
-// res.json({buttonText: "End friend request"}) // DELETE row in database
+//////////////////////// FRIENDS / STATUS ////////////////////////
+
+app.get("/get-friends-wannabes", (req, res) => {
+    console.log("index.js, /get-friends running");
+
+    db.myFriendsAndWannabes(req.session.userId)
+        .then((result) => {
+            console.log("index.js, result myFriendsAndWannabes:", result);
+            res.json(result);
+        })
+        .catch((err) => {
+            console.log("CATCH in index.js myFriendsAndWannabes", err);
+        });
+});
 
 //////////////////////// LOGOUT ////////////////////////
 app.get("/logout", (req, res) => {
     req.session = null;
-    // console.log("index.js logout, redirect to /login");
     res.redirect("/welcome#/login");
 });
 
 //////////////////////// WELCOME ////////////////////////
 
 app.get("*", function (req, res) {
-    // console.log("index.js, get *");
     if (!req.session.userId) {
         res.redirect("/welcome");
-        // console.log("index.js get *, no cookie, redirect to /welcome");
     } else {
         res.sendFile(__dirname + "/index.html");
-        // console.log("index.js get *, has cookie, sendFile to /index.html");
     }
 });
 
