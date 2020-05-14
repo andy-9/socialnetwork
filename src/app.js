@@ -69,15 +69,13 @@ export default class App extends React.Component {
         return (
             <div id="whole-screen">
                 <BrowserRouter>
-                    <div className="logo-heading">
-                        <div>
-                            <Presentational
-                                first={this.state.first}
-                                last={this.state.last}
-                                img_url={this.state.img_url}
-                                toggleModal={this.toggleModal}
-                            />
-                        </div>
+                    <div>
+                        <Presentational
+                            first={this.state.first}
+                            last={this.state.last}
+                            img_url={this.state.img_url}
+                            toggleModal={this.toggleModal}
+                        />
 
                         {this.state.uploaderIsVisible && (
                             <div className="uploader">

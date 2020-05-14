@@ -120,7 +120,7 @@ h5 {
 /* ////////////////////// NAVBAR ////////////////////// */
 
 .navbar-container {
-    width: 30%;
+    width: 35%;
     position: absolute;
     top: 15px;
     right: 90px;
@@ -239,12 +239,6 @@ button:focus {
     align-content: space-around;
 }
 
-/* ////////////////////// WELCOME ////////////////////// */
-
-.logo-heading {
-    display: flex;
-}
-
 /* ////////////////////// PROFILE-PIC ////////////////////// */
 
 .profile-pic-frame {
@@ -335,8 +329,8 @@ textarea {
 /* ////////////////////// FIND PEOPLE ////////////////////// */
 
 #find-people-container {
-    position: absolute;
-    margin: 12% 5% 0 5%;
+    position: relative;
+    margin: 0 5% 0 5%;
 }
 
 #find-people {
@@ -361,8 +355,8 @@ textarea {
     margin-bottom: 22%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    /* flex-wrap: wrap; */
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .pic-peers {

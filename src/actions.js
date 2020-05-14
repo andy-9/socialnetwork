@@ -1,7 +1,7 @@
 import axios from "./axios";
 
 export async function getFriendsAndRequests() {
-    const { data } = await axios.get("/get-friends-wannabes");
+    const { data } = await axios.get(`/get-friends-wannabes`);
     console.log(
         "actions.js, data from axios-request getFriendsAndRequests:",
         data
@@ -14,7 +14,7 @@ export async function getFriendsAndRequests() {
 
 export async function acceptFriend(id) {
     console.log("actions.js, axios-request acceptFriend running");
-    await axios.post("/wannabes/:id");
+    await axios.post(`/send-friend-request/${otherUserId}`);
     return {
         type: "ACCEPT_FRIEND_REQUEST",
         id,
@@ -23,7 +23,7 @@ export async function acceptFriend(id) {
 
 export async function endFriendship(id) {
     console.log("actions.js, axios-request endFriendship running");
-    await axios.post("/myfriends/:id");
+    await axios.post(`/send-friend-request/${otherUserId}`);
     return {
         type: "UNFRIEND",
         id,
