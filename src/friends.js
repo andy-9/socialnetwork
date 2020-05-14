@@ -13,53 +13,20 @@ export default function Friends() {
 
     const friends = useSelector(
         (state) =>
-            state.friendsWannabes &&
-            state.friendsWannabes.filter((user) => user.accepted)
+            state.friendsAndWannabes &&
+            state.friendsAndWannabes.filter((user) => user.accepted)
     );
     console.log("friends.js, friends after useSelector ran:", friends);
 
     const wannabes = useSelector(
         (state) =>
-            state.friendsWannabes &&
-            state.friendsWannabes.filter((user) => !user.accepted)
+            state.friendsAndWannabes &&
+            state.friendsAndWannabes.filter((user) => !user.accepted)
     );
     console.log("friends.js, wannabes after useSelector ran:", wannabes);
 
     return (
         <div id="friends-container">
-            <div id="my-friends">
-                {friends && !friends.length && (
-                    <h3>Currently you don&apos;t have any friends</h3>
-                )}
-                {friends && friends.length && <h3>My Friends</h3>}
-
-                <div>
-                    {friends &&
-                        friends.map((each) => (
-                            <div key={each.id}>
-                                <Link to={`/user/${each.id}`} key={each.id}>
-                                    <div>
-                                        <img
-                                            src={each.img_url || "/default.svg"}
-                                            alt={`${each.first} ${each.last}`}
-                                        />
-                                    </div>
-                                    <div>
-                                        {each.first} {each.last}
-                                    </div>
-                                </Link>
-                                <button
-                                    onClick={() =>
-                                        dispatch(endFriendship(each.id))
-                                    }
-                                >
-                                    End Friendship
-                                </button>
-                            </div>
-                        ))}
-                </div>
-            </div>
-
             <div id="wannabes-requests">
                 {wannabes && !wannabes.length && (
                     <h3>Currently no friend requests</h3>
@@ -87,6 +54,39 @@ export default function Friends() {
                                     }
                                 >
                                     Accept Friend Request
+                                </button>
+                            </div>
+                        ))}
+                </div>
+            </div>
+
+            <div id="my-friends">
+                {friends && !friends.length && (
+                    <h3>Currently you don&apos;t have any friends</h3>
+                )}
+                {friends && friends.length && <h3>My Friends</h3>}
+
+                <div>
+                    {friends &&
+                        friends.map((each) => (
+                            <div key={each.id}>
+                                <Link to={`/user/${each.id}`} key={each.id}>
+                                    <div>
+                                        <img
+                                            src={each.img_url || "/default.svg"}
+                                            alt={`${each.first} ${each.last}`}
+                                        />
+                                    </div>
+                                    <div>
+                                        {each.first} {each.last}
+                                    </div>
+                                </Link>
+                                <button
+                                    onClick={() =>
+                                        dispatch(endFriendship(each.id))
+                                    }
+                                >
+                                    End Friendship
                                 </button>
                             </div>
                         ))}

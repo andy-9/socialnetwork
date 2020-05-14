@@ -6,27 +6,36 @@ export async function getFriendsAndRequests() {
         "actions.js, data from axios-request getFriendsAndRequests:",
         data
     );
+
     return {
         type: "RECEIVE_FRIENDS_WANNABES",
-        friendsWannabes: data,
+        friendsAndWannabes: data,
     };
 }
 
-export async function acceptFriend(id) {
+export async function acceptFriend(otherUserId) {
     console.log("actions.js, axios-request acceptFriend running");
-    await axios.post(`/send-friend-request/${otherUserId}`);
+    await axios.post(`/send-friend-request/${otherUserId}`, {
+        bt: "Accept Friend Request",
+    });
+    console.log("actions.js, axios post  request acceptFriend successful");
+
     return {
         type: "ACCEPT_FRIEND_REQUEST",
-        id,
+        otherUserId,
     };
 }
 
-export async function endFriendship(id) {
+export async function endFriendship(otherUserId) {
     console.log("actions.js, axios-request endFriendship running");
-    await axios.post(`/send-friend-request/${otherUserId}`);
+    await axios.post(`/send-friend-request/${otherUserId}`, {
+        bt: "End Friendship",
+    });
+    console.log("actions.js, axios post request endFriendship successful");
+
     return {
         type: "UNFRIEND",
-        id,
+        otherUserId,
     };
 }
 

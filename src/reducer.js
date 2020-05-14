@@ -2,41 +2,36 @@ export default function reducer(state = {}, action) {
     if (action.type === "RECEIVE_FRIENDS_WANNABES") {
         state = {
             ...state,
-            friendsWannabes: action.friendsWannabes,
+            friendsAndWannabes: action.friendsAndWannabes,
         };
     }
 
-    // if (action.type === "ACCEPT_FRIEND_REQUEST") {
-    //     state = {
-    //         ...state,
-    //         friendsWannabes: state.friendsWannabes.map((friend) => {
-    //             if (friend.id == action.id) {
-    //                 return {
-    //                     ...friend,
-    //                     friend: action.type == "ACCEPT_FRIEND_REQUEST",
-    //                 };
-    //             } else {
-    //                 return friend;
-    //             }
-    //         }),
-    //     };
-    // }
+    if (action.type === "ACCEPT_FRIEND_REQUEST") {
+        state = {
+            ...state,
+            friendsAndWannabes: state.friendsAndWannabes.map((friend) => {
+                if (friend.id == action.otherUserId) {
+                    return {
+                        ...friend,
+                        accepted: true,
+                    };
+                } else {
+                    return friend;
+                }
+            }),
+        };
+    }
 
-    // if (action.type === "UNFRIEND") {
-    //     state = {
-    //         ...state,
-    //         friendsWannabes: state.friendsWannabes.map((friend) => {
-    //             if (friend.id == action.id) {
-    //                 return {
-    //                     ...friend,
-    //                     friend: action.type == "UNFRIEND",
-    //                 };
-    //             } else {
-    //                 return friend;
-    //             }
-    //         }),
-    //     };
-    // }
+    if (action.type === "UNFRIEND") {
+        console.log("reducer.js, action.type === 'UNFRIEND' running");
+
+        state = {
+            ...state,
+            friendsAndWannabes: state.friendsAndWannabes.filter(
+                (friend) => friend.id != action.otherUserId
+            ),
+        };
+    }
 
     console.log("reducer.js, state:", state);
     return state;
