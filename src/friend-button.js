@@ -32,7 +32,7 @@ export default function FriendShipButton({ otherUserId, first, last }) {
     }
 
     return (
-        <div id="friend-button-container">
+        <div className="people-container">
             {buttonText == "Send Friend Request" && (
                 <p>
                     Send {first} {last} a friend request.

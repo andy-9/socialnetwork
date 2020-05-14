@@ -27,61 +27,77 @@ export default function Friends() {
 
     return (
         <div id="friends-container">
-            <div id="wannabes-requests">
+            <div className="center">
                 {wannabes && !wannabes.length && (
-                    <h3>Currently no friend requests</h3>
+                    <h3 className="one-percent-bottom">
+                        Currently no friend requests
+                    </h3>
                 )}
-                {wannabes && wannabes.length && <h3>Friend Requests:</h3>}
-
-                <div>
+                {wannabes && wannabes.length && (
+                    <h3 className="one-percent-bottom">Friend Requests</h3>
+                )}
+                <div className="peers">
                     {wannabes &&
                         wannabes.map((each) => (
                             <div key={each.id}>
-                                <Link to={`/user/${each.id}`} key={each.id}>
-                                    <div>
+                                <Link
+                                    className="one-percent-right one-percent-bottom"
+                                    to={`/user/${each.id}`}
+                                    key={each.id}
+                                >
+                                    <div className="pic-peers">
                                         <img
                                             src={each.img_url || "/default.svg"}
                                             alt={`${each.first} ${each.last}`}
                                         />
                                     </div>
-                                    <div>
+                                    <div className="center">
                                         {each.first} {each.last}
                                     </div>
                                 </Link>
                                 <button
+                                    className="button-translate nomargin"
                                     onClick={() =>
                                         dispatch(acceptFriend(each.id))
                                     }
                                 >
-                                    Accept Friend Request
+                                    Accept as friend
                                 </button>
                             </div>
                         ))}
                 </div>
             </div>
 
-            <div id="my-friends">
+            <div className="center one-percent-top">
                 {friends && !friends.length && (
-                    <h3>Currently you don&apos;t have any friends</h3>
+                    <h3 className="one-percent-bottom">
+                        Currently you don&apos;t have any friends
+                    </h3>
                 )}
-                {friends && friends.length && <h3>My Friends</h3>}
-
-                <div>
+                {friends && friends.length && (
+                    <h3 className="one-percent-bottom">My Friends</h3>
+                )}
+                <div className="peers">
                     {friends &&
                         friends.map((each) => (
                             <div key={each.id}>
-                                <Link to={`/user/${each.id}`} key={each.id}>
-                                    <div>
+                                <Link
+                                    className="one-percent-right one-percent-bottom"
+                                    to={`/user/${each.id}`}
+                                    key={each.id}
+                                >
+                                    <div className="pic-peers">
                                         <img
                                             src={each.img_url || "/default.svg"}
                                             alt={`${each.first} ${each.last}`}
                                         />
                                     </div>
-                                    <div>
+                                    <div className="center">
                                         {each.first} {each.last}
                                     </div>
                                 </Link>
                                 <button
+                                    className="button-translate nomargin"
                                     onClick={() =>
                                         dispatch(endFriendship(each.id))
                                     }

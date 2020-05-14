@@ -40,7 +40,7 @@ export default function FindPeople() {
     }, [find]);
 
     return (
-        <div id="find-people-container">
+        <div className="people-container">
             <h2>Connect with your peers</h2>
             <div id="find-people">
                 <div id="searchbar">
@@ -52,15 +52,11 @@ export default function FindPeople() {
                         }}
                         placeholder="Enter First or Last Name"
                     />
-                    {justJoined && (
-                        <h3 className="searchbar-friends">
-                            Checkout who just joined:
-                        </h3>
-                    )}
+                    {justJoined && <h3>Checkout who just joined:</h3>}
                     {!justJoined && <h3>Search Results</h3>}
                 </div>
 
-                <div id="peers">
+                <div className="peers">
                     {users.map((each) => (
                         <Link
                             className="one-percent-right one-percent-bottom"
