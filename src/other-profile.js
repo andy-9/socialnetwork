@@ -45,6 +45,7 @@ class OtherProfile extends Component {
                 <div className="profile">
                     <div className="pic-for-profile">
                         <img
+                            className="img-frame"
                             src={this.state.img_url || "/default.svg"}
                             alt={`${this.state.first} ${this.state.last}`}
                         />

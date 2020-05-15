@@ -1,14 +1,17 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+// when deploying: const io = require("socket.io")(server, { origins: "localhost:8080" mysocialnetwork.herokuapp.com:* });
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+const config = require("./config");
 const db = require("./db");
 const { hash, compare } = require("./bc");
-const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 const s3 = require("./s3");
-const config = require("./config");
 
 ////////////////// IMAGE UPLOAD BOILERPLATE //////////////////
 
@@ -442,11 +445,8 @@ app.post("/send-friend-request/:otherUserId", (req, res) => {
 //////////////////////// FRIENDS / STATUS ////////////////////////
 
 app.get("/get-friends-wannabes", (req, res) => {
-    console.log("index.js, /get-friends running");
-
     db.myFriendsAndWannabes(req.session.userId)
         .then((result) => {
-            console.log("index.js, result myFriendsAndWannabes:", result);
             res.json(result);
         })
         .catch((err) => {
@@ -470,6 +470,30 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+//////////////////////// SERVER & SOCKET ////////////////////////
+
+server.listen(8080, function () {
     console.log("index.js port 8080 is listening.");
+});
+
+io.on("connection", (socket) => {
+    console.log(`a socket with the id ${socket.id} just connected`);
+
+    socket.emit("yo", {
+        message: "Yo! It is nice to see you",
+    });
+    socket.broadcast.emit("somebodyShowedUp", {
+        msg: "looks nice",
+    });
+    io.emit("achtung", "this site rocks");
+
+    socket.on("disconnect", function () {
+        console.log(`a socket with the id ${socket.id} just disconnected`);
+    });
+    socket.on("thanks", function (data) {
+        console.log(data);
+    });
+    // socket.on("hi", ({ msg }) => {
+    //     console.log(msg);
+    // });
 });

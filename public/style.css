@@ -18,25 +18,25 @@
     font-family: KaushanScript-Regular;
 }
 
-html,
+/* html,
 body {
     height: 100%;
-}
+} */
 
 body {
     background-color: rgb(178, 248, 241);
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
 }
 
-.content {
+/* .content {
     flex: 1 0 auto;
-}
+} */
 
-/* main { */
-/* min-height: calc(100vh - 50px); */
-/* min-height: 100%; */
-/* } */
+main {
+    min-height: calc(100vh - 50px);
+    /* min-height: 100%; */
+}
 
 a {
     color: rgb(85, 85, 85);
@@ -50,6 +50,14 @@ a:hover {
 img {
     max-height: 100%;
     width: auto;
+    /* border: 5px solid rgb(90, 1, 1);
+    padding: 3px; */
+}
+
+.img-frame {
+    border: 5px solid rgb(90, 1, 1);
+    padding: 3px;
+    background-color: white;
 }
 
 .placeholder {
@@ -76,6 +84,10 @@ img {
     margin-right: 1%;
 }
 
+.five-percent-right {
+    margin-right: 5%;
+}
+
 .one-percent-top {
     margin-top: 1%;
 }
@@ -88,7 +100,7 @@ img {
 
 h1 {
     font-family: Milkshake;
-    font-size: 100px;
+    font-size: 50px;
     text-align: center;
 }
 
@@ -273,7 +285,7 @@ button:focus {
 /* ////////////////////// PROFILE ////////////////////// */
 .profile {
     position: absolute;
-    margin: 12% 5% 0 15%;
+    margin: 5% 5% 0 15%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -306,9 +318,6 @@ button:focus {
 
 /* ////////////////////// BIO-EDITOR ////////////////////// */
 
-.bioeditor-container {
-}
-
 .bio-text {
     font-family: "Indie Flower", cursive;
     font-size: 20px;
@@ -338,7 +347,7 @@ textarea {
 
 .people-container {
     position: relative;
-    margin: 0 5% 0 5%;
+    margin-right: 5%;
 }
 
 #find-people {
@@ -360,7 +369,6 @@ textarea {
 
 .peers {
     max-width: 100vw;
-    /* margin-bottom: 22%; */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -388,7 +396,8 @@ textarea {
     font-size: 15px;
     width: 90px;
     height: 90px;
-    background-color: rgb(255, 0, 0, 0.7);
+    background-color: rgb(222, 184, 135);
+    /* rgb(255, 0, 0, 0.7); */
     border-radius: 50%;
     margin-right: 0;
     padding: 1%;
@@ -396,24 +405,39 @@ textarea {
 }
 
 .friend-button:hover {
-    background-color: rgb(199, 4, 4);
+    background-color: rgb(185, 150, 104);
+    /* rgb(199, 4, 4); */
     transform: translate(120%, -130%);
 }
 
 /* ////////////////////// FRIENDS / STATUS ////////////////////// */
 
 .button-translate {
-    font-size: 15px;
-    width: 90px;
-    height: 90px;
-    background-color: rgb(255, 0, 0, 0.5);
+    font-size: 13px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin: 0;
-    transform: translate(170%, -110%);
+    transform: translate(210%, -120%);
 }
 
 .button-translate:hover {
-    transform: translate(170%, -110%);
+    transform: translate(210%, -120%);
+}
+
+.green {
+    background-color: rgb(1, 131, 1, 0.5);
+}
+
+.green:hover {
+    background-color: rgba(1, 107, 1, 0.8);
+}
+
+.red {
+    background-color: rgb(255, 0, 0, 0.5);
+}
+
+.red:hover {
     background-color: rgb(199, 4, 4, 0.8);
 }
 
@@ -486,7 +510,7 @@ label:hover {
 
 footer {
     background-color: rgb(128, 128, 128, 0.8);
-    flex-shrink: 0;
+    /* flex-shrink: 0; */
     display: grid;
     grid-template-columns: 1fr 200px;
     height: 50px;

@@ -7,7 +7,6 @@ export default function Friends() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("friends.js, useEffect for getFriendsAndRequests() runs");
         dispatch(getFriendsAndRequests());
     }, []);
 
@@ -16,30 +15,28 @@ export default function Friends() {
             state.friendsAndWannabes &&
             state.friendsAndWannabes.filter((user) => user.accepted)
     );
-    console.log("friends.js, friends after useSelector ran:", friends);
 
     const wannabes = useSelector(
         (state) =>
             state.friendsAndWannabes &&
             state.friendsAndWannabes.filter((user) => !user.accepted)
     );
-    console.log("friends.js, wannabes after useSelector ran:", wannabes);
 
     return (
         <div id="friends-container">
             <div className="center">
                 {wannabes && !wannabes.length && (
-                    <h3 className="one-percent-bottom">
+                    <h2 className="one-percent-bottom">
                         Currently no friend requests
-                    </h3>
+                    </h2>
                 )}
                 {wannabes && wannabes.length && (
-                    <h3 className="one-percent-bottom">Friend Requests</h3>
+                    <h2 className="one-percent-bottom">Friend Requests</h2>
                 )}
                 <div className="peers">
                     {wannabes &&
                         wannabes.map((each) => (
-                            <div key={each.id}>
+                            <div className="five-percent-right" key={each.id}>
                                 <Link
                                     className="one-percent-right one-percent-bottom"
                                     to={`/user/${each.id}`}
@@ -47,6 +44,7 @@ export default function Friends() {
                                 >
                                     <div className="pic-peers">
                                         <img
+                                            className="img-frame"
                                             src={each.img_url || "/default.svg"}
                                             alt={`${each.first} ${each.last}`}
                                         />
@@ -56,7 +54,7 @@ export default function Friends() {
                                     </div>
                                 </Link>
                                 <button
-                                    className="button-translate nomargin"
+                                    className="button-translate nomargin green"
                                     onClick={() =>
                                         dispatch(acceptFriend(each.id))
                                     }
@@ -70,17 +68,17 @@ export default function Friends() {
 
             <div className="center one-percent-top">
                 {friends && !friends.length && (
-                    <h3 className="one-percent-bottom">
+                    <h2 className="one-percent-bottom">
                         Currently you don&apos;t have any friends
-                    </h3>
+                    </h2>
                 )}
                 {friends && friends.length && (
-                    <h3 className="one-percent-bottom">My Friends</h3>
+                    <h2 className="one-percent-bottom">My Friends</h2>
                 )}
                 <div className="peers">
                     {friends &&
                         friends.map((each) => (
-                            <div key={each.id}>
+                            <div className="five-percent-right" key={each.id}>
                                 <Link
                                     className="one-percent-right one-percent-bottom"
                                     to={`/user/${each.id}`}
@@ -88,6 +86,7 @@ export default function Friends() {
                                 >
                                     <div className="pic-peers">
                                         <img
+                                            className="img-frame"
                                             src={each.img_url || "/default.svg"}
                                             alt={`${each.first} ${each.last}`}
                                         />
@@ -97,7 +96,7 @@ export default function Friends() {
                                     </div>
                                 </Link>
                                 <button
-                                    className="button-translate nomargin"
+                                    className="button-translate nomargin red"
                                     onClick={() =>
                                         dispatch(endFriendship(each.id))
                                     }

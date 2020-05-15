@@ -65,6 +65,7 @@ export default function FindPeople() {
                         >
                             <div className="pic-peers">
                                 <img
+                                    className="img-frame"
                                     src={each.img_url || "/default.svg"}
                                     alt={`${each.first} ${each.last}`}
                                 />

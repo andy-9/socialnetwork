@@ -11,10 +11,6 @@ export default function Navbar() {
 
             <p>
                 <ion-icon className="icon" name="heart-sharp"></ion-icon>
-                {/* <ion-icon
-                    className="icon"
-                    name="people-circle-sharp"
-                ></ion-icon> */}
                 <Link to="/friends">Friends</Link>
             </p>
 

@@ -24,7 +24,7 @@ export default function Profile({
 
     return (
         <div className="profile">
-            <div className="pic-for-profile">
+            <div className="pic-for-profile img-frame">
                 <ProfilePic
                     first={first}
                     last={last}
