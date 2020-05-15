@@ -351,17 +351,18 @@ app.get("/api/users", (req, res) => {
 
 app.get("/search-users/:find", (req, res) => {
     let val = req.params.find;
-    let arr = [];
+    let array = [];
 
     db.getMatchingUsersFirst(val)
         .then((matchResultsFirst) => {
-            matchResultsFirst.map((first) => arr.push(first));
+            matchResultsFirst.map((first) => array.push(first));
         })
         .then(() => {
             return db.getMatchingUsersLast(val);
         })
         .then((matchResultsLast) => {
-            matchResultsLast.map((last) => arr.push(last));
+            matchResultsLast.map((last) => array.push(last));
+            const arr = array.filter((item) => item.id != req.session.userId);
             res.json(arr);
         })
         .catch((err) => {

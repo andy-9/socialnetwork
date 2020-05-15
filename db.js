@@ -271,10 +271,6 @@ module.exports.myFriendsAndWannabes = (id) => {
             [id]
         )
         .then((result) => {
-            console.log(
-                "db.js, myFriendsAndWannabes, result.rows:",
-                result.rows
-            );
             return result.rows;
         })
         .catch((err) => {

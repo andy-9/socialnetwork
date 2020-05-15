@@ -14,9 +14,14 @@ export default function Navbar() {
                 <Link to="/friends">Friends</Link>
             </p>
 
-            <p>
+            {/* <p>
                 <ion-icon className="icon" name="person-sharp"></ion-icon>
                 <Link to="/">My Profile</Link>
+            </p> */}
+
+            <p>
+                <ion-icon className="icon" name="chatbubbles-sharp"></ion-icon>
+                {<a href="/chat">Chat</a>}
             </p>
 
             <p>
@@ -27,5 +32,4 @@ export default function Navbar() {
     );
 }
 
-// Chat
 // Online

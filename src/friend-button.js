@@ -26,10 +26,10 @@ export default function FriendShipButton({ otherUserId, first, last }) {
                 </p>
             )}
             {buttonText == "End Friendship" && (
-                <p>
-                    You are friends with {first} {last}.
-                </p>
-            )}
+                    <p>
+                        You are friends with {first} {last}.
+                    </p>
+                ) && { red }}
             {buttonText == "Cancel Friend Request" && (
                 <p>
                     You sent {first} {last} a friend request. They haven&apos;t
@@ -43,7 +43,11 @@ export default function FriendShipButton({ otherUserId, first, last }) {
                     to become friends.
                 </p>
             )}
-            <button className="friend-button" onClick={submit}>
+            <button
+                className={`friend-button ${red ? "red" : ""}`}
+                // className={`friend-button`}
+                onClick={submit}
+            >
                 {buttonText}
             </button>
         </div>

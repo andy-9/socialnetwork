@@ -33,7 +33,7 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    console.log("reducer.js, state:", state);
+    // console.log("reducer.js, state:", state);
     return state;
 }
 
