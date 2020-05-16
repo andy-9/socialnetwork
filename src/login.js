@@ -11,16 +11,9 @@ export default class Login extends React.Component {
     }
 
     handleChange(e) {
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            }
-            // () =>
-            // console.log(
-            //     "login.js 'this.state' in handleChange:",
-            //     this.state
-            // )
-        );
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
     }
 
     submit() {

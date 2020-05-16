@@ -23,7 +23,7 @@ export default function Profile({
     // );
 
     return (
-        <div className="profile">
+        <div className="profile flex">
             <div className="pic-for-profile img-frame">
                 <ProfilePic
                     first={first}

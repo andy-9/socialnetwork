@@ -279,17 +279,11 @@ app.post("/password/reset/verify", (req, res) => {
         } else
             db.getSecretCode(email)
                 .then((databaseCode) => {
-                    // console.log(
-                    //     "result getSecretCode in index.js post reset/verify:",
-                    //     databaseCode
-                    // );
-
                     if (code == databaseCode) {
                         hash(password)
                             .then((hashedPw) => {
                                 db.updatePassword(email, hashedPw)
                                     .then(() => {
-                                        // req.session.userId = resultId;
                                         res.json({ success: true });
                                     })
                                     .catch((err) => {

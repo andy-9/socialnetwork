@@ -42,7 +42,7 @@ class OtherProfile extends Component {
     render() {
         return (
             <Fragment>
-                <div className="profile">
+                <div className="profile flex">
                     <div className="pic-for-profile">
                         <img
                             className="img-frame"

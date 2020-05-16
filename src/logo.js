@@ -8,16 +8,16 @@ export default function Logo() {
     );
 }
 
-function LogoNoText() {
-    return (
-        <div>
-            <img
-                className="logo-big"
-                src="/logo_notext.png"
-                alt="logo without text"
-            />
-        </div>
-    );
-}
+// function LogoNoText() {
+//     return (
+//         <div>
+//             <img
+//                 className="logo-big"
+//                 src="/logo_notext.png"
+//                 alt="logo without text"
+//             />
+//         </div>
+//     );
+// }
 
-export { LogoNoText };
+// export { LogoNoText };

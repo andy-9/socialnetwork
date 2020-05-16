@@ -2,16 +2,22 @@ import React from "React";
 import Registration from "./registration";
 import Login from "./login";
 import ResetPassword from "./reset";
-import Navbar from "./navbar";
-// import Shortinfo from "./shortinfo";
-import { LogoNoText } from "./logo";
+import Info from "./info";
+import Logo from "./logo";
 import { HashRouter, Route } from "react-router-dom";
 
 export default function Welcome() {
     return (
         <div>
-            <h1>Kite.Inc</h1>
-            <LogoNoText />
+            <div className="flex">
+                <div className="logo-top-left">
+                    <Logo />
+                </div>
+                <h1>Kite.Inc</h1>
+            </div>
+            <div>
+                <Info />
+            </div>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />
