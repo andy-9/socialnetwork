@@ -25,7 +25,6 @@ export default class App extends React.Component {
         axios
             .get("/user")
             .then(({ data }) => {
-                // console.log("app.js, response from axios get /user:", data);
                 this.setState({
                     id: data.id,
                     first: data.first,
@@ -40,28 +39,24 @@ export default class App extends React.Component {
     }
 
     toggleModal() {
-        // console.log("app.js toggleModal function is running");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     profileImgUrl(arg) {
-        // console.log("app.js profileImgUrl, argument from uploader.js:", arg);
         this.setState({
             img_url: arg,
         });
     }
 
     updateBio(upbio) {
-        // console.log("app.js updateBio running, argument upbio:", upbio);
         this.setState({
             bio: upbio,
         });
     }
 
     render() {
-        // console.log("app.js, this.state in render() :", this.state);
         if (!this.state.id) {
             return null;
         }
@@ -74,7 +69,6 @@ export default class App extends React.Component {
                             first={this.state.first}
                             last={this.state.last}
                             img_url={this.state.img_url}
-                            // toggleModal={this.toggleModal}
                         />
 
                         {this.state.uploaderIsVisible && (

@@ -84,7 +84,7 @@ button {
     margin: 0 auto;
     display: block;
     cursor: pointer;
-    box-shadow: 0 0 6px 0px grey;
+    box-shadow: 0 0 3px 0px white;
     transition: background-color 0.3s;
 }
 
@@ -199,15 +199,20 @@ h5 {
 
 .info > p,
 .info-paragraph {
-    font-family: "Milkshake";
-    font-size: 30px;
+    font-family: "Roboto", sans-serif;
+    font-size: 25px;
     text-align: justify;
+    hyphens: auto;
     padding: 1% 5%;
     margin-bottom: 1%;
 }
 
+.info > p > b {
+    font-family: "Milkshake";
+}
+
 .bigger-font-size {
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .info-paragraph {
@@ -222,6 +227,7 @@ h5 {
     padding: 20px;
     margin: 5% 25% 0 25%;
     border-radius: 3%;
+    box-shadow: 0 0 3px grey;
 }
 
 .flexbox-register {
@@ -242,6 +248,7 @@ h5 {
     padding: 20px;
     margin: 2% 30% 0 30%;
     border-radius: 3%;
+    box-shadow: 0 0 3px grey;
 }
 
 .flexbox-login {
@@ -263,6 +270,7 @@ h5 {
     margin: 5% 25% 0 25%;
     border-radius: 3%;
     opacity: 0.9;
+    box-shadow: 0 0 3px grey;
 }
 
 .flexbox-reset {

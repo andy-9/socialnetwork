@@ -11,17 +11,6 @@ export default function Profile({
     updateBio,
     toggleModal,
 }) {
-    // console.log(
-    //     "profile.js, props in Profile():",
-    //     id,
-    //     first,
-    //     last,
-    //     img_url,
-    //     bio,
-    //     updateBio,
-    //     toggleModal
-    // );
-
     return (
         <div className="profile flex">
             <div className="pic-for-profile img-frame">
