@@ -23,7 +23,7 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "UNFRIEND") {
-        console.log("reducer.js, action.type === 'UNFRIEND' running");
+        // console.log("reducer.js, action.type === 'UNFRIEND' running");
 
         state = {
             ...state,
@@ -34,11 +34,22 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "TEN") {
-        console.log("reducer.js, action.type === 'TEN' running");
+        // console.log("reducer.js, action.type === 'TEN' running");
+        // console.log("reducer.js, action:", action);
 
         state = {
             ...state,
-            chatMessages: state,
+            cm: action.ltcm,
+        };
+    }
+
+    if (action.type === "MSG") {
+        // console.log("reducer.js, action.type === 'MSG' running");
+        // console.log("reducer.js, action:", action);
+
+        state = {
+            ...state,
+            cm: action.cm,
         };
     }
 

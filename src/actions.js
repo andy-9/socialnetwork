@@ -32,7 +32,8 @@ export async function endFriendship(otherUserId) {
 }
 
 export function lastTen(ltcm) {
-    console.log("actions.js, function lastTen is running");
+    // console.log("actions.js, function lastTen is running");
+    // console.log("actions.js, ltcm:", ltcm);
 
     return {
         type: "TEN",
@@ -40,7 +41,15 @@ export function lastTen(ltcm) {
     };
 }
 
-// actions: will not have to do any axios-requests
+export function chatMessage(cm) {
+    // console.log("actions.js, function chatMessage is running");
+    // console.log("actions.js, cm:", cm);
+
+    return {
+        type: "MSG",
+        cm,
+    };
+}
 
 // axios request to server (server does the usual stuff)
 // then: passed on to reducer

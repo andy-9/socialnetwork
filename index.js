@@ -500,50 +500,36 @@ server.listen(8080, function () {
 io.on("connection", (socket) => {
     // "connection" is like an event listener
     console.log(`a socket with the id ${socket.id} just connected`);
+    const userId = socket.request.session.userId;
 
     // if user is not logged in --> disconnect
-    if (!socket.request.session.userId) {
+    if (!userId) {
         return socket.disconnect(true);
     }
 
-    const userId = socket.request.session.userId;
-    db.getLastTenMessages(userId).then((data) => {
+    db.getLastTenMessages().then((data) => {
         for (let i = 0; i < data.length; i++) {
             data[i].created_at = truncateDate(data[i].created_at);
         }
-        console.log(
-            "index.js, getLastTenMessages, data after truncation:",
-            data
-        );
-        // most recent message should be at the bottom
-        io.sockets.emit("LastTenChatMessages", data.reverse());
+        // console.log(
+        //     "index.js, getLastTenMessages, data after truncation:",
+        //     data
+        // );
+        io.sockets.emit("lastTenChatMessages", data.reverse());
     });
 
     socket.on("chat message from user", (newMsg) => {
-        console.log("This message is coming from chat.js component:", newMsg);
-        console.log("user who sent newMsg is:", userId);
-        // 1. store msg in db with query (INSERT)
-        // 2. do query to get information about user (first, last, image, timestamp(?)), will be a join
-        // once i have information emit message so that everyone can see it
-
-        io.sockets.emit("addChatMsg", newMsg); // I will have to send more: last msg + info about user
+        // console.log("This message is coming from chat.js component:", newMsg);
+        // console.log("user who sent newMsg is:", userId);
+        db.insertChatMessage(newMsg, userId).then((data) => {
+            for (let i = 0; i < data.length; i++) {
+                data[i].created_at = truncateDate(data[i].created_at);
+            }
+            // console.log(
+            //     "index.js, insertChatMessage, data after truncation:",
+            //     data
+            // );
+            io.sockets.emit("addChatMsg", data.reverse());
+        });
     });
-
-    // socket.emit("yo", {
-    //     message: "Yo! It is nice to see you",
-    // });
-    // socket.broadcast.emit("somebodyShowedUp", {
-    //     msg: "looks nice",
-    // });
-    // io.emit("achtung", "this site rocks");
-
-    // socket.on("disconnect", function () {
-    //     console.log(`a socket with the id ${socket.id} just disconnected`);
-    // });
-    // socket.on("thanks", function (data) {
-    //     console.log(data);
-    // });
-    // socket.on("hi", ({ msg }) => {
-    //     console.log(msg);
-    // });
 });
