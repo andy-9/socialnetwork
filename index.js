@@ -492,12 +492,12 @@ io.on("connection", (socket) => {
 
     const userId = socket.request.session.userId;
     // good point to retrieve the last 10 messages
-    // db.getLastTenMessages().then((data) => {
-    // console.log("index.js, last 10 messages:", data);
-    // will need to be a join: info from both users table and chat (user's first, last, image and chat message)
-    // most recent message should be at the bottom
-    // io.sockets.emit("chatMessages", data);
-    // });
+    db.getLastTenMessages(userId).then((data) => {
+        console.log("index.js, getLastTenMessages, data:", data);
+        // will need to be a join: info from both users table and chat (user's first, last, image, chat message, timestamp)
+        // most recent message should be at the bottom
+        io.sockets.emit("chatMessages", data);
+    });
 
     socket.on("chat message from user", (newMsg) => {
         console.log("This message is coming from chat.js component:", newMsg);

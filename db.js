@@ -279,3 +279,21 @@ module.exports.myFriendsAndWannabes = (id) => {
 };
 
 ////////////////////////// CHAT //////////////////////////
+
+module.exports.getLastTenMessages = (id) => {
+    return db
+        .query(
+            `SELECT users.id, users.first, users.last, users.img_url, chat.text, chat.created_at
+            FROM chat
+            LEFT OUTER JOIN users
+            ON chat.user_id = users.id
+            WHERE user_id = $1`,
+            [id]
+        )
+        .then((result) => {
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getLastTenMessages:", err);
+        });
+};
