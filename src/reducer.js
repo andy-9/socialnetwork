@@ -33,6 +33,15 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type === "TEN") {
+        console.log("reducer.js, action.type === 'TEN' running");
+
+        state = {
+            ...state,
+            chatMessages: state,
+        };
+    }
+
     // console.log("reducer.js, state:", state);
     return state;
 }

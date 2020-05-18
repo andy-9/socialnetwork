@@ -31,6 +31,15 @@ export async function endFriendship(otherUserId) {
     };
 }
 
+export function lastTen(ltcm) {
+    console.log("actions.js, function lastTen is running");
+
+    return {
+        type: "TEN",
+        ltcm,
+    };
+}
+
 // actions: will not have to do any axios-requests
 
 // axios request to server (server does the usual stuff)

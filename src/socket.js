@@ -7,9 +7,10 @@ export const init = (store) => {
     if (!socket) {
         socket = io.connect();
 
-        // socket.on("chatMessages", (msgs) => store.dispatch(chatMessages(msgs)));
-
-        // socket.on("chatMessage", (msg) => store.dispatch(chatMessage(msg)));
+        socket.on("LastTenChatMessages", (ltcm) => {
+            console.log("socket.js, LastTenChatMessages, ltcm:", ltcm);
+            store.dispatch(lastTen(ltcm));
+        });
 
         socket.on("addChatMsg", (msg) => {
             console.log(

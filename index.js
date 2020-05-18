@@ -13,6 +13,22 @@ const { hash, compare } = require("./bc");
 const ses = require("./ses");
 const s3 = require("./s3");
 
+////////////////// TRUNCATE DATE //////////////////
+
+const truncateDate = (posttime) => {
+    return (posttime = new Intl.DateTimeFormat("en-GB", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+        timeZone: "Etc/GMT",
+    }).format(posttime));
+};
+
 ////////////////// IMAGE UPLOAD BOILERPLATE //////////////////
 
 const multer = require("multer");
@@ -491,12 +507,16 @@ io.on("connection", (socket) => {
     }
 
     const userId = socket.request.session.userId;
-    // good point to retrieve the last 10 messages
     db.getLastTenMessages(userId).then((data) => {
-        console.log("index.js, getLastTenMessages, data:", data);
-        // will need to be a join: info from both users table and chat (user's first, last, image, chat message, timestamp)
+        for (let i = 0; i < data.length; i++) {
+            data[i].created_at = truncateDate(data[i].created_at);
+        }
+        console.log(
+            "index.js, getLastTenMessages, data after truncation:",
+            data
+        );
         // most recent message should be at the bottom
-        io.sockets.emit("chatMessages", data);
+        io.sockets.emit("LastTenChatMessages", data.reverse());
     });
 
     socket.on("chat message from user", (newMsg) => {
