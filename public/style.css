@@ -329,7 +329,6 @@ h6 {
 
 .profile-fullname {
     margin-bottom: 5%;
-    /* width: 100%; */
 }
 
 /* ////////////////////// BIO-EDITOR ////////////////////// */
@@ -347,6 +346,9 @@ textarea {
     font-size: 20px;
     background-color: whitesmoke;
     margin-bottom: 3%;
+    box-shadow: 0 0 3px grey;
+    padding: 2%;
+    border: none;
 }
 
 .flexbox-buttons-bioeditor {
@@ -451,14 +453,59 @@ textarea {
 
 /* ////////////////////// CHAT ////////////////////// */
 
+#chat-container {
+    display: flex;
+    margin: 1% 5% 0 5%;
+}
+
 .chat-messages-container {
-    border: 1px solid black;
-    text-align: center;
-    margin: 10px;
-    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.7);
     height: 300px;
-    width: 80%;
+    width: 60%;
+    padding: 1%;
+    margin-right: 2%;
     overflow-y: scroll;
+    box-shadow: 0 0 3px grey;
+}
+
+#chat-messages-alignment {
+    display: grid;
+    grid-template-columns: 35% 65%;
+}
+
+.chat-info-alignment {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.image-chat-container {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.image-in-chat {
+    height: 50px;
+    width: 50px;
+}
+
+.chat-align-name {
+    font-size: 18px;
+    margin-left: 3%;
+}
+
+.date-in-chat {
+    font-size: 12px;
+    transform: translate(22%, -110%);
+}
+
+#chatmessage {
+    margin-bottom: 3%;
+}
+
+#textarea-chat {
+    height: 300px;
 }
 
 /* ////////////////////// UPLOADER-MODAL ////////////////////// */
@@ -474,27 +521,15 @@ textarea {
     box-shadow: 0 0 6px 0px black;
     z-index: 10;
     position: fixed;
-    /* overflow: hidden; */
-    /* transition: 1s ease-out; */
-    /* transition: 1s ease-in; */
-    /* transform: translate(0%); */
-    /* transition: transform 1000ms ease-in-out; */
-    animation: slide-down 0.6s ease;
-    /* transform: translateX(0%, 100%); */
-    /* transform: translateX(100vw, 0); */
-    /* transform: translateX(0, 100vw); */
-    /* transform: translateX(100%, 0); */
-    /* transform: translate(100vw, 0); */
+    animation: slide-in 0.8s ease;
 }
 
-@keyframes slide-down {
+@keyframes slide-in {
     0% {
-        opacity: 0;
-        transform: translateY(-10px);
+        transform: translateX(100%);
     }
     100% {
-        opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 

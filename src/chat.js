@@ -34,40 +34,51 @@ export default function Chat() {
 
     return (
         <div>
-            <p className="chat-title">Welcome to Chat</p>
-            <div className="chat-messages-container" ref={elemRef}>
-                {chatMessages &&
-                    chatMessages.map((each, index) => (
-                        <div className="" key={index}>
-                            <Link
-                                className=""
-                                to={`/user/${each.id}`}
-                                key={each.id}
-                            >
-                                <div className="">
-                                    <img
-                                        className="img-frame"
-                                        src={each.img_url || "/default.svg"}
-                                        alt={`${each.first} ${each.last}`}
-                                    />
+            <h2>Chat</h2>
+            <div id="chat-container">
+                <div className="chat-messages-container" ref={elemRef}>
+                    {chatMessages &&
+                        chatMessages.map((each, index) => (
+                            <div id="chat-messages-alignment" key={index}>
+                                <div>
+                                    <Link
+                                        className="chat-info-alignment"
+                                        to={`/user/${each.id}`}
+                                        key={each.id}
+                                    >
+                                        <div className="image-chat-container">
+                                            <img
+                                                className="image-in-chat"
+                                                src={
+                                                    each.img_url ||
+                                                    "/default.svg"
+                                                }
+                                                alt={`${each.first} ${each.last}`}
+                                            />
+                                        </div>
+                                        <div className="chat-align-name">
+                                            {each.first} {each.last}
+                                        </div>
+                                    </Link>
+                                    <div className="date-in-chat">
+                                        {each.created_at}
+                                    </div>
                                 </div>
-                                <div className="">
-                                    {each.first} {each.last}
-                                </div>
-                            </Link>
-                            <div>{each.text}</div>
-                            <div>{each.created_at}</div>
-                        </div>
-                    ))}
+                                <div id="chatmessage">{each.text}</div>
+                            </div>
+                        ))}
+                </div>
+                <div id="textarea-chat">
+                    <textarea
+                        name=""
+                        placeholder="Join the conversation..."
+                        id=""
+                        cols="50"
+                        rows="10"
+                        onKeyDown={keyCheck}
+                    ></textarea>
+                </div>
             </div>
-            <textarea
-                name=""
-                placeholder="Add your message here"
-                id=""
-                cols="30"
-                rows="10"
-                onKeyDown={keyCheck}
-            ></textarea>
         </div>
     );
 }
