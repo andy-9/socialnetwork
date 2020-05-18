@@ -57,8 +57,8 @@ export default function FindPeople() {
                 }}
                 placeholder="Enter Name"
             />
-            {justJoined && <h4>Checkout who just joined</h4>}
-            {!justJoined && <h4>Search Results</h4>}
+            {justJoined && <h6>Checkout who just joined</h6>}
+            {!justJoined && <h6>Search Results</h6>}
             <div>
                 {users.map((each) => (
                     <Link to={`/user/${each.id}`} key={each.id}>

@@ -51,9 +51,9 @@ class OtherProfile extends Component {
                         />
                     </div>
                     <div className="text-for-profile">
-                        <h3 className="profile-fullname">
+                        <h6 className="profile-fullname">
                             {this.state.first} {this.state.last}
-                        </h3>
+                        </h6>
                         <p className="bio-text">{this.state.bio}</p>
                         <FriendShipButton
                             otherUserId={this.props.match.params.id}

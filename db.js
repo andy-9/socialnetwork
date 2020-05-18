@@ -277,3 +277,5 @@ module.exports.myFriendsAndWannabes = (id) => {
             console.log("CATCH in db.js in myFriendsAndWannabes:", err);
         });
 };
+
+////////////////////////// CHAT //////////////////////////

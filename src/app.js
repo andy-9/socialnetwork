@@ -6,6 +6,7 @@ import Profile from "./profile";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
 import OtherProfile from "./other-profile";
+import Chat from "./chat";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -62,7 +63,7 @@ export default class App extends React.Component {
         }
 
         return (
-            <div id="whole-screen">
+            <div>
                 <BrowserRouter>
                     <div>
                         <Presentational
@@ -72,7 +73,7 @@ export default class App extends React.Component {
                         />
 
                         {this.state.uploaderIsVisible && (
-                            <div className="uploader">
+                            <div id="uploader">
                                 <Uploader
                                     id={this.state.id}
                                     profileImgUrl={this.profileImgUrl}
@@ -119,6 +120,8 @@ export default class App extends React.Component {
                             path="/friends"
                             render={() => <Friends />}
                         />
+
+                        <Route path="/chat" component={Chat} />
                     </div>
                 </BrowserRouter>
             </div>

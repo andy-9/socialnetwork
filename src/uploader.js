@@ -9,6 +9,21 @@ export default class Uploader extends React.Component {
         };
     }
 
+    componentDidMount() {
+        var self = this;
+
+        document
+            .getElementById("uploader")
+            .addEventListener("mousedown", function () {
+                self.props.toggleModal();
+            });
+        document
+            .getElementById("img-modal")
+            .addEventListener("mousedown", function (e) {
+                e.stopPropagation();
+            });
+    }
+
     handleChange(e) {
         this.setState({
             file: e.target.files[0],
@@ -43,7 +58,7 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div className="img-modal">
+            <div id="img-modal">
                 <div className="x" onClick={() => this.closeModal()}>
                     X
                 </div>

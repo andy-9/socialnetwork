@@ -8,26 +8,17 @@ export default function FindPeople() {
     const [justJoined, setJustJoined] = useState(true);
 
     useEffect(() => {
-        // console.log("findpeople.js, useEffect runs");
-        // console.log("findpeople.js, find:", find);
-        // console.log("findpeople.js, find 2:", `/search-users/${find}`);
-
         let abort;
 
         (async () => {
             if (!find) {
                 const { data } = await axios.get("/api/users");
-                // console.log("findpeople.js, data from /api/users:", data);
                 if (!abort) {
                     setUsers(data);
                 }
                 setJustJoined(true);
             } else {
                 const { data } = await axios.get(`/search-users/${find}`);
-                // console.log(
-                //     "findpeople.js, data from /search-users/:find:",
-                //     data
-                // );
                 if (!abort) {
                     setUsers(data);
                 }

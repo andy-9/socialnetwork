@@ -22,9 +22,9 @@ export default function Profile({
                 />
             </div>
             <div className="text-for-profile">
-                <h3 className="profile-fullname">
+                <h6 className="profile-fullname">
                     {first} {last}
-                </h3>
+                </h6>
                 <BioEditor
                     className="bio-text"
                     id={id}

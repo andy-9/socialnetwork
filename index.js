@@ -53,12 +53,22 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.use(
-    cookieSession({
-        secret: `Mein Kite ist wichtiger als D.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: `Mein Kite ist wichtiger als D.`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `Mein Kite ist wichtiger als D.`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -472,22 +482,47 @@ server.listen(8080, function () {
 });
 
 io.on("connection", (socket) => {
+    // "connection" is like an event listener
     console.log(`a socket with the id ${socket.id} just connected`);
 
-    socket.emit("yo", {
-        message: "Yo! It is nice to see you",
-    });
-    socket.broadcast.emit("somebodyShowedUp", {
-        msg: "looks nice",
-    });
-    io.emit("achtung", "this site rocks");
+    // if user is not logged in --> disconnect
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
 
-    socket.on("disconnect", function () {
-        console.log(`a socket with the id ${socket.id} just disconnected`);
+    const userId = socket.request.session.userId;
+    // good point to retrieve the last 10 messages
+    // db.getLastTenMessages().then((data) => {
+    // console.log("index.js, last 10 messages:", data);
+    // will need to be a join: info from both users table and chat (user's first, last, image and chat message)
+    // most recent message should be at the bottom
+    // io.sockets.emit("chatMessages", data);
+    // });
+
+    socket.on("chat message from user", (newMsg) => {
+        console.log("This message is coming from chat.js component:", newMsg);
+        console.log("user who sent newMsg is:", userId);
+        // 1. store msg in db with query (INSERT)
+        // 2. do query to get information about user (first, last, image, timestamp(?)), will be a join
+        // once i have information emit message so that everyone can see it
+
+        io.sockets.emit("addChatMsg", newMsg); // I will have to send more: last msg + info about user
     });
-    socket.on("thanks", function (data) {
-        console.log(data);
-    });
+
+    // socket.emit("yo", {
+    //     message: "Yo! It is nice to see you",
+    // });
+    // socket.broadcast.emit("somebodyShowedUp", {
+    //     msg: "looks nice",
+    // });
+    // io.emit("achtung", "this site rocks");
+
+    // socket.on("disconnect", function () {
+    //     console.log(`a socket with the id ${socket.id} just disconnected`);
+    // });
+    // socket.on("thanks", function (data) {
+    //     console.log(data);
+    // });
     // socket.on("hi", ({ msg }) => {
     //     console.log(msg);
     // });

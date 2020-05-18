@@ -31,5 +31,7 @@ export async function endFriendship(otherUserId) {
     };
 }
 
+// actions: will not have to do any axios-requests
+
 // axios request to server (server does the usual stuff)
 // then: passed on to reducer
