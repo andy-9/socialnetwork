@@ -61,6 +61,7 @@ export default class Login extends React.Component {
                 )}
                 <div className="flexbox-login">
                     <div>
+                        <p className="input-description">Email</p>
                         <ion-icon
                             className="icon"
                             name="at-circle-sharp"
@@ -70,13 +71,16 @@ export default class Login extends React.Component {
                             type="email"
                             required
                             maxLength="100"
-                            placeholder="Email"
+                            // placeholder="e.g. kirsty@jones.org"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
 
                     <div>
+                        <p className="input-description">
+                            Password (8 characters minimum)
+                        </p>
                         <ion-icon
                             className="icon"
                             name="lock-closed-sharp"
@@ -84,7 +88,7 @@ export default class Login extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            placeholder="Password"
+                            // placeholder="e.g. 3fK)a*dK3J"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />

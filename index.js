@@ -499,8 +499,14 @@ server.listen(8080, function () {
 
 io.on("connection", (socket) => {
     // "connection" is like an event listener
-    console.log(`a socket with the id ${socket.id} just connected`);
+    console.log(`index.js, a socket with the id ${socket.id} just connected`);
     const userId = socket.request.session.userId;
+    console.log("index.js, userId:", userId);
+    // console.log("index.js, socket.request:", socket.request);
+    console.log(
+        "index.js, socket.request.headers.cookie:",
+        socket.request.headers.cookie
+    );
 
     // if user is not logged in --> disconnect
     if (!userId) {
@@ -531,5 +537,27 @@ io.on("connection", (socket) => {
             // );
             io.sockets.emit("addChatMsg", data.reverse());
         });
+    });
+
+    socket.on("chat message from friend", (text) => {
+        console.log(
+            "this message is coming from chat-with-friends.js component (text):",
+            text
+        );
+        console.log(
+            "index.js, user who sent friend message (text) has userId:",
+            userId
+        );
+        console.log("index.js, socket.id:", socket.id);
+        // db.insertPrivateChatMessage(text, userId, receiver_id).then((data) => {
+        //     for (let i = 0; i < data.length; i++) {
+        //         data[i].created_at = truncateDate(data[i].created_at);
+        //     }
+        //     console.log(
+        //         "index.js, insertPrivateChatMessage, data after truncation:",
+        //         data
+        //     );
+        //     io.to(socketId).emit("PrivMsg", data.reverse());
+        // });
     });
 });

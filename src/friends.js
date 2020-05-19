@@ -25,12 +25,12 @@ export default function Friends() {
     return (
         <div id="friends-container">
             <div className="center">
-                {wannabes && !wannabes.length && (
+                {wannabes && wannabes.length === 0 && (
                     <h2 className="one-percent-bottom">
                         Currently no friend requests
                     </h2>
                 )}
-                {wannabes && wannabes.length && (
+                {wannabes && wannabes.length > 0 && (
                     <h2 className="one-percent-bottom">Friend Requests</h2>
                 )}
                 <div className="peers">
@@ -67,12 +67,12 @@ export default function Friends() {
             </div>
 
             <div className="center one-percent-top">
-                {friends && !friends.length && (
+                {friends && !friends.length === 0 && (
                     <h2 className="one-percent-bottom">
                         Currently you don&apos;t have any friends
                     </h2>
                 )}
-                {friends && friends.length && (
+                {friends && friends.length > 0 && (
                     <h2 className="one-percent-bottom">My Friends</h2>
                 )}
                 <div className="peers">

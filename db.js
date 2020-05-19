@@ -302,22 +302,20 @@ module.exports.insertChatMessage = (text, user_id) => {
     return db
         .query(
             `INSERT INTO chat (text, user_id)
-            VALUES ($1, $2)
-            RETURNING *`,
+            VALUES ($1, $2)`,
             [text, user_id]
         )
         .then(() => {
             return db.query(
                 `SELECT users.id, users.first, users.last, users.img_url, chat.text, chat.created_at
-                    FROM chat
-                    LEFT OUTER JOIN users
-                    ON chat.user_id = users.id
-                    ORDER BY chat.created_at
-                    DESC LIMIT 10`
+                FROM chat
+                LEFT OUTER JOIN users
+                ON chat.user_id = users.id
+                ORDER BY chat.created_at
+                DESC LIMIT 10`
             );
         })
         .then((res) => {
-            // console.log("db.js, res.rows insertChatMessage:", res.rows);
             return res.rows;
         })
         .catch((err) => {

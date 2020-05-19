@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "./axios";
 import FriendShipButton from "./friend-button";
+import ChatWithFriends from "./chat-with-friends";
 
 class OtherProfile extends Component {
     constructor(props) {
@@ -61,6 +62,9 @@ class OtherProfile extends Component {
                             last={this.state.last}
                         />
                     </div>
+                    {/* {console.log("other-profile.js 1:", this.state.buttonText)} */}
+                    {/* {console.log("other-profile.js 2:", this.props.buttonText)} */}
+                    {/* <ChatWithFriends id="position-duo-chat" /> */}
                 </div>
             </Fragment>
         );

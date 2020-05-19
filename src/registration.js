@@ -83,6 +83,7 @@ export default class Registration extends React.Component {
 
                 <div className="flexbox-register">
                     <div>
+                        <p className="input-description">First name</p>
                         <ion-icon
                             className="icon"
                             name="person-circle-sharp"
@@ -92,11 +93,12 @@ export default class Registration extends React.Component {
                             type="text"
                             required
                             maxLength="70"
-                            placeholder="First name"
+                            placeholder="e.g. Jones"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
                     <div>
+                        <p className="input-description">Last name</p>
                         <ion-icon
                             className="icon"
                             name="pencil-sharp"
@@ -105,11 +107,12 @@ export default class Registration extends React.Component {
                             name="last"
                             type="text"
                             maxLength="70"
-                            placeholder="Last name"
+                            placeholder="e.g. Kirsty"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
                     <div>
+                        <p className="input-description">Email</p>
                         <ion-icon
                             className="icon"
                             name="at-circle-sharp"
@@ -118,12 +121,15 @@ export default class Registration extends React.Component {
                             name="email"
                             type="email"
                             required
-                            placeholder="Email"
+                            placeholder="e.g. kirsty@jones.org"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
                     <div>
+                        <p className="input-description">
+                            Password (8 characters minimum)
+                        </p>
                         <ion-icon
                             className="icon"
                             name="lock-closed-sharp"
@@ -131,7 +137,7 @@ export default class Registration extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            placeholder="Password (min. 8 characters)"
+                            placeholder="e.g. 3fK)a*dK3J"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />
@@ -145,6 +151,7 @@ export default class Registration extends React.Component {
                     )}
 
                     <div>
+                        <p className="input-description">Password Check</p>
                         <ion-icon
                             className="icon"
                             name="checkmark-done-sharp"
