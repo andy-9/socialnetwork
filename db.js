@@ -197,7 +197,7 @@ module.exports.areUsersFriends = (receiver_id, sender_id) => {
             `SELECT * FROM friendships
             WHERE (receiver_id = $1 AND sender_id = $2)
             OR (receiver_id = $2 AND sender_id = $1)`,
-            [sender_id, receiver_id]
+            [receiver_id, sender_id]
         )
         .then((result) => {
             return result.rows;
@@ -275,6 +275,34 @@ module.exports.myFriendsAndWannabes = (id) => {
         })
         .catch((err) => {
             console.log("CATCH in db.js in myFriendsAndWannabes:", err);
+        });
+};
+
+////////////////////////// GET THREE FRIENDS //////////////////////////
+
+module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
+    console.log("db.js, getThreeFriendsInfo running");
+    return db
+        .query(
+            `SELECT users.id, users.first, users.last, users.img_url
+            FROM users
+            LEFT JOIN friendships
+            ON users.id = friendships.receiver_id
+            OR users.id = friendships.sender_id
+            WHERE friendships.sender_id IS NULL
+            OR friendships.receiver_id IS NULL
+            LIMIT 3`
+            // SQL injection?!
+        )
+        .then((result) => {
+            console.log(
+                "db.js, getThreeFriendsInfo, result.rows:",
+                result.rows
+            );
+            return result.rows;
+        })
+        .catch((err) => {
+            console.log("CATCH in db.js in getThreeFriendsInfo:", err);
         });
 };
 

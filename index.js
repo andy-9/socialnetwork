@@ -394,6 +394,7 @@ app.get("/search-users/:find", (req, res) => {
 
 app.get("/api/user/:id", (req, res) => {
     const id = req.params.id;
+    console.log("index.js, /api/user/:id running");
 
     db.getUserInfo(id)
         .then((otherUserInfo) => {
@@ -406,6 +407,50 @@ app.get("/api/user/:id", (req, res) => {
         .catch((err) => {
             console.log("CATCH in index.js /api/user/:id getUserInfo", err);
             res.json({ isLoggedInUser: true });
+        });
+});
+
+app.get("/api/threefriends/:id", (req, res) => {
+    console.log("index.js, /api/threefriends/:id running");
+    const receiver_id = req.params.id;
+    console.log("index.js, /api/threefriends/:id, receiver_id:", receiver_id);
+    const sender_id = req.session.userId;
+    console.log("index.js, /api/threefriends/:id, sender_id:", sender_id);
+
+    db.areUsersFriends(receiver_id, sender_id)
+        .then((result) => {
+            console.log("index.js, result areUsersFriends:", result);
+
+            if (result[0].accepted == true) {
+                console.log("index.js, areUsersFriends: yes!");
+                db.getThreeFriendsInfo(receiver_id, sender_id)
+                    .then((result) => {
+                        console.log(
+                            "index.js, getThreeFriendsInfo, result:",
+                            result
+                        );
+                        // if (result.id == req.session.userId) {
+                        //     res.json({ isLoggedInUser: true });
+                        // } else {
+                        //     res.json({ result, isLoggedInUser: false });
+                        // }
+                    })
+                    .catch((err) => {
+                        console.log(
+                            "CATCH in index.js /api/threefriends/:id getThreeFriendsInfo:",
+                            err
+                        );
+                    });
+            } else {
+                res.json({ noFriends: true });
+            }
+        })
+        .catch((err) => {
+            console.log(
+                "CATCH in index.js /api/threefriends/:id areUsersFriends:",
+                err
+            );
+            res.json({ noFriends: true });
         });
 });
 
@@ -499,14 +544,14 @@ server.listen(8080, function () {
 
 io.on("connection", (socket) => {
     // "connection" is like an event listener
-    console.log(`index.js, a socket with the id ${socket.id} just connected`);
+    // console.log(`index.js, a socket with the id ${socket.id} just connected`);
     const userId = socket.request.session.userId;
-    console.log("index.js, userId:", userId);
+    // console.log("index.js, userId:", userId);
     // console.log("index.js, socket.request:", socket.request);
-    console.log(
-        "index.js, socket.request.headers.cookie:",
-        socket.request.headers.cookie
-    );
+    // console.log(
+    //     "index.js, socket.request.headers.cookie:",
+    //     socket.request.headers.cookie
+    // );
 
     // if user is not logged in --> disconnect
     if (!userId) {
@@ -540,15 +585,15 @@ io.on("connection", (socket) => {
     });
 
     socket.on("chat message from friend", (text) => {
-        console.log(
-            "this message is coming from chat-with-friends.js component (text):",
-            text
-        );
-        console.log(
-            "index.js, user who sent friend message (text) has userId:",
-            userId
-        );
-        console.log("index.js, socket.id:", socket.id);
+        // console.log(
+        //     "this message is coming from chat-with-friends.js component (text):",
+        //     text
+        // );
+        // console.log(
+        //     "index.js, user who sent friend message (text) has userId:",
+        //     userId
+        // );
+        // console.log("index.js, socket.id:", socket.id);
         // db.insertPrivateChatMessage(text, userId, receiver_id).then((data) => {
         //     for (let i = 0; i < data.length; i++) {
         //         data[i].created_at = truncateDate(data[i].created_at);

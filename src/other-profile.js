@@ -10,8 +10,8 @@ class OtherProfile extends Component {
     }
 
     componentDidMount() {
-        // console.log("other-profile.js is running");
-        // console.log("this.props.match.params.id:", this.props.match.params.id);
+        console.log("other-profile.js, componentDidMount is running");
+        // console.log("other-profile.js, componentDidMount, this.props.match.params.id:", this.props.match.params.id);
         const otherUserId = this.props.match.params.id;
 
         axios
@@ -38,12 +38,36 @@ class OtherProfile extends Component {
                     err
                 );
             });
+
+        axios
+            .get("/api/threefriends/" + otherUserId)
+            .then(({ data }) => {
+                console.log(
+                    "other-profile.js in get /otherprofile, data:",
+                    data
+                );
+                if (data.noFriends) {
+                    // don't show anything
+                } else {
+                    this.setState({
+                        first: data.otherUserInfo.first,
+                        last: data.otherUserInfo.last,
+                        img_url: data.otherUserInfo.img_url || "/default.svg",
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "CATCH in other-profile.js in axios.get /otherprofile:",
+                    err
+                );
+            });
     }
 
     render() {
         return (
             <Fragment>
-                <div className="profile flex">
+                <div className="profile">
                     <div className="pic-for-profile">
                         <img
                             className="img-frame"
@@ -61,6 +85,42 @@ class OtherProfile extends Component {
                             first={this.state.first}
                             last={this.state.last}
                         />
+                    </div>
+                    <div className="friends-of-friends-container">
+                        {/* {threeFriends && !threeFriends.length === 0 && (
+                        )} */}
+                        {/* {threeFriends && threeFriends.length > 0 && (
+                            <h4 className="one-percent-bottom">
+                                {this.state.first} {this.state.last} is also
+                                friends with
+                            </h4>
+                        )}
+                        <div className="">
+                            {threeFriends &&
+                                threeFriends.map((each) => (
+                                    <div className="" key={each.id}>
+                                        <Link
+                                            className="one-percent-bottom"
+                                            to={`/user/${each.id}`}
+                                            key={each.id}
+                                        >
+                                            <div className="pic-peers">
+                                                <img
+                                                    className="img-frame"
+                                                    src={
+                                                        each.img_url ||
+                                                        "/default.svg"
+                                                    }
+                                                    alt={`${each.first} ${each.last}`}
+                                                />
+                                            </div>
+                                            <div className="center">
+                                                {each.first} {each.last}
+                                            </div>
+                                        </Link>
+                                    </div>
+                                ))}
+                        </div> */}
                     </div>
                     {/* {console.log("other-profile.js 1:", this.state.buttonText)} */}
                     {/* {console.log("other-profile.js 2:", this.props.buttonText)} */}

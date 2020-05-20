@@ -12,7 +12,7 @@ export default function Profile({
     toggleModal,
 }) {
     return (
-        <div className="profile flex">
+        <div className="profile">
             <div className="pic-for-profile img-frame">
                 <ProfilePic
                     first={first}
