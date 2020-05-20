@@ -282,28 +282,41 @@ module.exports.myFriendsAndWannabes = (id) => {
 
 module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
     console.log("db.js, getThreeFriendsInfo running");
-    return db
-        .query(
-            `SELECT users.id, users.first, users.last, users.img_url
-            FROM users
-            LEFT JOIN friendships
-            ON users.id = friendships.receiver_id
-            OR users.id = friendships.sender_id
-            WHERE friendships.sender_id IS NULL
-            OR friendships.receiver_id IS NULL
-            LIMIT 3`
-            // SQL injection?!
-        )
-        .then((result) => {
-            console.log(
-                "db.js, getThreeFriendsInfo, result.rows:",
-                result.rows
-            );
-            return result.rows;
-        })
-        .catch((err) => {
-            console.log("CATCH in db.js in getThreeFriendsInfo:", err);
-        });
+    return (
+        db
+            .query(
+                `SELECT users.id, first, last, img_url, accepted
+                FROM friendships
+                LEFT JOIN users
+                ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND WHERE sender_id != $2)
+                OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND WHERE receiver_id != $2)
+                LIMIT 3`,
+                [receiver_id, sender_id]
+            )
+            // WHERE $2 IS NULL
+            // WHERE id != $1
+            // .query(
+            //     `SELECT users.id, users.first, users.last, users.img_url
+            //     FROM users
+            //     LEFT JOIN friendships
+            //     ON users.id = friendships.receiver_id
+            //     OR users.id = friendships.sender_id
+            //     WHERE friendships.sender_id IS NULL
+            //     OR friendships.receiver_id IS NULL
+            //     LIMIT 3`
+            //     // SQL injection?!
+            // )
+            .then((result) => {
+                console.log(
+                    "db.js, getThreeFriendsInfo, result.rows:",
+                    result.rows
+                );
+                return result.rows;
+            })
+            .catch((err) => {
+                console.log("CATCH in db.js in getThreeFriendsInfo:", err);
+            })
+    );
 };
 
 ////////////////////////// CHAT //////////////////////////
