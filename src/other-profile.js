@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "./axios";
 import FriendShipButton from "./friend-button";
-import ChatWithFriends from "./chat-with-friends";
+// import ChatWithFriends from "./chat-with-friends";
 
 class OtherProfile extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class OtherProfile extends Component {
             })
             .catch((err) => {
                 console.log(
-                    "CATCH in other-profile.js in axios.get /otherprofile:",
+                    "CATCH in other-profile.js in axios.get /api/user/:",
                     err
                 );
             });
@@ -50,15 +50,16 @@ class OtherProfile extends Component {
                     // don't show anything
                 } else {
                     this.setState({
-                        first: data.otherUserInfo.first,
-                        last: data.otherUserInfo.last,
-                        img_url: data.otherUserInfo.img_url || "/default.svg",
+                        idFriend: data.id,
+                        firstFriend: data.first,
+                        lastFriend: data.last,
+                        img_urlFriend: data.img_url || "/default.svg",
                     });
                 }
             })
             .catch((err) => {
                 console.log(
-                    "CATCH in other-profile.js in axios.get /otherprofile:",
+                    "CATCH in other-profile.js in axios.get /api/threefriends/:",
                     err
                 );
             });
@@ -89,38 +90,40 @@ class OtherProfile extends Component {
                     <div className="friends-of-friends-container">
                         {/* {threeFriends && !threeFriends.length === 0 && (
                         )} */}
-                        {/* {threeFriends && threeFriends.length > 0 && (
-                            <h4 className="one-percent-bottom">
-                                {this.state.first} {this.state.last} is also
-                                friends with
-                            </h4>
-                        )}
+                        {/* {threeFriends && threeFriends.length > 0 && ( */}
+                        <h4 className="one-percent-bottom">
+                            {this.state.first} {this.state.last} is also friends
+                            with
+                        </h4>
+                        {/* )} */}
                         <div className="">
-                            {threeFriends &&
-                                threeFriends.map((each) => (
-                                    <div className="" key={each.id}>
+                            {/* {data &&
+                                data.map((each) => (
+                                    <div className="" key={each.idFriend}>
                                         <Link
                                             className="one-percent-bottom"
-                                            to={`/user/${each.id}`}
-                                            key={each.id}
+                                            to={`/user/${each.idFriend}`}
+                                            key={each.idFriend}
                                         >
                                             <div className="pic-peers">
                                                 <img
                                                     className="img-frame"
                                                     src={
-                                                        each.img_url ||
+                                                        each.img_urlFriend ||
                                                         "/default.svg"
                                                     }
-                                                    alt={`${each.first} ${each.last}`}
+                                                    alt={`${each.firstFriend} ${each.lastFriend}`}
                                                 />
                                             </div>
                                             <div className="center">
-                                                {each.first} {each.last}
+                                                {each.firstFriend}{" "}
+                                                {each.lastFriend}
                                             </div>
                                         </Link>
                                     </div>
-                                ))}
-                        </div> */}
+                                ))} */}
+                        </div>
+                        {/* } */}
                     </div>
                     {/* {console.log("other-profile.js 1:", this.state.buttonText)} */}
                     {/* {console.log("other-profile.js 2:", this.props.buttonText)} */}

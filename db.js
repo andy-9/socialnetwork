@@ -290,7 +290,13 @@ module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
                 JOIN users
                 ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND sender_id != $2 AND receiver_id != $2)
                 OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND receiver_id != $2 AND sender_id != $2)
-                LIMIT 6`,
+                WHERE users.id NOT IN (
+                    SELECT users.id
+                    FROM friendships
+                    JOIN users
+                    ON (accepted = true AND receiver_id = $2 AND sender_id = users.id)
+                    OR (accepted = true AND sender_id = $2 AND receiver_id = users.id)
+                )`,
                 [receiver_id, sender_id]
             )
             // ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND WHERE sender_id != $2)

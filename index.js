@@ -429,11 +429,7 @@ app.get("/api/threefriends/:id", (req, res) => {
                             "index.js, getThreeFriendsInfo, result:",
                             result
                         );
-                        // if (result.id == req.session.userId) {
-                        //     res.json({ isLoggedInUser: true });
-                        // } else {
-                        //     res.json({ result, isLoggedInUser: false });
-                        // }
+                        res.json(result);
                     })
                     .catch((err) => {
                         console.log(
