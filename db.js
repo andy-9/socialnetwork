@@ -287,12 +287,14 @@ module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
             .query(
                 `SELECT users.id, first, last, img_url, accepted
                 FROM friendships
-                LEFT JOIN users
-                ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND WHERE sender_id != $2)
-                OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND WHERE receiver_id != $2)
-                LIMIT 3`,
+                JOIN users
+                ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND sender_id != $2 AND receiver_id != $2)
+                OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND receiver_id != $2 AND sender_id != $2)
+                LIMIT 6`,
                 [receiver_id, sender_id]
             )
+            // ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND WHERE sender_id != $2)
+            // OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND WHERE receiver_id != $2)
             // WHERE $2 IS NULL
             // WHERE id != $1
             // .query(
