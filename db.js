@@ -280,8 +280,8 @@ module.exports.myFriendsAndWannabes = (id) => {
 
 ////////////////////////// GET THREE FRIENDS //////////////////////////
 
-module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
-    console.log("db.js, getThreeFriendsInfo running");
+module.exports.getFriendsInfo = (receiver_id, sender_id) => {
+    console.log("db.js, getFriendsInfo running");
     return db
         .query(
             `SELECT users.id, first, last, img_url, accepted
@@ -299,14 +299,11 @@ module.exports.getThreeFriendsInfo = (receiver_id, sender_id) => {
             [receiver_id, sender_id]
         )
         .then((result) => {
-            console.log(
-                "db.js, getThreeFriendsInfo, result.rows:",
-                result.rows
-            );
+            console.log("db.js, getFriendsInfo, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
-            console.log("CATCH in db.js in getThreeFriendsInfo:", err);
+            console.log("CATCH in db.js in getFriendsInfo:", err);
         });
 };
 

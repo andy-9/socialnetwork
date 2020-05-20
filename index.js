@@ -410,35 +410,44 @@ app.get("/api/user/:id", (req, res) => {
         });
 });
 
-app.get("/api/threefriends/:id", (req, res) => {
-    console.log("index.js, /api/threefriends/:id running");
+app.get("/api/friends-of-friends/:id", (req, res) => {
+    console.log("index.js, /api/friends-of-friends/:id running");
     const receiver_id = req.params.id;
-    console.log("index.js, /api/threefriends/:id, receiver_id:", receiver_id);
+    console.log(
+        "index.js, /api/friends-of-friends/:id, receiver_id:",
+        receiver_id
+    );
     const sender_id = req.session.userId;
-    console.log("index.js, /api/threefriends/:id, sender_id:", sender_id);
+    console.log("index.js, /api/friends-of-friends/:id, sender_id:", sender_id);
 
     db.areUsersFriends(receiver_id, sender_id)
         .then((result) => {
-            console.log("index.js, result areUsersFriends:", result);
+            console.log(
+                "index.js, result areUsersFriends in /api/friends-of-friends/:id:",
+                result
+            );
 
-            if (result[0].accepted == true) {
+            if (result == 0 || result[0].accepted == false) {
+                console.log(
+                    "index.js, users are not friends, send res.json false"
+                );
+                res.json({ areFriends: false });
+            } else {
                 console.log("index.js, areUsersFriends: yes!");
-                db.getThreeFriendsInfo(receiver_id, sender_id)
+                db.getFriendsInfo(receiver_id, sender_id)
                     .then((result) => {
                         console.log(
-                            "index.js, getThreeFriendsInfo, result:",
+                            "index.js, getFriendsInfo, result:",
                             result
                         );
                         res.json(result);
                     })
                     .catch((err) => {
                         console.log(
-                            "CATCH in index.js /api/threefriends/:id getThreeFriendsInfo:",
+                            "CATCH in index.js /api/threefriends/:id getFriendsInfo:",
                             err
                         );
                     });
-            } else {
-                res.json({ areFriends: false });
             }
         })
         .catch((err) => {

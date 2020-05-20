@@ -8,7 +8,7 @@ class OtherProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // areFriends: true,
+            areFriends: true,
         };
         console.log("other-profile.js, state:", this.state);
     }
@@ -44,30 +44,18 @@ class OtherProfile extends Component {
             });
 
         axios
-            .get("/api/threefriends/" + otherUserId)
+            .get("/api/friends-of-friends/" + otherUserId)
             .then(({ data }) => {
                 console.log(
-                    "other-profile.js in get /otherprofile, data:",
+                    "other-profile.js in get /api/friends-of-friends/, data:",
                     data
                 );
-                // if (data.areFriends) {
-                //     console.log("other-profile.js, areFriends: false");
-                //     this.setState({
-                //         areFriends: false,
-                //     });
-                //     // don't show anything
-                // } else {
-                // for (let i = 0; i < data.length; i++) {
-                //     this.setState({
-                //         idFriend: data[i].id,
-                //         firstFriend: data[i].first,
-                //         lastFriend: data[i].last,
-                //         img_urlFriend: data[i].img_url || "/default.svg",
-                //     });
-                // }
-                // this.setState(data);
-                this.setState({ data }, () => console.log(this.state));
-                // }
+                this.setState({ data }, () =>
+                    console.log(
+                        "other-profile.js in get /api/threefriends/, this.state:",
+                        this.state
+                    )
+                );
             })
             .catch((err) => {
                 console.log(
@@ -101,39 +89,56 @@ class OtherProfile extends Component {
                     </div>
 
                     <div className="friends-of-friends-container">
-                        {/* {areFriends && !areFriends.length === 0 && ()} */}
-                        {/* {threeFriends && threeFriends.length > 0 && ( */}
-                        {/* {areFriends && ( */}
-                        <h4 className="one-percent-bottom">
-                            {this.state.first} {this.state.last} is also friends
-                            with
-                        </h4>
+                        <div className="">
+                            {console.log("other-profile.js, rendering false")}
+                            {this.state.areFriends === false && (
+                                <h4 className="one-percent-bottom"></h4>
+                            )}
+                        </div>
 
                         <div className="">
-                            {this.state.data &&
-                                this.state.data.map((each) => {
-                                    return (
-                                        <div key={each.id}>
-                                            <Link
-                                                className="one-percent-bottom"
-                                                to={`/user/${each.id}`}
-                                                key={each.id}
-                                            >
-                                                <div className="">
-                                                    <img
-                                                        className="img-frame"
-                                                        src={
-                                                            each.img_url ||
-                                                            "/default.svg"
-                                                        }
-                                                        alt={`${each.first} ${each.last}`}
-                                                    />
-                                                </div>
-                                                {each.first} {each.last}
-                                            </Link>
+                            {console.log("other-profile.js, rendering true")}
+                            <div>
+                                {this.state.areFriends === true && (
+                                    <div>
+                                        <h4 className="one-percent-bottom">
+                                            {this.state.first} {this.state.last}
+                                            is also friends with
+                                        </h4>
+
+                                        <div>
+                                            {console.log(
+                                                "other-profile.js, mapping to begin"
+                                            )}
+                                            {this.state.data &&
+                                                this.state.data.map((each) => {
+                                                    return (
+                                                        <div key={each.id}>
+                                                            <Link
+                                                                className="one-percent-bottom"
+                                                                to={`/user/${each.id}`}
+                                                                key={each.id}
+                                                            >
+                                                                <div className="">
+                                                                    <img
+                                                                        className="img-frame"
+                                                                        src={
+                                                                            each.img_url ||
+                                                                            "/default.svg"
+                                                                        }
+                                                                        alt={`${each.first} ${each.last}`}
+                                                                    />
+                                                                </div>
+                                                                {each.first}{" "}
+                                                                {each.last}
+                                                            </Link>
+                                                        </div>
+                                                    );
+                                                })}
                                         </div>
-                                    );
-                                })}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
