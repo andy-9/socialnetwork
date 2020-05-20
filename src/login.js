@@ -77,9 +77,7 @@ export default class Login extends React.Component {
                     </div>
 
                     <div>
-                        <p className="input-description">
-                            Password (8 characters minimum)
-                        </p>
+                        <p className="input-description">Password</p>
                         <ion-icon
                             className="icon"
                             name="lock-closed-sharp"

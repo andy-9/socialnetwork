@@ -32,7 +32,7 @@ export default function ChatWithFriends() {
                             <div id="chat-messages-alignment" key={index}>
                                 <div>
                                     <Link
-                                        className="chat-info-alignment"
+                                        className="flex"
                                         to={`/user/${each.id}`}
                                         key={each.id}
                                     >

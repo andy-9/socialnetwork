@@ -8,23 +8,17 @@ class OtherProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            areFriends: true,
+            noFriends: false,
         };
-        console.log("other-profile.js, state:", this.state);
     }
 
     componentDidMount() {
         console.log("other-profile.js, componentDidMount is running");
-        // console.log("other-profile.js, componentDidMount, this.props.match.params.id:", this.props.match.params.id);
         const otherUserId = this.props.match.params.id;
 
         axios
             .get("/api/user/" + otherUserId)
             .then(({ data }) => {
-                // console.log(
-                // "other-profile.js in get /otherprofile, data:",
-                // data
-                // );
                 if (data.isLoggedInUser) {
                     this.props.history.push("/");
                 } else {
@@ -46,20 +40,11 @@ class OtherProfile extends Component {
         axios
             .get("/api/friends-of-friends/" + otherUserId)
             .then(({ data }) => {
-                console.log(
-                    "other-profile.js in get /api/friends-of-friends/, data:",
-                    data
-                );
-                this.setState({ data }, () =>
-                    console.log(
-                        "other-profile.js in get /api/threefriends/, this.state:",
-                        this.state
-                    )
-                );
+                this.setState({ data });
             })
             .catch((err) => {
                 console.log(
-                    "CATCH in other-profile.js in axios.get /api/threefriends/:",
+                    "CATCH in other-profile.js in axios.get /api/friends-of-friends/:",
                     err
                 );
             });
@@ -89,55 +74,55 @@ class OtherProfile extends Component {
                     </div>
 
                     <div className="friends-of-friends-container">
-                        <div className="">
+                        {/* <div className="">
                             {console.log("other-profile.js, rendering false")}
-                            {this.state.areFriends === false && (
+                            {this.state.noFriends === true && (
                                 <h4 className="one-percent-bottom"></h4>
                             )}
-                        </div>
+                        </div> */}
 
                         <div className="">
-                            {console.log("other-profile.js, rendering true")}
                             <div>
-                                {this.state.areFriends === true && (
-                                    <div>
-                                        <h4 className="one-percent-bottom">
-                                            {this.state.first} {this.state.last}
-                                            is also friends with
-                                        </h4>
+                                {/* {this.state.noFriends === false && ( */}
+                                <div>
+                                    <h4 className="three-percent-bottom">
+                                        {`${this.state.first} ${this.state.last} `}
+                                        is also friends with
+                                    </h4>
 
-                                        <div>
-                                            {console.log(
-                                                "other-profile.js, mapping to begin"
-                                            )}
-                                            {this.state.data &&
-                                                this.state.data.map((each) => {
-                                                    return (
-                                                        <div key={each.id}>
-                                                            <Link
-                                                                className="one-percent-bottom"
-                                                                to={`/user/${each.id}`}
-                                                                key={each.id}
-                                                            >
-                                                                <div className="">
-                                                                    <img
-                                                                        className="img-frame"
-                                                                        src={
-                                                                            each.img_url ||
-                                                                            "/default.svg"
-                                                                        }
-                                                                        alt={`${each.first} ${each.last}`}
-                                                                    />
-                                                                </div>
-                                                                {each.first}{" "}
-                                                                {each.last}
-                                                            </Link>
-                                                        </div>
-                                                    );
-                                                })}
-                                        </div>
+                                    <div>
+                                        {this.state.data &&
+                                            this.state.data.map((each) => {
+                                                return (
+                                                    <div
+                                                        className="five-percent-bottom"
+                                                        key={each.id}
+                                                    >
+                                                        <Link
+                                                            className="flex"
+                                                            to={`/user/${each.id}`}
+                                                            key={each.id}
+                                                        >
+                                                            <div className="image-chat-container">
+                                                                <img
+                                                                    className="image-in-chat"
+                                                                    src={
+                                                                        each.img_url ||
+                                                                        "/default.svg"
+                                                                    }
+                                                                    alt={`${each.first} ${each.last}`}
+                                                                />
+                                                            </div>
+                                                            <div className="position-fullname">
+                                                                {`${each.first} ${each.last}`}
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                );
+                                            })}
                                     </div>
-                                )}
+                                </div>
+                                {/* )} */}
                             </div>
                         </div>
                     </div>

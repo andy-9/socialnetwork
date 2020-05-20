@@ -136,6 +136,14 @@ button:focus {
     margin-bottom: 1%;
 }
 
+.three-percent-bottom {
+    margin-bottom: 3%;
+}
+
+.five-percent-bottom {
+    margin-bottom: 5%;
+}
+
 .flex {
     display: flex;
     flex-direction: row;
@@ -468,7 +476,10 @@ textarea:focus {
 .friends-of-friends-container {
     min-width: 300px;
     height: 500px;
-    background-color: white;
+}
+
+.position-fullname {
+    margin: 3% 0 0 4%;
 }
 
 /* ////////////////////// CHAT ////////////////////// */

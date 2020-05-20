@@ -411,35 +411,19 @@ app.get("/api/user/:id", (req, res) => {
 });
 
 app.get("/api/friends-of-friends/:id", (req, res) => {
-    console.log("index.js, /api/friends-of-friends/:id running");
     const receiver_id = req.params.id;
-    console.log(
-        "index.js, /api/friends-of-friends/:id, receiver_id:",
-        receiver_id
-    );
     const sender_id = req.session.userId;
-    console.log("index.js, /api/friends-of-friends/:id, sender_id:", sender_id);
 
     db.areUsersFriends(receiver_id, sender_id)
         .then((result) => {
-            console.log(
-                "index.js, result areUsersFriends in /api/friends-of-friends/:id:",
-                result
-            );
+            let noFriends;
 
             if (result == 0 || result[0].accepted == false) {
-                console.log(
-                    "index.js, users are not friends, send res.json false"
-                );
-                res.json({ areFriends: false });
+                // res.json({ noFriends: true });
             } else {
                 console.log("index.js, areUsersFriends: yes!");
                 db.getFriendsInfo(receiver_id, sender_id)
                     .then((result) => {
-                        console.log(
-                            "index.js, getFriendsInfo, result:",
-                            result
-                        );
                         res.json(result);
                     })
                     .catch((err) => {
@@ -455,7 +439,7 @@ app.get("/api/friends-of-friends/:id", (req, res) => {
                 "CATCH in index.js /api/threefriends/:id areUsersFriends:",
                 err
             );
-            res.json({ areFriends: false });
+            // res.json({ noFriends: true });
         });
 });
 

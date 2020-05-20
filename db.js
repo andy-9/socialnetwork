@@ -295,11 +295,11 @@ module.exports.getFriendsInfo = (receiver_id, sender_id) => {
                     JOIN users
                     ON (accepted = true AND receiver_id = $2 AND sender_id = users.id)
                     OR (accepted = true AND sender_id = $2 AND receiver_id = users.id)
-                )`,
+                )
+                LIMIT 7`,
             [receiver_id, sender_id]
         )
         .then((result) => {
-            console.log("db.js, getFriendsInfo, result.rows:", result.rows);
             return result.rows;
         })
         .catch((err) => {
