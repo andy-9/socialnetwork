@@ -71,7 +71,6 @@ export default class Login extends React.Component {
                             type="email"
                             required
                             maxLength="100"
-                            // placeholder="e.g. kirsty@jones.org"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />
@@ -88,7 +87,6 @@ export default class Login extends React.Component {
                         <input
                             name="password"
                             type="password"
-                            // placeholder="e.g. 3fK)a*dK3J"
                             autoComplete="off"
                             onChange={(e) => this.handleChange(e)}
                         />

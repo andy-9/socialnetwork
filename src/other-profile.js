@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 import FriendShipButton from "./friend-button";
 // import ChatWithFriends from "./chat-with-friends";
 
 class OtherProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            // areFriends: true,
+        };
+        console.log("other-profile.js, state:", this.state);
     }
 
     componentDidMount() {
@@ -46,16 +50,24 @@ class OtherProfile extends Component {
                     "other-profile.js in get /otherprofile, data:",
                     data
                 );
-                if (data.noFriends) {
-                    // don't show anything
-                } else {
-                    this.setState({
-                        idFriend: data.id,
-                        firstFriend: data.first,
-                        lastFriend: data.last,
-                        img_urlFriend: data.img_url || "/default.svg",
-                    });
-                }
+                // if (data.areFriends) {
+                //     console.log("other-profile.js, areFriends: false");
+                //     this.setState({
+                //         areFriends: false,
+                //     });
+                //     // don't show anything
+                // } else {
+                // for (let i = 0; i < data.length; i++) {
+                //     this.setState({
+                //         idFriend: data[i].id,
+                //         firstFriend: data[i].first,
+                //         lastFriend: data[i].last,
+                //         img_urlFriend: data[i].img_url || "/default.svg",
+                //     });
+                // }
+                // this.setState(data);
+                this.setState({ data }, () => console.log(this.state));
+                // }
             })
             .catch((err) => {
                 console.log(
@@ -87,47 +99,43 @@ class OtherProfile extends Component {
                             last={this.state.last}
                         />
                     </div>
+
                     <div className="friends-of-friends-container">
-                        {/* {threeFriends && !threeFriends.length === 0 && (
-                        )} */}
+                        {/* {areFriends && !areFriends.length === 0 && ()} */}
                         {/* {threeFriends && threeFriends.length > 0 && ( */}
+                        {/* {areFriends && ( */}
                         <h4 className="one-percent-bottom">
                             {this.state.first} {this.state.last} is also friends
                             with
                         </h4>
-                        {/* )} */}
+
                         <div className="">
-                            {/* {data &&
-                                data.map((each) => (
-                                    <div className="" key={each.idFriend}>
-                                        <Link
-                                            className="one-percent-bottom"
-                                            to={`/user/${each.idFriend}`}
-                                            key={each.idFriend}
-                                        >
-                                            <div className="pic-peers">
-                                                <img
-                                                    className="img-frame"
-                                                    src={
-                                                        each.img_urlFriend ||
-                                                        "/default.svg"
-                                                    }
-                                                    alt={`${each.firstFriend} ${each.lastFriend}`}
-                                                />
-                                            </div>
-                                            <div className="center">
-                                                {each.firstFriend}{" "}
-                                                {each.lastFriend}
-                                            </div>
-                                        </Link>
-                                    </div>
-                                ))} */}
+                            {this.state.data &&
+                                this.state.data.map((each) => {
+                                    return (
+                                        <div key={each.id}>
+                                            <Link
+                                                className="one-percent-bottom"
+                                                to={`/user/${each.id}`}
+                                                key={each.id}
+                                            >
+                                                <div className="">
+                                                    <img
+                                                        className="img-frame"
+                                                        src={
+                                                            each.img_url ||
+                                                            "/default.svg"
+                                                        }
+                                                        alt={`${each.first} ${each.last}`}
+                                                    />
+                                                </div>
+                                                {each.first} {each.last}
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
                         </div>
-                        {/* } */}
                     </div>
-                    {/* {console.log("other-profile.js 1:", this.state.buttonText)} */}
-                    {/* {console.log("other-profile.js 2:", this.props.buttonText)} */}
-                    {/* <ChatWithFriends id="position-duo-chat" /> */}
                 </div>
             </Fragment>
         );

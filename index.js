@@ -438,7 +438,7 @@ app.get("/api/threefriends/:id", (req, res) => {
                         );
                     });
             } else {
-                res.json({ noFriends: true });
+                res.json({ areFriends: false });
             }
         })
         .catch((err) => {
@@ -446,7 +446,7 @@ app.get("/api/threefriends/:id", (req, res) => {
                 "CATCH in index.js /api/threefriends/:id areUsersFriends:",
                 err
             );
-            res.json({ noFriends: true });
+            res.json({ areFriends: false });
         });
 });
 
