@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 // import { IonIcon } from "@ionic/react";
@@ -13,6 +13,30 @@ export default class Registration extends React.Component {
             errorConfirmPassword: false,
         };
     }
+
+    // function Register() {
+    //     const [fields, setFields] = useState({});
+    //     const [error, setError] = useState(false);
+
+    //     function handleChange({target}) {
+    //         setFields({
+    //             ...fields,
+    //             [target.name]: target.value
+    //         });
+    //     }
+    //     function submit() {
+    //         axios.post("/register", fields).then(
+    //             ({data}) => data.success ? location.replace("/") : setError(true)
+    //         );
+    //     }
+    //     return (
+    //         <div>
+    //             {error && <div>Something went wrong</div>}
+    //             <input onChange={handleChange} name="email" placeholder="Email" />
+    //             <input onChange={handleChange} name="pass" placeholder="Password" />
+    //         </div>
+    //     )
+    // }
 
     handleChange(e) {
         // console.log(
@@ -93,7 +117,7 @@ export default class Registration extends React.Component {
                             type="text"
                             required
                             maxLength="70"
-                            placeholder="e.g. Jones"
+                            placeholder="e.g. Kirsty"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
@@ -107,7 +131,7 @@ export default class Registration extends React.Component {
                             name="last"
                             type="text"
                             maxLength="70"
-                            placeholder="e.g. Kirsty"
+                            placeholder="e.g. Jones"
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
@@ -184,5 +208,3 @@ export default class Registration extends React.Component {
         );
     }
 }
-
-// { <Link to="/login">Click here to Log in!</Link> }

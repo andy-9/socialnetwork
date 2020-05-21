@@ -108,9 +108,13 @@ app.get("/welcome", (req, res) => {
 app.post("/register", (req, res) => {
     let { first, last, email, password, confirmPassword } = req.body;
 
-    if (password.length < 8) {
-        res.json({ success: false, passwordTooShort: true });
-    } else if (first && last && email && password && confirmPassword) {
+    // if (password.length < 8) {
+    //     res.json({ success: false, passwordTooShort: true });
+    // } else if (first && last && email && password && confirmPassword) {
+    if (first && last && email && password && confirmPassword) {
+        if (password.length < 8) {
+            res.json({ success: false, passwordTooShort: true });
+        }
         if (password != confirmPassword) {
             res.json({ success: false, errorConfirmPassword: true });
             console.log("index.js, second password does not match first");
@@ -139,28 +143,51 @@ app.post("/login", (req, res) => {
     let { email, password } = req.body;
 
     if (email && password) {
+        console.log("index.js, db.getHashByEmail about to run");
         db.getHashByEmail(email)
             .then((result) => {
-                id = result.id;
-                return result.password;
+                console.log("index.js, result:", result);
+                if (!result) {
+                    console.log(
+                        "index.js /login, else in getHashByEmail, mail-address not in database"
+                    );
+                    res.json({
+                        success: false,
+                        falseEmail: true,
+                    });
+                } else {
+                    console.log("index.js, result exists:", result);
+                    id = result.id;
+                    return result.password;
+                }
             })
             .then((hashedPw) => {
+                console.log(
+                    "index.js, password and hashedPw:",
+                    password,
+                    hashedPw
+                );
                 return compare(password, hashedPw);
             })
             .then((matchValue) => {
+                console.log("index.js, matchValue:", matchValue);
                 if (matchValue) {
+                    console.log("index.js, matchValue successful", matchValue);
                     req.session.userId = id;
+                    console.log(
+                        "index.js, req.session.userId:",
+                        req.session.userId
+                    );
+                    console.log("index.js, id:", id);
                     res.json({
                         success: true,
                     });
                 } else {
+                    console.log("index.js, false password on /login");
                     res.json({
                         success: false,
                         falsePassword: true,
                     });
-                    console.log(
-                        "index.js, 2 input fields on /login do not match"
-                    );
                 }
             })
             .catch((err) => {
@@ -171,13 +198,13 @@ app.post("/login", (req, res) => {
                 });
             });
     } else {
+        console.log(
+            "2 input fields on /login not complete or falsy, rerender /login with error message"
+        );
         res.json({
             success: false,
             error: true,
         });
-        console.log(
-            "2 input fields on /login not complete or falsy, rerender /login with error message"
-        );
     }
 });
 

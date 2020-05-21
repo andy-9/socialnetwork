@@ -330,10 +330,15 @@ h6 {
 
 .pic-for-profile {
     min-width: 200px;
+    max-width: 400px;
     overflow: hidden;
     margin-right: 3%;
     text-align: center;
     /* object-fit: contain; */
+}
+
+.pic-for-profile:hover {
+    opacity: 0.8;
 }
 
 .text-for-profile {
@@ -379,7 +384,7 @@ textarea:focus {
 }
 
 .bigger-button {
-    width: 300px;
+    width: 400px;
 }
 
 /* ////////////////////// FIND PEOPLE ////////////////////// */

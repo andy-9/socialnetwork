@@ -34,6 +34,7 @@ module.exports.getHashByEmail = (email) => {
             [email]
         )
         .then((result) => {
+            console.log("db.js, result.rows[0] getHashByEmail", result.rows[0]);
             return result.rows[0];
         })
         .catch((err) => {

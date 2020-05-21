@@ -67,7 +67,7 @@ export default function Friends() {
             </div>
 
             <div className="center one-percent-top">
-                {friends && !friends.length === 0 && (
+                {friends && friends.length === 0 && (
                     <h2 className="one-percent-bottom">
                         Currently you don&apos;t have any friends
                     </h2>

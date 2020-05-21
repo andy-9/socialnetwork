@@ -7,6 +7,7 @@ export default class Login extends React.Component {
         super();
         this.state = {
             error: false,
+            falseEmail: false,
         };
     }
 
@@ -26,16 +27,27 @@ export default class Login extends React.Component {
                     console.log("login.js, success in /login");
                     this.setState({
                         error: false,
+                        falsePassword: false,
+                        falseEmail: false,
                     });
                     location.replace("/");
                 } else if (data.falsePassword) {
                     this.setState({
                         falsePassword: true,
+                        falseEmail: false,
+                        error: false,
+                    });
+                } else if (data.falseEmail) {
+                    this.setState({
+                        falseEmail: true,
+                        falsePassword: false,
                         error: false,
                     });
                 } else {
                     this.setState({
                         error: true,
+                        falseEmail: false,
+                        falsePassword: false,
                     });
                 }
             })
@@ -75,6 +87,13 @@ export default class Login extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </div>
+                    {this.state.falseEmail && (
+                        <h5>
+                            Your email address is not registered. Please enter
+                            the email with which you registered or register
+                            <Link to="/"> here</Link>.
+                        </h5>
+                    )}
 
                     <div>
                         <p className="input-description">Password</p>

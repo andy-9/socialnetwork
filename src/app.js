@@ -23,6 +23,10 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
+        // async componentDidMount() {
+        // const { data } = await axios.get("/user");
+        // this.setState(data);
+        // }
         axios
             .get("/user")
             .then(({ data }) => {
