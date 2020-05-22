@@ -34,7 +34,6 @@ module.exports.getHashByEmail = (email) => {
             [email]
         )
         .then((result) => {
-            console.log("db.js, result.rows[0] getHashByEmail", result.rows[0]);
             return result.rows[0];
         })
         .catch((err) => {
@@ -92,7 +91,6 @@ module.exports.addSecretCode = (email, code) => {
             [email, code]
         )
         .then((result) => {
-            console.log("db.js, result of addSecretCode", result.rows[0]);
             return result.rows[0];
         })
         .catch((err) => {
@@ -112,7 +110,6 @@ module.exports.getSecretCode = (email) => {
             [email]
         )
         .then((result) => {
-            console.log("db.js, getSecretCode, result:", result.rows[0].code);
             return result.rows[0].code;
         })
         .catch((err) => {
@@ -282,7 +279,6 @@ module.exports.myFriendsAndWannabes = (id) => {
 ////////////////////////// GET THREE FRIENDS //////////////////////////
 
 module.exports.getFriendsInfo = (receiver_id, sender_id) => {
-    console.log("db.js, getFriendsInfo running");
     return db
         .query(
             `SELECT users.id, first, last, img_url, accepted

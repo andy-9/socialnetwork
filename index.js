@@ -108,9 +108,6 @@ app.get("/welcome", (req, res) => {
 app.post("/register", (req, res) => {
     let { first, last, email, password, confirmPassword } = req.body;
 
-    // if (password.length < 8) {
-    //     res.json({ success: false, passwordTooShort: true });
-    // } else if (first && last && email && password && confirmPassword) {
     if (first && last && email && password && confirmPassword) {
         if (password.length < 8) {
             res.json({ success: false, passwordTooShort: true });
@@ -143,10 +140,8 @@ app.post("/login", (req, res) => {
     let { email, password } = req.body;
 
     if (email && password) {
-        console.log("index.js, db.getHashByEmail about to run");
         db.getHashByEmail(email)
             .then((result) => {
-                console.log("index.js, result:", result);
                 if (!result) {
                     console.log(
                         "index.js /login, else in getHashByEmail, mail-address not in database"
@@ -156,29 +151,16 @@ app.post("/login", (req, res) => {
                         falseEmail: true,
                     });
                 } else {
-                    console.log("index.js, result exists:", result);
                     id = result.id;
                     return result.password;
                 }
             })
             .then((hashedPw) => {
-                console.log(
-                    "index.js, password and hashedPw:",
-                    password,
-                    hashedPw
-                );
                 return compare(password, hashedPw);
             })
             .then((matchValue) => {
-                console.log("index.js, matchValue:", matchValue);
                 if (matchValue) {
-                    console.log("index.js, matchValue successful", matchValue);
                     req.session.userId = id;
-                    console.log(
-                        "index.js, req.session.userId:",
-                        req.session.userId
-                    );
-                    console.log("index.js, id:", id);
                     res.json({
                         success: true,
                     });
@@ -274,11 +256,6 @@ app.post("/password/reset/start", (req, res) => {
 
                     db.addSecretCode(email, secretCode)
                         .then(() => {
-                            console.log(
-                                "index.js, addSecretCode, email & secretCode after .then:",
-                                email,
-                                secretCode
-                            );
                             ses.sendEmail(
                                 email,
                                 "Your reset code",
@@ -421,7 +398,6 @@ app.get("/search-users/:find", (req, res) => {
 
 app.get("/api/user/:id", (req, res) => {
     const id = req.params.id;
-    console.log("index.js, /api/user/:id running");
 
     db.getUserInfo(id)
         .then((otherUserInfo) => {
@@ -448,7 +424,6 @@ app.get("/api/friends-of-friends/:id", (req, res) => {
             if (result == 0 || result[0].accepted == false) {
                 // res.json({ noFriends: true });
             } else {
-                console.log("index.js, areUsersFriends: yes!");
                 db.getFriendsInfo(receiver_id, sender_id)
                     .then((result) => {
                         res.json(result);
@@ -578,24 +553,15 @@ io.on("connection", (socket) => {
         for (let i = 0; i < data.length; i++) {
             data[i].created_at = truncateDate(data[i].created_at);
         }
-        // console.log(
-        //     "index.js, getLastTenMessages, data after truncation:",
-        //     data
-        // );
         io.sockets.emit("lastTenChatMessages", data.reverse());
     });
 
     socket.on("chat message from user", (newMsg) => {
-        // console.log("This message is coming from chat.js component:", newMsg);
         // console.log("user who sent newMsg is:", userId);
         db.insertChatMessage(newMsg, userId).then((data) => {
             for (let i = 0; i < data.length; i++) {
                 data[i].created_at = truncateDate(data[i].created_at);
             }
-            // console.log(
-            //     "index.js, insertChatMessage, data after truncation:",
-            //     data
-            // );
             io.sockets.emit("addChatMsg", data.reverse());
         });
     });
