@@ -529,7 +529,7 @@ app.get("*", function (req, res) {
 
 //////////////////////// SERVER & SOCKET ////////////////////////
 
-server.listen(8080, function () {
+server.listen(process.env.PORT || 8080, function () {
     console.log("index.js port 8080 is listening.");
 });
 
