@@ -111,6 +111,7 @@ app.post("/register", (req, res) => {
     if (first && last && email && password && confirmPassword) {
         if (password.length < 8) {
             res.json({ success: false, passwordTooShort: true });
+            console.log("index.js, password too short");
         }
         if (password != confirmPassword) {
             res.json({ success: false, errorConfirmPassword: true });
@@ -202,6 +203,7 @@ app.get("/user", (req, res) => {
 });
 
 //////////////////////// UPLOADER ////////////////////////
+
 app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
     let filename = req.file.filename;
     let img_url = config.s3Url + filename;
@@ -226,6 +228,7 @@ app.post("/imgupload", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 //////////////////////// BIO ////////////////////////
+
 app.post("/bio", (req, res) => {
     db.addUserBio(req.session.userId, req.body.bio)
         .then(({ rows }) => {
@@ -430,7 +433,7 @@ app.get("/api/friends-of-friends/:id", (req, res) => {
                     })
                     .catch((err) => {
                         console.log(
-                            "CATCH in index.js /api/threefriends/:id getFriendsInfo:",
+                            "CATCH in index.js /api/friends-of-friends/:id getFriendsInfo:",
                             err
                         );
                     });
@@ -438,7 +441,7 @@ app.get("/api/friends-of-friends/:id", (req, res) => {
         })
         .catch((err) => {
             console.log(
-                "CATCH in index.js /api/threefriends/:id areUsersFriends:",
+                "CATCH in index.js /api/friends-of-friends/:id areUsersFriends:",
                 err
             );
             // res.json({ noFriends: true });
