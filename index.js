@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const io = require("socket.io")(server, { origins: "localhost:8080" });
-// when deploying: const io = require("socket.io")(server, { origins: "localhost:8080" kite-inc.herokuapp.com });
 const io = require("socket.io").listen(server);
+// oder: const io = require("socket.io")(server, { origins: "*:*" });
+// oder: const io = require("socket.io")(server, { origins: "localhost:8080 https://kite-inc.herokuapp.com" });
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
