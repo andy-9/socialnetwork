@@ -8,4 +8,4 @@ CREATE TABLE chat (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
-INSERT INTO chat (text, user_id, receiver_id) VALUES ('What a wonderful idea!', '200', '1'),('Not gonna get me!', '1', '2'),('I am tired, going to bed now', '2', '200'),('Hello there!', '2', '1'),('let me outta here', '201', '2'),('You look beautiful', '1', '200'),('Fixing to eat', '2', '1'),('Getting dressed for tonight', '3', '1')
+INSERT INTO chat (text, user_id, receiver_id) VALUES ('What a wonderful idea!', '200', '1'),('Not gonna get me!', '1', '2'),('I am tired, going to bed now', '2', '200'),('Hello there!', '2', '1'),('let me outta here', '200', '2'),('You look beautiful', '1', '200'),('Fixing to eat', '2', '1'),('Getting dressed for tonight', '3', '1')
