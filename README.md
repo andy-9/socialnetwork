@@ -9,7 +9,7 @@ A high priority is on conditional rendering, security issues (password hashing, 
 
 <img src="/public/socialnetwork.gif" alt="gif to display how social network works">
 
-**Tech Stack:** React & Redux, Node, Express, PostgreSQL, Socket.io, Amazon S3 and SES, CSS, HTML
+**Tech Stack:** React & Redux, Node/Express, PostgreSQL, Socket.io, Amazon S3 and SES, CSS, HTML
 
 **Features:** registration, login, a personal profile with bio and image upload, sending, receiving and accepting friend requests, unfriend, having conversations in a chat room, display of last 3 registered users, searching for users by first and last name, showing friends of friends, logout
 
