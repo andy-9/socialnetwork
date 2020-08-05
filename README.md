@@ -1,4 +1,4 @@
-![](https://github.com/andy-9/socialnetwork/blob/master/public/logo.png)
+<a href="https://kite-inc.herokuapp.com/" target="_blank"><img src="https://github.com/andy-9/socialnetwork/blob/master/public/logo.png" align="right" alt="Logo of Kite.Inc"></a>
 
 # Kite.Inc
 ## Social network for an inclusive kitesurfing community
@@ -10,3 +10,12 @@ A high priority is on conditional rendering, security issues (password hashing, 
 **Tech Stack:** React & Redux, Node, Express, PostgreSQL, Socket.io, Amazon S3 and SES, CSS, HTML
 
 **Features:** registration, login, a personal profile with bio and image upload, sending, receiving and accepting friend requests, unfriend, having conversations in a chat room, display of last 3 registered users, searching for users by first and last name, showing friends of friends, logout
+
+
+---
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+©2020 <a href="https://andreashechler.com/" target="_blank">Andreas Hechler</a>.
