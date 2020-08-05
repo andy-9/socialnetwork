@@ -13,7 +13,7 @@ A high priority of this Single Page Application is on conditional rendering, sec
 
 **Features:** registration, login, a personal profile with bio and image upload, sending, receiving and accepting friend requests, unfriend, having conversations in a chat room, display of last 3 registered users, searching for users by first and last name, showing friends of friends, logout
 
----
+
 
 ## License
 
