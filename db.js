@@ -5,14 +5,12 @@ const db = spicedPg(
 );
 
 ////////////////////////// REGISTER //////////////////////////
-// INSERT FIRST AND LAST NAME, EMAIL AND PASSWORD INTO DATABASE "USERS"
 module.exports.registerUser = (first, last, email, password) => {
     return db
         .query(
-            `
-    INSERT INTO users (first, last, email, password)
-    VALUES ($1, $2, $3, $4)
-    RETURNING id;`,
+            `INSERT INTO users (first, last, email, password)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id;`,
             [first, last, email, password]
         )
         .then((result) => {
@@ -84,10 +82,9 @@ module.exports.addUserBio = (id, bio) => {
 module.exports.addSecretCode = (email, code) => {
     return db
         .query(
-            `
-    INSERT INTO reset_codes (email, code)
-    VALUES ($1, $2)
-    RETURNING email;`,
+            `INSERT INTO reset_codes (email, code)
+            VALUES ($1, $2)
+            RETURNING email;`,
             [email, code]
         )
         .then((result) => {
@@ -135,8 +132,7 @@ module.exports.updatePassword = (email, password) => {
 module.exports.getRecentUsers = (id) => {
     return db
         .query(
-            `
-            SELECT *
+            `SELECT *
             FROM users
             WHERE id != $1
             ORDER BY id
@@ -276,24 +272,24 @@ module.exports.myFriendsAndWannabes = (id) => {
         });
 };
 
-////////////////////////// GET THREE FRIENDS //////////////////////////
+////////////////////////// GET SEVEN OTHER FRIENDS OF FRIEND //////////////////////////
 
 module.exports.getFriendsInfo = (receiver_id, sender_id) => {
     return db
         .query(
             `SELECT users.id, first, last, img_url, accepted
-                FROM friendships
-                JOIN users
-                ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND sender_id != $2 AND receiver_id != $2)
-                OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND receiver_id != $2 AND sender_id != $2)
-                WHERE users.id NOT IN (
+            FROM friendships
+            JOIN users
+            ON (accepted = true AND receiver_id = $1 AND sender_id = users.id AND sender_id != $2 AND receiver_id != $2)
+            OR (accepted = true AND sender_id = $1 AND receiver_id = users.id AND receiver_id != $2 AND sender_id != $2)
+            WHERE users.id NOT IN (
                     SELECT users.id
                     FROM friendships
                     JOIN users
                     ON (accepted = true AND receiver_id = $2 AND sender_id = users.id)
                     OR (accepted = true AND sender_id = $2 AND receiver_id = users.id)
-                )
-                LIMIT 7`,
+            )
+            LIMIT 7`,
             [receiver_id, sender_id]
         )
         .then((result) => {
