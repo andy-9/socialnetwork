@@ -2,14 +2,10 @@ import React, { Component, Fragment } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 import FriendShipButton from "./friend-button";
-// import ChatWithFriends from "./chat-with-friends";
 
 class OtherProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            noFriends: false,
-        };
     }
 
     componentDidMount() {
@@ -74,16 +70,8 @@ class OtherProfile extends Component {
                     </div>
 
                     <div className="friends-of-friends-container">
-                        {/* <div className="">
-                            {console.log("other-profile.js, rendering false")}
-                            {this.state.noFriends === true && (
-                                <h4 className="one-percent-bottom"></h4>
-                            )}
-                        </div> */}
-
                         <div className="">
                             <div>
-                                {/* {this.state.noFriends === false && ( */}
                                 <div>
                                     <h4 className="three-percent-bottom">
                                         {`${this.state.first} ${this.state.last} `}
