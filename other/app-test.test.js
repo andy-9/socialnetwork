@@ -24,8 +24,8 @@ test("App shows nothing at first", async () => {
     // problem: axios is asynchronous
     // before we write expect()-statement we tell it to wait:
     await waitForElement(() => container.querySelector("div"));
-
     // same (probably):
     // expect(container.querySelector("profile-container")).toContain(1);
+
     expect(container.children.length).toBe(1);
 });

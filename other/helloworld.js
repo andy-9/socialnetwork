@@ -44,11 +44,10 @@ export default class HelloWorld extends React.Component {
             <div>
                 Hello, {this.state.first} {this.state.last}!
                 <Child first={this.state.first} />
-                {/* prop: "last", passed down to child
-                "last" on left side could be anything, is the name of the prop */}
+                {/* prop "first" passed down to Child component
+                "first" on left side could be anything, is the name of the prop */}
                 <p onClick={() => this.handleClick()}>click me!</p>
                 {/* arrow-functions remember "this" --> we can use it in our event handlers (here: handleClick) */}
-                {/* pass "first" as a prop to the Child component */}
             </div>
         );
     }
