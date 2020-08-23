@@ -59,7 +59,6 @@ export default class Login extends React.Component {
             });
     }
 
-    // {/* <img src="/logo.png" alt="logo" /> */}
     render() {
         return (
             <div className="login-container">
