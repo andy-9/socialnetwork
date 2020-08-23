@@ -9,7 +9,6 @@
 }
 
 /* ////////////////////// GENERAL ////////////////////// */
-
 * {
     max-width: 100%;
     box-sizing: border-box;
@@ -35,7 +34,6 @@ ion-icon {
 a {
     color: rgb(85, 85, 85);
     text-decoration: none;
-    transition: color 0.3s;
 }
 
 a:hover {
@@ -62,7 +60,6 @@ input {
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
-    /* box-shadow: 8px 6px 30px 0px grey; */
 }
 
 input:hover {
@@ -74,10 +71,10 @@ input:focus {
 }
 
 button {
-    color: white;
-    background-color: burlywood;
     width: 150px;
     height: 30px;
+    color: white;
+    background-color: burlywood;
     font-size: 20px;
     text-align: center;
     border: none;
@@ -85,7 +82,6 @@ button {
     display: block;
     cursor: pointer;
     box-shadow: 0 0 3px 0px white;
-    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -151,7 +147,6 @@ button:focus {
 }
 
 /* ////////////////////// HEADLINES ////////////////////// */
-
 h1 {
     font-family: Milkshake;
     font-size: 70px;
@@ -161,7 +156,6 @@ h1 {
 h2 {
     text-align: center;
     font-size: 50px;
-    /* margin-bottom: 10px; */
 }
 
 h5 {
@@ -174,14 +168,6 @@ h6 {
 }
 
 /* ////////////////////// LOGO ////////////////////// */
-
-.logo-big {
-    height: 500px;
-    width: 500px;
-    display: block;
-    margin: auto;
-}
-
 .logo-small {
     height: 100px;
 }
@@ -191,7 +177,6 @@ h6 {
 }
 
 /* ////////////////////// NAVBAR ////////////////////// */
-
 .navbar-container {
     width: 35%;
     position: absolute;
@@ -202,7 +187,6 @@ h6 {
 }
 
 /* ////////////////////// INFO ////////////////////// */
-
 .info {
     margin: 0 25%;
     column-count: 2;
@@ -233,7 +217,6 @@ h6 {
 }
 
 /* ////////////////////// REGISTER ////////////////////// */
-
 .input-description {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
@@ -260,7 +243,6 @@ h6 {
 }
 
 /* ////////////////////// LOGIN ////////////////////// */
-
 .login-container {
     height: 500px;
     background-color: rgb(255, 255, 255, 0.8);
@@ -281,7 +263,6 @@ h6 {
 }
 
 /* ////////////////////// RESET ////////////////////// */
-
 .reset-container {
     height: 400px;
     background-color: rgba(255, 255, 255, 0.8);
@@ -302,7 +283,6 @@ h6 {
 }
 
 /* ////////////////////// PROFILE-PIC ////////////////////// */
-
 .profile-pic-frame {
     background: white;
     width: 55px;
@@ -325,7 +305,6 @@ h6 {
     margin: 5% 5% 0 10%;
     display: flex;
     justify-content: space-around;
-    /* justify-content: space-evenly; */
 }
 
 .pic-for-profile {
@@ -334,7 +313,6 @@ h6 {
     overflow: hidden;
     margin-right: 3%;
     text-align: center;
-    /* object-fit: contain; */
 }
 
 .pic-for-profile:hover {
@@ -355,7 +333,6 @@ h6 {
 }
 
 /* ////////////////////// BIO-EDITOR ////////////////////// */
-
 .bio-text {
     font-family: "Indie Flower", cursive;
     font-size: 20px;
@@ -388,7 +365,6 @@ textarea:focus {
 }
 
 /* ////////////////////// FIND PEOPLE ////////////////////// */
-
 .people-container {
     position: relative;
     margin-right: 5%;
@@ -427,7 +403,6 @@ textarea:focus {
 }
 
 /* ////////////////////// FRIEND-BUTTON ////////////////////// */
-
 #friend-button-container {
     display: flex;
 }
@@ -452,7 +427,6 @@ textarea:focus {
 }
 
 /* ////////////////////// FRIENDS / STATUS ////////////////////// */
-
 .button-translate {
     font-size: 13px;
     background-color: rgb(255, 0, 0, 0.5);
@@ -476,8 +450,7 @@ textarea:focus {
     background-color: rgba(1, 107, 1, 0.8);
 }
 
-/* ////////////////////// FRIENDS OF FRIENDS     ////////////////////// */
-
+/* ////////////////////// FRIENDS OF FRIENDS ////////////////////// */
 .friends-of-friends-container {
     min-width: 300px;
     height: 500px;
@@ -488,7 +461,6 @@ textarea:focus {
 }
 
 /* ////////////////////// CHAT ////////////////////// */
-
 #chat-container {
     display: flex;
     margin: 1% 5% 0 5%;
@@ -544,34 +516,18 @@ textarea:focus {
     height: 300px;
 }
 
-/* ////////////////////// DUO CHAT ////////////////////// */
-
-#duo-chat-container {
-    /* position: relative; */
-    /* transform: translate(-600px, 300px); */
-    /* width: 25%; */
-    /* top: 80%; */
-}
-
-#position-duo-chat {
-}
-
-#textarea-duo-chat {
-}
-
 /* ////////////////////// UPLOADER-MODAL ////////////////////// */
-
 #img-modal {
     background-image: url(/memphis-colorful.png);
-    height: 35%;
-    top: 15%;
-    padding: 2%;
     width: 30%;
+    height: 35%;
+    position: fixed;
+    top: 15%;
     left: 70%;
+    padding: 2%;
     border-radius: 10% 0 0 10%;
     box-shadow: 0 0 6px 0px black;
     z-index: 10;
-    position: fixed;
     animation: slide-in 0.8s ease;
 }
 
@@ -593,10 +549,6 @@ textarea:focus {
 
 .x:hover {
     color: grey;
-}
-
-.x:active {
-    transform: translateY(1px);
 }
 
 #uploader {
@@ -634,10 +586,8 @@ label:hover {
 }
 
 /* ////////////////////// FOOTER ////////////////////// */
-
 footer {
     background-color: rgb(128, 128, 128, 0.8);
-    /* flex-shrink: 0; */
     display: grid;
     grid-template-columns: 1fr 200px;
     height: 50px;
