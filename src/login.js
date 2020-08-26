@@ -18,13 +18,10 @@ export default class Login extends React.Component {
     }
 
     submit() {
-        console.log("login.js, this.state in 'submit()':", this.state);
         axios
             .post("/login", this.state)
             .then(({ data }) => {
-                console.log("login.js, data in axios post:", data);
                 if (data.success) {
-                    console.log("login.js, success in /login");
                     this.setState({
                         error: false,
                         falsePassword: false,
@@ -52,9 +49,10 @@ export default class Login extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("CATCH in post /login in submit():", err);
                 this.setState({
                     error: true,
+                    falseEmail: false,
+                    falsePassword: false,
                 });
             });
     }

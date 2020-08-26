@@ -51,32 +51,41 @@ export default class Registration extends React.Component {
     }
 
     submit() {
-        axios.post("/register", this.state).then(({ data }) => {
-            if (data.success) {
-                this.setState({
-                    error: false,
-                });
-                location.replace("/");
-            } else if (data.passwordTooShort) {
-                this.setState({
-                    passwordTooShort: true,
-                    errorConfirmPassword: false,
-                    error: false,
-                });
-            } else if (data.errorConfirmPassword) {
-                this.setState({
-                    errorConfirmPassword: true,
-                    passwordTooShort: false,
-                    error: false,
-                });
-            } else {
+        axios
+            .post("/register", this.state)
+            .then(({ data }) => {
+                if (data.success) {
+                    this.setState({
+                        error: false,
+                    });
+                    location.replace("/");
+                } else if (data.passwordTooShort) {
+                    this.setState({
+                        passwordTooShort: true,
+                        errorConfirmPassword: false,
+                        error: false,
+                    });
+                } else if (data.errorConfirmPassword) {
+                    this.setState({
+                        errorConfirmPassword: true,
+                        passwordTooShort: false,
+                        error: false,
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                        errorConfirmPassword: false,
+                        passwordTooShort: false,
+                    });
+                }
+            })
+            .catch((err) => {
                 this.setState({
                     error: true,
                     errorConfirmPassword: false,
                     passwordTooShort: false,
                 });
-            }
-        });
+            });
     }
 
     render() {
