@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-// import { IonIcon } from "@ionic/react";
-// import Icon from "react-native-ionicons";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -39,14 +37,6 @@ export default class Registration extends React.Component {
     // }
 
     handleChange(e) {
-        // console.log(
-        //     "registration.js handleChange, e.target.value:",
-        //     e.target.value
-        // );
-        // console.log(
-        //     "registration.js handleChange, e.target.name:",
-        //     e.target.name
-        // );
         this.setState(
             {
                 [e.target.name]: e.target.value,
@@ -61,36 +51,25 @@ export default class Registration extends React.Component {
     }
 
     submit() {
-        console.log("registration.js, this.state in 'submit()':", this.state);
         axios.post("/register", this.state).then(({ data }) => {
-            console.log("registration.js, data in axios post:", data);
             if (data.success) {
-                console.log("registration.js, success in /register");
                 this.setState({
                     error: false,
                 });
                 location.replace("/");
             } else if (data.passwordTooShort) {
-                console.log("registration.js, password too short");
                 this.setState({
                     passwordTooShort: true,
                     errorConfirmPassword: false,
                     error: false,
                 });
             } else if (data.errorConfirmPassword) {
-                console.log(
-                    "registration.js, 2 passwords do not match in /register"
-                );
                 this.setState({
                     errorConfirmPassword: true,
                     passwordTooShort: false,
                     error: false,
                 });
             } else {
-                console.log(
-                    "registration.js, no success in /register, data.error",
-                    data.error
-                );
                 this.setState({
                     error: true,
                     errorConfirmPassword: false,
