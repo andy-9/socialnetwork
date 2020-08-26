@@ -13,10 +13,8 @@ export default function ChatWithFriends() {
     }, []);
 
     const keyCheck = (e) => {
-        // console.log("key pressed:", e.key);
         if (e.key === "Enter") {
             e.preventDefault();
-            // console.log(e.target.value);
             socket.emit("chat message from friend", e.target.value);
             e.target.value = "";
         }
