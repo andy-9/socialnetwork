@@ -17,20 +17,13 @@ export default class ResetPassword extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-        // console.log("reset.js, e.target.value:", e.target.value);
     }
 
     submitEmail() {
-        console.log("reset.js, this.state in submitEmail():", this.state);
         axios
             .post("/password/reset/start", this.state)
             .then(({ data }) => {
-                console.log(
-                    "reset.js, data in axios post submitEmail():",
-                    data
-                );
                 if (data.success) {
-                    console.log("reset.js, success in /password/reset/start");
                     this.setState({
                         step: 2,
                     });
@@ -47,28 +40,19 @@ export default class ResetPassword extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("CATCH in post /reset in submitEmail():", err);
                 this.setState({
                     error: true,
                     falseEmail: false,
                 });
+                console.log("CATCH in post /reset in submitEmail():", err);
             });
     }
 
     submitCodeAndPassword() {
-        console.log(
-            "reset.js, this.state in 'submitCodeAndPassword()':",
-            this.state
-        );
         axios
             .post("/password/reset/verify", this.state)
             .then(({ data }) => {
-                console.log(
-                    "reset.js, data in axios post submitCodeAndPassword():",
-                    data
-                );
                 if (data.success) {
-                    console.log("reset.js, success in /password/reset/verify");
                     this.setState({
                         step: 3,
                     });
@@ -80,9 +64,6 @@ export default class ResetPassword extends React.Component {
                         error: false,
                     });
                 } else if (data.passwordTooShort) {
-                    console.log(
-                        "reset.js, password too short in submitCodeAndPassword"
-                    );
                     this.setState({
                         passwordTooShort: true,
                         falseCode: false,
@@ -90,9 +71,6 @@ export default class ResetPassword extends React.Component {
                         error: false,
                     });
                 } else if (data.errorConfirmPassword) {
-                    console.log(
-                        "reset.js, 2 passwords do not match in submitCodeAndPassword"
-                    );
                     this.setState({
                         errorConfirmPassword: true,
                         falseCode: false,
@@ -100,7 +78,6 @@ export default class ResetPassword extends React.Component {
                         error: false,
                     });
                 } else {
-                    console.log("reset.js, error in submitCodeAndPassword");
                     this.setState({
                         error: true,
                         falseCode: false,
@@ -110,15 +87,15 @@ export default class ResetPassword extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log(
-                    "CATCH in post /reset in submitCodeAndPassword():",
-                    err
-                );
                 this.setState({
                     error: true,
                     falseCode: false,
                     errorConfirmPassword: false,
                 });
+                console.log(
+                    "CATCH in post /reset in submitCodeAndPassword():",
+                    err
+                );
             });
     }
 
