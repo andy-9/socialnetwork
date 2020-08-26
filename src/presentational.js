@@ -4,7 +4,7 @@ import Logo from "./logo";
 import Navbar from "./navbar";
 import ProfilePic from "./profilepic";
 
-export default function Presentational({ first, last, img_url, toggleModal }) {
+export default function Presentational({ first, last, img_url }) {
     return (
         <div className="flex">
             <div className="logo-top-left">
