@@ -23,10 +23,6 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        // async componentDidMount() {
-        // const { data } = await axios.get("/user");
-        // this.setState(data);
-        // }
         axios
             .get("/user")
             .then(({ data }) => {
@@ -104,6 +100,12 @@ export default class App extends React.Component {
 
                         <Route
                             exact
+                            path="/users"
+                            render={() => <FindPeople />}
+                        />
+
+                        <Route
+                            exact
                             path="/user/:id"
                             render={(props) => (
                                 <OtherProfile
@@ -112,11 +114,6 @@ export default class App extends React.Component {
                                     history={props.history}
                                 />
                             )}
-                        />
-                        <Route
-                            exact
-                            path="/users"
-                            render={() => <FindPeople />}
                         />
 
                         <Route
