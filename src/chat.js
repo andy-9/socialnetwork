@@ -6,27 +6,15 @@ import { Link } from "react-router-dom";
 export default function Chat() {
     const elemRef = useRef();
     const chatMessages = useSelector((state) => state && state.cm);
-    // console.log("chat.js, chatMessages:", chatMessages);
 
-    // run this every time for every new chat message
     useEffect(() => {
-        // console.log("chat hooks component has mounted");
-        // console.log("elemRef =", elemRef);
-        // console.log("scroll top:", elemRef.current.scrollTop); // always at top/position 0
-        // console.log("clientHeight:", elemRef.current.clientHeight); // container-height
-        // console.log("scrollHeight:", elemRef.current.scrollHeight); // container + scroll down
-
-        // I want my container to scroll from the top:
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }, []);
 
     const keyCheck = (e) => {
-        // console.log("key pressed:", e.key);
-
         if (e.key === "Enter") {
             e.preventDefault(); // prevents going to the next line
-            // console.log(e.target.value);
             socket.emit("chat message from user", e.target.value);
             e.target.value = "";
         }
