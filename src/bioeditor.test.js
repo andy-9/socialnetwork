@@ -34,7 +34,7 @@ test("When a bio is passed to BioEditor, an 'Edit your info' button is rendered"
     );
 });
 
-// 2c - not working, do not understand why
+// 2c - not working yet
 // test("When a bio is passed to BioEditor, an 'Edit your info' button is rendered", async () => {
 //     const { container } = render(<BioEditor bio={!null} />);
 
@@ -59,7 +59,7 @@ test("Clicking the 'Tell us a little bit about yourself' or 'Edit your info' but
     );
 });
 
-// 4a
+// 4a - not working yet
 // jest.mock("./axios");
 
 // test("Clicking the 'save' button causes an ajax request", async () => {
@@ -74,7 +74,7 @@ test("Clicking the 'Tell us a little bit about yourself' or 'Edit your info' but
 //     expect(myMockOnClick.mock.calls.length).toBe(1);
 // });
 
-// 4b
+// 4b - not working yet
 // jest.mock("./axios");
 
 // test("Clicking the 'save' button causes an ajax request", async () => {
