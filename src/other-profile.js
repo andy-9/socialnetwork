@@ -6,10 +6,15 @@ import FriendShipButton from "./friend-button";
 class OtherProfile extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            first: "",
+            last: "",
+            img_url: "",
+            bio: "",
+        };
     }
 
     componentDidMount() {
-        console.log("other-profile.js, componentDidMount is running");
         const otherUserId = this.props.match.params.id;
 
         axios
@@ -28,7 +33,7 @@ class OtherProfile extends Component {
             })
             .catch((err) => {
                 console.log(
-                    "CATCH in other-profile.js in axios.get /api/user/:",
+                    "CATCH in other-profile.js in axios.get /api/user/:otherUserId",
                     err
                 );
             });
@@ -68,7 +73,6 @@ class OtherProfile extends Component {
                             last={this.state.last}
                         />
                     </div>
-
                     <div className="friends-of-friends-container">
                         <div className="">
                             <div>
@@ -77,7 +81,6 @@ class OtherProfile extends Component {
                                         {`${this.state.first} ${this.state.last} `}
                                         is also friends with
                                     </h4>
-
                                     <div>
                                         {this.state.data &&
                                             this.state.data.map((each) => {
@@ -110,7 +113,6 @@ class OtherProfile extends Component {
                                             })}
                                     </div>
                                 </div>
-                                {/* )} */}
                             </div>
                         </div>
                     </div>
