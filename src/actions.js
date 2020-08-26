@@ -3,6 +3,8 @@ import axios from "./axios";
 export async function getFriendsAndRequests() {
     const { data } = await axios.get(`/get-friends-wannabes`);
 
+    // axios request to server (server does the usual stuff)
+    // then: passed on to reducer:
     return {
         type: "RECEIVE_FRIENDS_WANNABES",
         friendsAndWannabes: data,
@@ -32,9 +34,6 @@ export async function endFriendship(otherUserId) {
 }
 
 export function lastTen(ltcm) {
-    // console.log("actions.js, function lastTen is running");
-    // console.log("actions.js, ltcm:", ltcm);
-
     return {
         type: "TEN",
         ltcm,
@@ -42,14 +41,8 @@ export function lastTen(ltcm) {
 }
 
 export function chatMessage(cm) {
-    // console.log("actions.js, function chatMessage is running");
-    // console.log("actions.js, cm:", cm);
-
     return {
         type: "MSG",
         cm,
     };
 }
-
-// axios request to server (server does the usual stuff)
-// then: passed on to reducer
