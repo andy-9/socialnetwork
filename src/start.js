@@ -1,6 +1,5 @@
-// Any js file that start.js imports from (as well as the files that those files import from) will be included in the bundle. The js files you create and import should be placed in the src directory.
 import React from "react";
-import ReactDOM from "react-dom"; // only in start.js
+import ReactDOM from "react-dom";
 import App from "./app";
 import Welcome from "./welcome";
 import { init } from "./socket";
@@ -12,7 +11,7 @@ import reducer from "./reducer";
 
 // store contains everything related to redux, is an object
 const store = createStore(
-    reducer, // reducer updates the global state
+    reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 

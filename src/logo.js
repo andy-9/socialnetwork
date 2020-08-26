@@ -7,17 +7,3 @@ export default function Logo() {
         </div>
     );
 }
-
-// function LogoNoText() {
-//     return (
-//         <div>
-//             <img
-//                 className="logo-big"
-//                 src="/logo_notext.png"
-//                 alt="logo without text"
-//             />
-//         </div>
-//     );
-// }
-
-// export { LogoNoText };
