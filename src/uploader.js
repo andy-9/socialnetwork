@@ -42,13 +42,13 @@ export default class Uploader extends React.Component {
                 this.closeModal();
             })
             .catch((err) => {
-                console.log(
-                    "CATCH in uploader.js in axios.post /uploader:",
-                    err
-                );
                 this.setState({
                     error: true,
                 });
+                console.log(
+                    "CATCH in uploader.js in axios.post uploadImage:",
+                    err
+                );
             });
     }
 
