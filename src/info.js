@@ -25,13 +25,6 @@ export default function Info() {
                 Sign up now and meet all those awesome feminist, queer, BPOC,
                 disabled, LGBTQI kitesurfers and their friends and allies.
             </p>
-            {/* <p>
-                Men doing crazy jumps and their sexy girlfriends watching from
-                the beach. Female kiters being massively objectified in videos
-                and magazines. Trans- and intersex-kiters? Never heard of?
-                Because they don&apos;t exist? Because they can&apos;t exist in
-                the kitesurfing world?
-            </p> */}
         </div>
     );
 }
