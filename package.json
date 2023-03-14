@@ -47,7 +47,7 @@
         "spiced-pg": "^1.0.4",
         "ssri": "^8.0.1",
         "uid-safe": "^2.1.5",
-        "webpack": "^5.28.0",
+        "webpack": "^5.76.0",
         "webpack-dev-middleware": "^4.1.0"
     },
     "jest": {
