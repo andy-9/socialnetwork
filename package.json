@@ -6,51 +6,53 @@
     "scripts": {
         "build": "node build.js",
         "start": "node index.js",
-        "test": "jest"
+        "test": "jest --runInBand"
     },
     "engines": {
-        "node": "16"
+        "node": "24.x"
     },
     "dependencies": {
-        "@babel/cli": "^7.13.14",
-        "@babel/core": "^7.13.14",
-        "@babel/polyfill": "^7.12.1",
-        "@babel/preset-env": "^7.13.12",
-        "@babel/preset-react": "^7.13.13",
-        "@testing-library/react": "^11.2.6",
-        "aws-sdk": "^2.1354.0",
-        "axios": "^1.7.4",
-        "babel-loader": "^8.2.2",
+        "@babel/cli": "^7.29.7",
+        "@babel/core": "^7.29.7",
+        "@babel/preset-env": "^7.29.7",
+        "@babel/preset-react": "^7.28.5",
+        "@aws-sdk/client-s3": "^3.1133.0",
+        "@aws-sdk/client-ses": "^3.1133.0",
+        "@testing-library/react": "^13.4.0",
+        "axios": "^1.20.0",
+        "babel-loader": "^9.2.1",
         "bcryptjs": "^2.4.3",
-        "compression": "^1.7.4",
-        "cookie-session": "^2.0.0-alpha.2",
+        "compression": "^1.8.2",
+        "cookie-session": "^2.1.1",
         "crypto-random-string": "^3.3.1",
         "csurf": "^1.11.0",
-        "eslint": "^7.23.0",
-        "eslint-plugin-react": "^7.23.1",
-        "express": "^4.21.0",
-        "http-proxy-middleware": "^1.1.0",
+        "eslint": "^7.32.0",
+        "eslint-plugin-react": "^7.37.5",
+        "express": "^4.22.3",
+        "http-proxy-middleware": "^3.0.5",
         "jest": "^29.7.0",
-        "multer": "^1.4.2",
+        "multer": "^1.4.5-lts.2",
         "node-notifier": "^9.0.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "react-native-ionicons": "^5.0.0-rc",
-        "react-redux": "^7.2.3",
-        "react-router": "^5.2.0",
-        "react-router-dom": "^5.2.0",
-        "react-test-renderer": "^17.0.2",
-        "redux": "^4.0.5",
+        "react-redux": "^7.2.9",
+        "react-router": "^5.3.4",
+        "react-router-dom": "^5.3.4",
+        "react-test-renderer": "^18.3.1",
+        "redux": "^5.0.1",
         "redux-devtools-extension": "^2.13.9",
         "redux-promise": "^0.6.0",
-        "socket.io": "^4.6.2",
+        "socket.io": "^4.8.3",
+        "socket.io-client": "^4.8.3",
         "spiced-pg": "^1.0.4",
         "ssri": "^8.0.1",
         "uid-safe": "^2.1.5",
-        "webpack": "^5.94.0",
-        "webpack-dev-middleware": "^5.3.4"
+        "webpack": "^5.111.0",
+        "webpack-dev-middleware": "^7.4.5"
     },
     "jest": {
+        "testEnvironment": "jsdom",
         "setupFiles": [
             "./jest.js"
         ]
@@ -59,7 +61,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "extract-text-webpack-plugin": "^4.0.0-beta.0",
-        "webpack-cli": "^4.6.0"
+        "jest-environment-jsdom": "^30.5.1",
+        "webpack-cli": "^5.1.4"
     }
 }

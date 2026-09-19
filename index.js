@@ -6,7 +6,7 @@ const io = require("socket.io")(server);
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const cryptoRandomString = require("crypto-random-string");
+const { cryptoRandomString } = require("crypto-random-string");
 const config = require("./config");
 const db = require("./db");
 const { hash, compare } = require("./bc");
@@ -59,7 +59,7 @@ app.use(express.static("./public"));
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
-        require("http-proxy-middleware")({
+        require("http-proxy-middleware").createProxyMiddleware({
             target: "http://localhost:8081/",
         })
     );
@@ -124,6 +124,7 @@ app.post("/register", (req, res) => {
 //////////////////////// LOGIN ////////////////////////
 app.post("/login", (req, res) => {
     let { email, password } = req.body;
+    let id;
 
     if (email && password) {
         db.getHashByEmail(email)

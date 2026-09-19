@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "./axios";
+import axios from "../src/axios";
 import ProfilePic from "./profilepic-test";
 
 export default class App extends React.Component {

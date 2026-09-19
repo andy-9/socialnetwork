@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import Registration from "./registration";
 import Login from "./login";
 import ResetPassword from "./reset";

@@ -1,34 +1,24 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import BioEditor from "./bioeditor";
-import { render, waitForElement, fireEvent } from "@testing-library/react";
-import axios from "./axios";
+import { render, fireEvent } from "@testing-library/react";
 
 // 1
 test("When no bio is passed to BioEditor, a 'Tell us a little bit about yourself' button is rendered", async () => {
     const { container } = render(<BioEditor bio={null} />);
-
-    await waitForElement(() => container.querySelector("div"));
-
-    expect(container.querySelector("div").innerHTML).toBe(
-        "<button>Tell us a little bit about yourself</button>"
+    expect(container.querySelector("button").textContent).toBe(
+        "Tell us a little bit about yourself"
     );
 });
 
 // 2a
 test("When a bio is passed to BioEditor, an 'Edit your info' button is rendered", async () => {
     const { container } = render(<BioEditor bio={!null} />);
-
-    await waitForElement(() => container.querySelector("button"));
-
-    expect(container.querySelector("button").innerHTML).toBe("Edit your info");
+    expect(container.querySelector("button").textContent).toBe("Edit your info");
 });
 
 // 2b
 test("When a bio is passed to BioEditor, an 'Edit your info' button is rendered", async () => {
     const { container } = render(<BioEditor bio={!null} />);
-
-    await waitForElement(() => container.querySelector("div"));
-
     expect(container.querySelector("button").getAttribute("class")).toBe(
         "edit-bio-button"
     );

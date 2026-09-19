@@ -1,16 +1,26 @@
-const aws = require("aws-sdk");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("fs");
 
 let secrets;
 if (process.env.NODE_ENV == "production") {
     secrets = process.env;
 } else {
-    secrets = require("./secrets");
+    try {
+        secrets = require("./secrets");
+    } catch (err) {
+        secrets = process.env;
+    }
 }
 
-const s3 = new aws.S3({
-    accessKeyId: secrets.AWS_KEY,
-    secretAccessKey: secrets.AWS_SECRET,
+const s3 = new S3Client({
+    region: "us-east-1",
+    credentials:
+        secrets.AWS_KEY && secrets.AWS_SECRET
+            ? {
+                  accessKeyId: secrets.AWS_KEY,
+                  secretAccessKey: secrets.AWS_SECRET,
+              }
+            : undefined,
 });
 
 exports.upload = (req, res, next) => {
@@ -18,10 +28,11 @@ exports.upload = (req, res, next) => {
         console.log("s3.js: req.file isn't there");
         return res.sendStatus(500);
     }
+
     const { filename, mimetype, size, path } = req.file;
 
-    const promise = s3
-        .putObject({
+    s3.send(
+        new PutObjectCommand({
             Bucket: "spicedling",
             ACL: "public-read",
             Key: filename,
@@ -29,9 +40,7 @@ exports.upload = (req, res, next) => {
             ContentType: mimetype,
             ContentLength: size,
         })
-        .promise();
-
-    promise
+    )
         .then(() => {
             console.log("s3.js: amazon put object complete, everything worked");
             next();

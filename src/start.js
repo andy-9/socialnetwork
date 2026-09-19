@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./app";
 import Welcome from "./welcome";
 import { init } from "./socket";
@@ -29,4 +29,4 @@ if (userIsLoggedIn) {
     elem = <Welcome />;
 }
 
-ReactDOM.render(elem, document.querySelector("main"));
+createRoot(document.querySelector("main")).render(elem);

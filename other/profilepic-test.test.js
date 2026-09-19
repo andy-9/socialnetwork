@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import ProfilePic from "./profilepic-test";
 import { render, fireEvent } from "@testing-library/react";
 
